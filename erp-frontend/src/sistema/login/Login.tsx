@@ -5,7 +5,7 @@ import logo from '../../../public/skyler.png';
 import { Loader2 } from "lucide-react"
 import BACKEND_URL from "../backend-urls";
 import { useNavigate } from 'react-router-dom';
-
+import './login.css';
 
 export const Login = ()=>{
     const navigateTo = useNavigate();

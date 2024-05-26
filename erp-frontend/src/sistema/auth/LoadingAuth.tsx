@@ -1,4 +1,5 @@
 import LinearProgress from '@mui/material/LinearProgress';
+import './auth.css'
 
 export const LoadingAuth = ()=>{
     return (

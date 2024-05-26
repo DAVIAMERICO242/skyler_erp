@@ -1,0 +1,130 @@
+  :root {
+    --toggled-sibe-bar-width:220px;
+    --untoggled-side-bar-width:75px;
+  }
+  
+  .side_bar{
+        font-weight: 400;
+        transition: all 0.3s ease;
+        position: fixed;
+        min-height: 100vh;
+        width: var(--toggled-sibe-bar-width);
+        border-right: var(--light-border);
+    }
+    
+  .side_bar_items{
+    position: relative;
+    margin-left: 15px;
+  }
+  
+  .side_bar_items>ul>li{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-wrap: nowrap;
+    border-radius: 5px;
+    margin-bottom: var(--medium-margin-bottom);
+    font-size: var(--lower-font);
+    user-select: none;
+    transition: all ease 0.3s;
+  }
+  
+  .item_name{
+    transition: all 0.3s ease;
+  }
+  
+  .side_bar_items>ul.toggled>li:hover{ /*aqui que ta */ 
+    cursor: pointer;
+    background-color: var(--deep-white);
+  }
+
+  .side_bar_items>ul>li:hover .circle{
+    cursor: pointer;
+    background-color: var(--skyler-blue);
+    color: var(--deep-white);
+  }
+  
+  .hello_user{
+    transform: translateY(10px);
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap:20px;
+    user-select: none;
+  }
+  
+  .hello_text{
+    font-weight: 500;
+    transition: all ease 0.3s;
+  }
+  
+  .circle.logout{
+    width: 37px;
+    height: 37px;
+    background-color: rgb(224, 78, 78);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circle.logout:hover{
+    cursor: pointer;
+  }
+
+
+  
+  .circle{
+    transition: all 0.1s ease;
+    position: relative;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--skyler-blue);
+    background-color: var(--deep-white);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+
+  .toggle{
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(139, 133, 133);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .toggle:hover{
+      cursor: pointer;
+
+    }
+
+  .tooltip{
+    background-color: rgb(36, 36, 36)!important;
+    color: white;
+  }
+
+  .skyler-logo-side-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .skyler-logo-side-bar img{
+    width:140px;
+    height:80px;
+    margin-bottom: var(--medium-margin-bottom);
+  }
