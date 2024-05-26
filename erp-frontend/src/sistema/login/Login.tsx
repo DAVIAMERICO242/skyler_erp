@@ -50,6 +50,7 @@ export const Login = ()=>{
                 setLoginError(true);
             }else{
                 localStorage.setItem('token',d.token);
+                localStorage.setItem('username',d.username);
                 navigateTo('/painel')
             }
         })

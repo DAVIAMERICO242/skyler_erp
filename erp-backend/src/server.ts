@@ -1,15 +1,16 @@
-import express, {Express} from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
+import express, {Express} from 'express';
 import { AuthMiddleware } from './sistema/authentication/allowAPIAccess';
 import { ProtectFrontendRoutes_router} from './sistema/authentication/protectFrontendRoutes';
 import {login_router} from  './sistema/authentication/login';
 import cors from 'cors';
-
+import FRONTEND_URL from './sistema/frontend-urls';
+console.log(FRONTEND_URL);
 const server:Express = express();
 
 server.use(cors({
-    origin:'http://localhost:5173',
+    origin:FRONTEND_URL,
 }))
 server.use(express.json());
 server.use('/',ProtectFrontendRoutes_router);

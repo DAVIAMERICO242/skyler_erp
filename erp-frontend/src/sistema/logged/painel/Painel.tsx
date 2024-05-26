@@ -1,7 +1,8 @@
 import { useState,useEffect} from "react";
-import { checkAuth } from "../auth/checkAuth";
-import { LoadingAuth } from "../auth/LoadingAuth";
+import { checkAuth } from "../../auth/checkAuth";
+import { LoadingAuth } from "../../auth/LoadingAuth";
 import { useNavigate } from 'react-router-dom';
+import { SideBar } from "./SideBar";
 
 export const Painel = ()=>{
     const navigateTo = useNavigate();
@@ -17,7 +18,9 @@ export const Painel = ()=>{
           {isLoading ? (
             <LoadingAuth />
           ) : (
-            <div>Bem-vindo ao painel</div>
+            <>
+              <SideBar/>
+            </>
           )}
         </div>
       );

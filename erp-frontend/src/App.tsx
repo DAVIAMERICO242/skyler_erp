@@ -3,7 +3,7 @@ import './App.css'
 import {Login} from './sistema/login/Login'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {RedirectByAuth} from './sistema/auth/CheckUserAuth'
-import { Painel } from './sistema/logged/Painel';
+import { Painel } from './sistema/logged/painel/Painel';
 import { Logout } from './sistema/logged/Logout';
 
 function App() {

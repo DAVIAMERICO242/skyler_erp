@@ -16,7 +16,8 @@ login_router.post("/login", (req:RequestModel, res:Response) => {
         const token = jwt.sign({username,password},process.env.JWT_SECRET as string);
         res.status(200).send({
             success:true,
-            token:token
+            token:token,
+            username:username
         });
     }
 })
