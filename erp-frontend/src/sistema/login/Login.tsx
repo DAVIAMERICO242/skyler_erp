@@ -1,11 +1,10 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState,useRef} from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import logo from '../../../public/skyler.png';
-import { Loader2 } from "lucide-react"
 import BACKEND_URL from "../backend-urls";
 import { useNavigate } from 'react-router-dom';
 import './login.css';
+import {LoadingButton} from '../../components/ui/LoadingButton';
 
 export const Login = ()=>{
     const navigateTo = useNavigate();
@@ -61,12 +60,24 @@ export const Login = ()=>{
         })
     }
 
+    const loginRef = useRef<HTMLButtonElement | null>(null);
+
+    const handleSubmit= (event)=>{
+        if (event.key === 'Enter') {
+            console.log('oi')
+            if(loginRef.current){
+                console.log('aaa')
+                loginRef.current.click();
+            }
+        }
+    }
+
     return (
         <div className="login_page">
             <div className="marketing">
             </div>
             <div className="login_area">
-                <div className="login_form">
+                <div className="login_form"  onKeyDown={handleSubmit}>
                     <div className="skyler-logo">
                         <img src={logo} alt="" />
                     </div>
@@ -84,11 +95,14 @@ export const Login = ()=>{
                     {!loginError || <div className="unauth_login">
                         Não autorizado
                     </div>}
-                    <Button onClick={Login_submit}
-                    className={"login_button " + (!loading || "disabled")}>
-                        {!loading || <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    <LoadingButton
+                        ref={loginRef}
+                        loading={loading}
+                        onClick={Login_submit}
+                        className={"login_button"}
+                        type="skyler">
                         Entrar
-                    </Button>
+                    </LoadingButton>
                 </div>
             </div>
         </div>

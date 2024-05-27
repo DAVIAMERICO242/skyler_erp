@@ -8,6 +8,8 @@
   --lower-font:13px;
   --white:rgb(255, 255, 255);
   --deep-white:rgb(236, 231, 231);
+  --deep-white-button: rgb(223, 215, 215);
+  --deep-white-button-hover: rgb(207, 198, 198);
   --light-border:1px solid rgb(230, 225, 225);
   --low-margin-bottom:10px;
   --medium-margin-bottom:20px;
@@ -15,7 +17,9 @@
   --low_padding: 5px 6px;
   --medium_padding: 20px 50px;
   --red: rgb(245, 61, 61);
-  --skyler-blue: #0c2846;
+  --red-hover: rgb(233, 78, 78);
+  --skyler-blue: rgb(12, 40, 70);
+  --skyler-blue-hover:rgb(12, 40, 70,0.7);
   --smooth-blue:#9ec5f0;
 }
 
@@ -29,6 +33,13 @@
   to {
     opacity: 1;
     transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInTranlating30pxDown {
+  to {
+    opacity: 1;
+    transform: translateY(30px);
   }
 }
 
