@@ -4,32 +4,29 @@ import { LoadingAuth } from "../../auth/LoadingAuth";
 import { useNavigate } from 'react-router-dom';
 import { SideBar } from "./SideBar";
 import { ResumoGeral } from "./features/Resumo_geral/ResumoGeral";
-import { CadastroTerceiros } from "./features/Cadastro_de_terceiros/CadastroTerceiros";
-import { AnaliseLoja } from "./features/Análise_por_loja/AnaliseLoja";
-import { AnaliseVendedor } from "./features/Análise_por_vendedor/AnaliseVendedor";
-import { AnaliseDRE } from "./features/Analisar_DRE/AnaliseDRE";
-import { Integracao } from "./features/Integração/Integracao";
+import { Lojas } from "./features/Lojas/Lojas";
+import { Terceiros } from "./features/Terceiros/Terceiros";
+import { Conciliacao } from "./features/Conciliacao/AnaliseDRE";
+import { Bancos } from "./features/Bancos/Bancos";
 import './css/main_position.css';
 
-
+// eslint-disable-next-line
 export const Painel = ()=>{
     
     const features:string[]= [
       "Resumo geral",
-      "Cadastro de terceiros",
-      "Análise por loja",
-      "Análise por vendedor",
-      "Analisar DRE",
-      "Integração"
+      "Terceiros",
+      "Lojas",
+      "Bancos",
+      "Conciliação",
     ];
 
     const featureComponents: { [key: string]: JSX.Element } = {
       "Resumo geral": <ResumoGeral />,
-      "Cadastro de terceiros": <CadastroTerceiros />,
-      "Análise por loja": <AnaliseLoja />,
-      "Análise por vendedor": <AnaliseVendedor />,
-      "Analisar DRE": <AnaliseDRE />,
-      "Integração": <Integracao />
+      "Terceiros": <Terceiros />,
+      "Lojas": <Lojas />,
+      "Bancos": <Bancos />,
+      "Conciliação": <Conciliacao />,
   };
 
     const [fatherToggle,setFatherToggle] = useState<boolean>(false);

@@ -213,7 +213,7 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><IoPeopleSharp/></div>
+                                    <div className="circle"><BsBank2/></div>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[3]}</p>
@@ -221,7 +221,7 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                            {features[3]}
+                          {features[3]}
                         </div>
                     </li>
                     <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
@@ -237,21 +237,6 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                         </TooltipProvider>
                         <div className="item_name">
                            {features[4]}
-                        </div>
-                    </li>
-                    <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
-                        <TooltipProvider delayDuration={100}>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <div className="circle"><BsBank2/></div>
-                                </TooltipTrigger>
-                                <TooltipContent className="tooltip">
-                                <p>{features[5]}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                        <div className="item_name">
-                          {features[5]}
                         </div>
                     </li>
                 </ul>

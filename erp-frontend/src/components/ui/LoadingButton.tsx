@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import styled from 'styled-components';
 
-interface LoadingButtonProps {
+export interface LoadingButtonProps {
   type: "skyler" | "neutral" | "cancel" | "destructive";
   children: string;
-  onClick: () => void;
+  onClick?: () => void;
   loading: boolean;
   className?: string;
 }

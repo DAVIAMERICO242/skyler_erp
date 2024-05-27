@@ -49,6 +49,7 @@
 }
 
 .login_field{
+    min-width: 300px;
     margin-bottom: var(--low-margin-bottom);
 }
 
