@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
-interface Author extends LoadingButtonProps{
+interface Author{
   author: "terceiros"|"lojas"|"bancos"//ditará as requisições http e modelo de editar
 }
 const EditTerceiros = ()=>{
@@ -193,7 +193,7 @@ const EditBancos = ()=>{
   )
 }
 
-const Exportar = ()=>{
+const Exportar:FC<Author> = ({author})=>{
   const [loading,setLoading] = useState<boolean>(false);
 
   const submit = ()=>{
@@ -209,7 +209,7 @@ const Exportar = ()=>{
   )
 }
 
-const Delete = ()=>{
+const Delete:FC<Author> = ({author})=>{
   const [loading,setLoading] = useState<boolean>(false);
   const [open,setOpen] = useState<boolean>(false);
 
@@ -267,14 +267,14 @@ const Delete = ()=>{
   )
 }
 
-export const Gerenciar:FC<Author> = ({loading,author}) => {
+export const Gerenciar:FC<Author> = ({author}) => {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-2.5" style={{ border: 'var(--light-border)', padding: '1rem',borderRadius:"8px"}}>
       {author === "terceiros" ? <EditTerceiros /> : null}
       {author === "lojas" ? <EditLojas /> : null}
       {author === "bancos" ? <EditBancos /> : null}
-      <Exportar/>
-      <Delete/>
+      <Exportar author={author}/>
+      <Delete author={author}/>
     </div>
   );
 };
