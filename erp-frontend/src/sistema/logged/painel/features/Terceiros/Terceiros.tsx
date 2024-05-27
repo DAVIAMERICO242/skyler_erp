@@ -64,6 +64,9 @@ export  const Terceiros = ()=>{
         }).regex(/^\d+$/, {
           message: "O campo deve conter apenas dígitos numéricos.",
         }),
+      tipoterceiro: z.string().min(2,{
+        message: "O tipo do terceiro deve ter no mínimo 2 caracteres"
+      })
     });
 
 
@@ -95,7 +98,7 @@ export  const Terceiros = ()=>{
               <TabsContent value="cadastro">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)}>
-                      <FormField
+                    <FormField
                       control={form.control}
                       name="nometerceiro"
                       render={({ field }) => (
@@ -103,6 +106,32 @@ export  const Terceiros = ()=>{
                           <FormLabel>Nome do terceiro</FormLabel>
                           <FormControl>
                               <Input placeholder="nome terceiro" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                    <FormField
+                      control={form.control}
+                      name="tipoterceiro"
+                      render={({ field }) => (
+                          <FormItem style={{ marginBottom: '30px' }}>
+                          <FormLabel>Tipo terceiro</FormLabel>
+                          <FormControl>
+                              <Input placeholder="fornecedor,cliente,multimarcas,etc.." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                    <FormField
+                      control={form.control}
+                      name="cnpjcpfterceiro"
+                      render={({ field }) => (
+                          <FormItem style={{ marginBottom: '30px' }}>
+                          <FormLabel>CNPJ/CPF (sem máscara)</FormLabel>
+                          <FormControl>
+                              <Input placeholder="CNPJ/CPF" {...field} />
                           </FormControl>
                           <FormMessage />
                           </FormItem>
@@ -127,19 +156,6 @@ export  const Terceiros = ()=>{
                                   })}
                               </SelectContent>
                               </Select>
-                          </FormControl>
-                          <FormMessage />
-                          </FormItem>
-                      )}
-                      />
-                      <FormField
-                      control={form.control}
-                      name="cnpjcpfterceiro"
-                      render={({ field }) => (
-                          <FormItem style={{ marginBottom: '30px' }}>
-                          <FormLabel>CNPJ/CPF (sem máscara)</FormLabel>
-                          <FormControl>
-                              <Input placeholder="CNPJ/CPF" {...field} />
                           </FormControl>
                           <FormMessage />
                           </FormItem>
