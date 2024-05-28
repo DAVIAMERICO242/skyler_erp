@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<RedirectByAuth/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/logout" element={<Logout/>}/> 
-          <Route path="/painel" element={<Painel/>}/> 
+          <Route path="/painel/*" element={<Painel/>}/> 
         </Routes>
       </Router>
     </>
