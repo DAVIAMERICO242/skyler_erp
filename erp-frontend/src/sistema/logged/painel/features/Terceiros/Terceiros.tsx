@@ -118,7 +118,7 @@ export  const Terceiros = ()=>{
                           <FormItem style={{ marginBottom: '30px' }}>
                           <FormLabel>Tipo terceiro</FormLabel>
                           <FormControl>
-                              <Input placeholder="fornecedor,cliente,multimarcas,etc.." {...field} />
+                              <Input placeholder="fornecedor,cliente,etc.." {...field} />
                           </FormControl>
                           <FormMessage />
                           </FormItem>
