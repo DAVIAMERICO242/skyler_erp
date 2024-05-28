@@ -56,3 +56,16 @@
 
 
 
+.success{
+  background-color: rgb(57, 232, 42); /* Define a cor de fundo com uma certa transparência */
+	backdrop-filter:blur(5px);
+  color: white;
+}
+
+.error{
+  background-color: rgb(228, 49, 49);
+  color: white;
+  position: absolute !important;
+  top: 0px !important;
+
+}

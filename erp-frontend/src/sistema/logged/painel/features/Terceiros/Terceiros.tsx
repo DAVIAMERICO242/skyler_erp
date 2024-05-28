@@ -30,8 +30,16 @@ import {
 import { Gerenciar } from '../reusable/Gerenciar';
 
 import { LoadingButton } from '@/components/ui/LoadingButton';
+import BACKEND_URL from '@/sistema/backend-urls';
+import { useToast } from "@/components/ui/use-toast"
 
-export  const Terceiros = ()=>{
+
+
+export const Terceiros = ()=>{
+
+    const { toast } = useToast()
+
+
     interface estadosAPI{
         sigla:string;
     }
@@ -79,12 +87,51 @@ export  const Terceiros = ()=>{
       });
     const [loading,setLoading] = useState<boolean>(false);
 
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-        console.log(values)
+        fetch(BACKEND_URL+'/terceiros/cadastro',{
+          method:"POST",
+          headers:{
+            'Content-type':"application/json",
+            'token':localStorage.getItem('token') as string,
+          },
+          body:JSON.stringify({terceiro:values})
+        }).then((d)=>d.json())
+          .then((d)=>{
+            if(d.success){
+              toast({
+                title: "Sucesso",
+                className: "success",
+                description: "Ocorreu tudo certo com a operação",
+              })
+              setLoading(false);
+            }else{
+              if(d.duplicate){
+                console.log('duplicata')
+                toast({
+                  title: "Duplicata",
+                  className: "error",
+                  description: "Esse nome já existe no banco de dados",
+                })
+              }else{
+                toast({
+                  title: "Erro desconhecido",
+                  className: "error",
+                  description: "Comunique ao desenvolvedor",
+                })
+              }
+              setLoading(false);
+            }
+          })
+          .catch(()=>{
+            toast({
+              title: "Erro desconhecido",
+              className: "error",
+              description: "Comunique ao desenvolvedor",
+            })
+            setLoading(false);
+          })
       }
     
     return (

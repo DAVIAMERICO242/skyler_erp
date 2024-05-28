@@ -2,7 +2,8 @@ import { FeatureTitle } from '../reusable/FeatureTitle';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
- 
+import { useToast } from "@/components/ui/use-toast"
+
 import {
   Form,
   FormControl,
@@ -25,6 +26,7 @@ import { LoadingButton } from '@/components/ui/LoadingButton';
 
 import { useState } from 'react';
 
+import BACKEND_URL from '@/sistema/backend-urls';
 
 const formSchema = z.object({
     nomeloja: z.string().min(2, {
@@ -38,7 +40,8 @@ const formSchema = z.object({
     }),
   })
 
-export  const Lojas = ()=>{
+export const Lojas = ()=>{
+    const { toast } = useToast()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -48,11 +51,50 @@ export  const Lojas = ()=>{
       });
       const [loading,setLoading] = useState<boolean>(false);
 
-      function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+        fetch(BACKEND_URL+'/lojas/cadastro',{
+          method:"POST",
+          headers:{
+            'Content-type':"application/json",
+            'token':localStorage.getItem('token') as string,
+          },
+          body:JSON.stringify({loja:values})
+        }).then((d)=>d.json())
+          .then((d)=>{
+            if(d.success){
+              toast({
+                title: "Sucesso",
+                className: "success",
+                description: "Ocorreu tudo certo com a operação",
+              })
+              setLoading(false);
+            }else{
+              if(d.duplicate){
+                console.log('duplicata')
+                toast({
+                  title: "Duplicata",
+                  className: "error",
+                  description: "Esse nome já existe no banco de dados",
+                })
+              }else{
+                toast({
+                  title: "Erro desconhecido",
+                  className: "error",
+                  description: "Comunique ao desenvolvedor",
+                })
+              }
+              setLoading(false);
+            }
+          })
+          .catch(()=>{
+            toast({
+              title: "Erro desconhecido",
+              className: "error",
+              description: "Comunique ao desenvolvedor",
+            })
+            setLoading(false);
+          })
         console.log(values)
       }
     

@@ -22,6 +22,8 @@ import {
 import { Gerenciar } from '../reusable/Gerenciar';
 import { useState } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
+import BACKEND_URL from '@/sistema/backend-urls';
+import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
     banco: z.string().regex(/^\d{3}$/, {
@@ -35,6 +37,8 @@ const formSchema = z.object({
       }),
   });
 export  const Bancos = ()=>{
+    const { toast } = useToast()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -48,9 +52,48 @@ export  const Bancos = ()=>{
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+        fetch(BACKEND_URL+'/bancos/cadastro',{
+          method:"POST",
+          headers:{
+            'Content-type':"application/json",
+            'token':localStorage.getItem('token') as string,
+          },
+          body:JSON.stringify({banco:values})
+        }).then((d)=>d.json())
+          .then((d)=>{
+            if(d.success){
+              toast({
+                title: "Sucesso",
+                className: "success",
+                description: "Ocorreu tudo certo com a operação",
+              })
+              setLoading(false);
+            }else{
+              if(d.duplicate){
+                console.log('duplicata')
+                toast({
+                  title: "Duplicata",
+                  className: "error",
+                  description: "Essa conta bancária já existe no banco de dados",
+                })
+              }else{
+                toast({
+                  title: "Erro desconhecido",
+                  className: "error",
+                  description: "Comunique ao desenvolvedor",
+                })
+              }
+              setLoading(false);
+            }
+          })
+          .catch(()=>{
+            toast({
+              title: "Erro desconhecido",
+              className: "error",
+              description: "Comunique ao desenvolvedor",
+            })
+            setLoading(false);
+          })
         console.log(values)
       }
     
