@@ -14,45 +14,50 @@ import { ReactNode } from 'react';
 import BACKEND_URL from '@/sistema/backend-urls';
 
 
-interface TerceirosData {
-  nome: string;
-  cnpj_cpf: string;
-  tipo: string;
-  estado: string;
+export interface TerceirosData {
+  nome?: string;
+  cnpj_cpf?: string;
+  tipo?: string;
+  estado?: string;
 }
 
 interface TerceirosContextType {
   data: TerceirosData[] | null;
+  refetch: () => void;
 }
 
-const TerceirosContext = createContext<TerceirosContextType>({ data: null });
+const TerceirosContext = createContext<TerceirosContextType>({ data: null,refetch: () => {} });
 
 export const TerceirosProvider = ({ children }:{children:ReactNode}) => {
   const [data, setData] = useState<TerceirosData[] | null>(null);
 
-  useEffect(() => {
-    // Função para buscar dados da API
-    const fetchData = async () => {
-      try {
-        const response = await fetch(BACKEND_URL + '/terceiros/get',{
-          headers:{
-            "Content-type":"application/json",
-            "token":localStorage.getItem('token') as string
-          }
-        });
-        const result = await response.json();
-        console.log(result.data)
-        setData(result.data);
-      } catch (error) {
-        console.log('erro')
-      } 
-    };
+  const fetchData = async () => {
+        try {
+          const response = await fetch(BACKEND_URL + '/terceiros/get',{
+            headers:{
+              "Content-type":"application/json",
+              "token":localStorage.getItem('token') as string
+            }
+          });
+          const result = await response.json();
+          console.log(result.data)
+          setData(result.data);
+        } catch (error) {
+          console.log('erro')
+        } 
+  };
 
+
+  useEffect(() => {
     fetchData();
   }, []);
 
+  const refetch = () => {
+    fetchData();
+  };
+
   return (
-    <TerceirosContext.Provider value={{data}}>
+    <TerceirosContext.Provider value={{data,refetch}}>
       {children}
     </TerceirosContext.Provider>
   );

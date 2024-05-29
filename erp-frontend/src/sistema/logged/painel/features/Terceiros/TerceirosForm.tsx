@@ -23,11 +23,13 @@ import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 import { useTerceiros } from "./Terceiros";
+import { TerceirosData } from "./Terceiros";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
-    const terceirosData = useTerceiros().data;
+    const terceirosData = useTerceiros().data;//cache dos dados
+    const { refetch } = useTerceiros();
 
     console.log('TERCEIROS DATA')
     console.log(terceirosData)
@@ -35,7 +37,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     const terceirosSchema = z.object({
       pastnometerceiro: z.string().min(2, {
         message: "O nome do terceiro deve ter no mínimo 2 caracteres",
-      }),
+      }).optional(),
       nometerceiro: z.string().min(2, {
         message: "O nome do terceiro deve ter no mínimo 2 caracteres",
       }),
@@ -54,8 +56,17 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       })
     });
 
+    const form = useForm<z.infer<typeof terceirosSchema>>({
+      resolver: zodResolver(terceirosSchema),
+      defaultValues: {
+        nometerceiro: "",
+        cnpjcpfterceiro: ""
+      },
+    });
+
     const { toast } = useToast()
 
+    //estados br
     interface estadosAPI{
         sigla:string;
     }
@@ -74,13 +85,26 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     
     console.log(BRStates);
 
-    const form = useForm<z.infer<typeof terceirosSchema>>({
-        resolver: zodResolver(terceirosSchema),
-        defaultValues: {
-          nometerceiro: "",
-          cnpjcpfterceiro: ""
-        },
-      });
+    //logica valida apenas para o modo edição
+
+    const [selectedPastTerceiro, setSelectedPastTerceiro] = useState<TerceirosData>({});
+
+    const findSelectedTerceiro = ()=>{
+      if(!edit){
+        return;
+      }
+
+      const current_terceiro_data:(TerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===form.getValues().pastnometerceiro)[0]
+      console.log("terceiro passado");
+      console.log(form.getValues().pastnometerceiro)
+      
+      setSelectedPastTerceiro(current_terceiro_data || {})
+    }
+
+    //form
+
+
+    //logica submit
     const [loading,setLoading] = useState<boolean>(false);
 
 
@@ -98,6 +122,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
         }).then((d)=>d.json())
           .then((d)=>{
             if(d.success){
+              refetch();
               toast({
                 title: "Sucesso",
                 className: "success",
@@ -134,7 +159,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
       return (
           <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} onChange={findSelectedTerceiro}>
             {edit && 
               <FormField
               control={form.control}
@@ -143,14 +168,14 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   <FormItem style={{ marginBottom: '30px' }}>
                   <FormLabel>Nome do terceiro a ser mudado</FormLabel>
                   <FormControl>
-                      <Select onValueChange={field.onChange}>
+                      <Select onValueChange={(value) => { field.onChange(value); findSelectedTerceiro(); }}>
                         <SelectTrigger className="w-[100%]">
-                            <SelectValue placeholder="Escolher" />
+                            <SelectValue placeholder="Escolher"/>
                         </SelectTrigger>
                         <SelectContent {...field }>
                             {terceirosData?.map((e)=>{
                                 return (
-                                    <SelectItem value={e.nome}>{e.nome}</SelectItem>
+                                    <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
                                 )
                             })}
                         </SelectContent>
@@ -166,9 +191,9 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="nometerceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Nome do terceiro " + (edit && "(novo)")}</FormLabel>
+                  <FormLabel>{"Nome do terceiro " + (edit ? "(novo)":"")}</FormLabel>
                   <FormControl>
-                      <Input placeholder="nome terceiro" {...field} />
+                      <Input placeholder={selectedPastTerceiro.nome || "nome terceiro"}  {...field}/>
                   </FormControl>
                   <FormMessage />
                   </FormItem>
@@ -179,9 +204,9 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="tipoterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Tipo do terceiro " + (edit && "(novo)")}</FormLabel>
+                  <FormLabel>{"Tipo do terceiro " + (edit ? "(novo)":"")}</FormLabel>
                   <FormControl>
-                      <Input placeholder="fornecedor,cliente,etc.." {...field} />
+                      <Input placeholder={selectedPastTerceiro.tipo ||"fornecedor,cliente,etc.."} {...field} />
                   </FormControl>
                   <FormMessage />
                   </FormItem>
@@ -192,9 +217,9 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="cnpjcpfterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"CNPJ/CPF sem máscara " + (edit && "(novo)")}</FormLabel>
+                  <FormLabel>{"CNPJ/CPF sem máscara " + (edit ? "(novo)":"")}</FormLabel>
                   <FormControl>
-                      <Input placeholder="CNPJ/CPF" {...field} />
+                      <Input placeholder={selectedPastTerceiro.cnpj_cpf ||"CNPJ/CPF"} {...field} />
                   </FormControl>
                   <FormMessage />
                   </FormItem>
@@ -209,7 +234,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   <FormControl>
                       <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100%]">
-                          <SelectValue placeholder="Estado" />
+                          <SelectValue placeholder={selectedPastTerceiro.estado?`Estado atual: ${selectedPastTerceiro.estado}`:"Escolher"} />
                       </SelectTrigger>
                       <SelectContent {...field }>
                           {BRStates.map((e)=>{
