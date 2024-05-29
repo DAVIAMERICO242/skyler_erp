@@ -4,7 +4,7 @@ import { changeLoja } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBLoja } from "../../../schemas/this-api/schemas";
 
-export function cadastroLojas(loja: Loja): Promise<null|DBError> {
+export function cadastroLoja(loja: Loja): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -34,11 +34,11 @@ export function cadastroLojas(loja: Loja): Promise<null|DBError> {
     });
 }
 
-export function getLojas(loja: string): Promise<DBLoja[]|DBError> {
+export function getLojas(): Promise<DBLoja[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM lojas WHERE nome=${loja}`,
+                connection.query(`SELECT * FROM lojas`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
@@ -63,7 +63,7 @@ export function getLojas(loja: string): Promise<DBLoja[]|DBError> {
     });
 }
 
-export function updateLojas(loja: changeLoja): Promise<null|DBError>{
+export function updateLoja(loja: changeLoja): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
@@ -98,7 +98,7 @@ export function updateLojas(loja: changeLoja): Promise<null|DBError>{
     })
 }
 
-export function deleteLojas(loja: string): Promise<null|DBError>{
+export function deleteLoja(loja: string): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {

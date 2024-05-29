@@ -4,7 +4,7 @@ import { changeBanco } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBBanco } from "../../../schemas/this-api/schemas";
 
-export function cadastroBancos(banco: Banco): Promise<null|DBError> {
+export function cadastroBanco(banco: Banco): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -34,11 +34,11 @@ export function cadastroBancos(banco: Banco): Promise<null|DBError> {
     });
 }
 
-export function getBancos(conta: string): Promise<DBBanco[]|DBError> {
+export function getBancos(): Promise<DBBanco[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM bancos WHERE conta=${conta}`,
+                connection.query(`SELECT * FROM bancos`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
@@ -64,7 +64,7 @@ export function getBancos(conta: string): Promise<DBBanco[]|DBError> {
 }
 
 
-export function updateBancos(conta: changeBanco): Promise<null|DBError>{
+export function updateBanco(conta: changeBanco): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
@@ -99,7 +99,7 @@ export function updateBancos(conta: changeBanco): Promise<null|DBError>{
     })
 }
 
-export function deleteBancos(conta: string): Promise<null|DBError>{
+export function deleteBanco(conta: string): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {

@@ -4,7 +4,7 @@ import { changeTerceiro } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBTerceiro } from "../../../schemas/this-api/schemas";
 
-export function cadastroTerceiros(terceiro: Terceiro): Promise<null|DBError> {
+export function cadastroTerceiro(terceiro: Terceiro): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -35,11 +35,11 @@ export function cadastroTerceiros(terceiro: Terceiro): Promise<null|DBError> {
 }
 
 
-export function getTerceiros(terceiro: string): Promise<DBTerceiro[]|DBError> {
+export function getTerceiros(): Promise<DBTerceiro[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM terceiros WHERE nome=${terceiro}`,
+                connection.query(`SELECT * FROM terceiros`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
@@ -65,7 +65,7 @@ export function getTerceiros(terceiro: string): Promise<DBTerceiro[]|DBError> {
 }
 
 
-export function updateTerceiros(terceiro: changeTerceiro): Promise<null|DBError>{
+export function updateTerceiro(terceiro: changeTerceiro): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
@@ -101,7 +101,7 @@ export function updateTerceiros(terceiro: changeTerceiro): Promise<null|DBError>
     })
 }
 
-export function deleteTerceiros(terceiro: string): Promise<null|DBError>{
+export function deleteTerceiro(terceiro: string): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
