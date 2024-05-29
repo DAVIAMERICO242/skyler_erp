@@ -16,6 +16,10 @@ import { useState } from "react";
 import { EditTerceiros } from "../Terceiros/EditTerceiros";
 import { EditLojas } from "../Lojas/EditLojas";
 import { EditBancos } from "../Bancos/EditBancos";
+import { useTerceiros } from "../Terceiros/Terceiros";
+import { useLojas } from "../Lojas/Lojas";
+import { useBancos } from "../Bancos/Bancos";
+import { Excel } from "@/sistema/essentials";
 
 interface Author{
   author: "terceiros"|"lojas"|"bancos"//ditará as requisições http e modelo de editar
@@ -24,13 +28,26 @@ interface Author{
 
 const Exportar:FC<Author> = ({author})=>{
   const [loading,setLoading] = useState<boolean>(false);
-
+  switch (author){
+    case "terceiros":
+      var {data} = useTerceiros();
+      var excel_name = "terceiros_cadastrados.xlsx"
+      break;
+    case "lojas":
+      var {data} = useLojas();
+      var excel_name = "lojas_cadastradas.xlsx"
+      break;
+    case "bancos":
+      var {data} = useBancos();
+      var excel_name = "bancos_cadastrados.xlsx"
+      break;
+  }
   const submit = ()=>{
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    Excel(data,excel_name);
+    setLoading(false);
   }
+
   return(
     <LoadingButton onClick={()=>{submit()}} loading={loading} type="skyler" className="w-3/5">
       Exportar

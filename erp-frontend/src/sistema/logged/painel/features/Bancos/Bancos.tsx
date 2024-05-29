@@ -53,14 +53,14 @@ const refetch = () => {
 
 return (
     <BancosContext.Provider value={{data,refetch}}>
-    {children}
+        {children}
     </BancosContext.Provider>
 );
 };
 
 export const useBancos = () => {
-return useContext(BancosContext);
-  };
+    return useContext(BancosContext);
+};
 
 export const Bancos = ()=>{
 
