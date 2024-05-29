@@ -1,6 +1,8 @@
 import { SQLConnection } from "../../../connect-sql";
 import { Banco } from "../../../schemas/this-api/schemas";
+import { changeBanco } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
+import { DBBanco } from "../../../schemas/this-api/schemas";
 
 export function cadastroBancos(banco: Banco): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
@@ -30,4 +32,98 @@ export function cadastroBancos(banco: Banco): Promise<null|DBError> {
             });
         });
     });
+}
+
+export function getBancos(conta: string): Promise<DBBanco[]|DBError> {
+    return new Promise((resolve, reject) => {
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(`SELECT * FROM bancos WHERE conta=${conta}`,
+                    (err, result) => {
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(result);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    });
+}
+
+
+export function updateBancos(conta: changeBanco): Promise<null|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(
+                    `UPDATE bancos SET
+                    banco=${conta.banco}
+                    agencia=${conta.agencia}
+                    conta=${conta.conta}
+                    WHERE nome=${conta.pastconta}
+                    `,
+                    (err, result) => {
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(null);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
+
+export function deleteBancos(conta: string): Promise<null|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(`DELETE FROM bancos WHERE conta=${conta}`,
+                    (err, result) => {
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(null);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
 }

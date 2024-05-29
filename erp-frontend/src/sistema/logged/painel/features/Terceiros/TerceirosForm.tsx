@@ -19,13 +19,13 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { useState,useEffect } from 'react';
-
-
 import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 
-export const TerceirosForm = ({edit}:{edit:boolean})=>{
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+
     const terceirosSchema = z.object({
       nometerceiro: z.string().min(2, {
         message: "O nome do terceiro deve ter no mínimo 2 caracteres",
@@ -77,7 +77,7 @@ export const TerceirosForm = ({edit}:{edit:boolean})=>{
 
     function onSubmit(values: z.infer<typeof terceirosSchema>) {
         setLoading(true);
-        fetch(BACKEND_URL+'/terceiros/cadastro',{
+        fetch(BACKEND_URL+`/terceiros/${!edit?"cadastro":"editar"}`,{
           method:"POST",
           headers:{
             'Content-type':"application/json",
@@ -190,7 +190,7 @@ export const TerceirosForm = ({edit}:{edit:boolean})=>{
               <LoadingButton
                 loading={loading}
                 className="w-[100%]"
-                type="skyler">Cadastrar
+                type="skyler">{!edit?"Cadastrar":"Confirmar edição"}
               </LoadingButton>
           </form>
         </Form>
