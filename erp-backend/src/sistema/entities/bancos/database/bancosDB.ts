@@ -70,8 +70,8 @@ export function updateBanco(conta: changeBanco): Promise<null|DBError>{
             if (connection) {
                 connection.query(
                     `UPDATE bancos SET
-                    banco=${conta.banco}
-                    agencia=${conta.agencia}
+                    banco=${conta.banco},
+                    agencia=${conta.agencia},
                     conta=${conta.conta}
                     WHERE nome=${conta.pastconta}
                     `,

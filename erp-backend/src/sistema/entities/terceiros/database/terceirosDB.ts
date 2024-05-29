@@ -71,11 +71,11 @@ export function updateTerceiro(terceiro: changeTerceiro): Promise<null|DBError>{
             if (connection) {
                 connection.query(
                     `UPDATE terceiros SET
-                    nome=${terceiro.nometerceiro}
-                    cnpj_cpf=${terceiro.cnpjcpfterceiro}
-                    tipo=${terceiro.tipoterceiro}
-                    estado=${terceiro.uf}
-                    WHERE nome=${terceiro.pastnometerceiro}
+                    nome='${terceiro.nometerceiro}',
+                    cnpj_cpf='${terceiro.cnpjcpfterceiro}',
+                    tipo='${terceiro.tipoterceiro}',
+                    estado='${terceiro.uf}'
+                    WHERE nome='${terceiro.pastnometerceiro}'
                     `,
                     (err, result) => {
                         if (err) {

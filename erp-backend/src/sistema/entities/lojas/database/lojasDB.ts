@@ -69,10 +69,10 @@ export function updateLoja(loja: changeLoja): Promise<null|DBError>{
             if (connection) {
                 connection.query(
                     `UPDATE lojas SET
-                    nome=${loja.nomeloja}
-                    razao=${loja.razaoloja}
-                    cnpj=${loja.cnpjloja}
-                    WHERE nome=${loja.pastnomeloja}
+                    nome='${loja.nomeloja}',
+                    razao='${loja.razaoloja}',
+                    cnpj='${loja.cnpjloja}'
+                    WHERE nome='${loja.pastnomeloja}'
                     `,
                     (err, result) => {
                         if (err) {

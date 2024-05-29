@@ -23,8 +23,7 @@ bancos_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     }
 })
 
-bancos_router.post('/get',async (req:RequestModel,res:Response)=>{
-    const {banco} = req.body;
+bancos_router.get('/get',async (req:RequestModel,res:Response)=>{
     try{
         const response = await getBancos();
         res.status(200).send({

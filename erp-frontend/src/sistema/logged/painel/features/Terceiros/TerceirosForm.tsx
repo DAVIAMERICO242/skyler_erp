@@ -22,11 +22,20 @@ import { useState,useEffect } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
+import { useTerceiros } from "./Terceiros";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+    const terceirosData = useTerceiros().data;
+
+    console.log('TERCEIROS DATA')
+    console.log(terceirosData)
 
     const terceirosSchema = z.object({
+      pastnometerceiro: z.string().min(2, {
+        message: "O nome do terceiro deve ter no mínimo 2 caracteres",
+      }),
       nometerceiro: z.string().min(2, {
         message: "O nome do terceiro deve ter no mínimo 2 caracteres",
       }),
@@ -76,8 +85,10 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
 
     function onSubmit(values: z.infer<typeof terceirosSchema>) {
+        console.log('form');
+        console.log(values);
         setLoading(true);
-        fetch(BACKEND_URL+`/terceiros/${!edit?"cadastro":"editar"}`,{
+        fetch(BACKEND_URL+`/terceiros/${!edit?"cadastro":"update"}`,{
           method:"POST",
           headers:{
             'Content-type':"application/json",
@@ -124,12 +135,38 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       return (
           <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
+            {edit && 
+              <FormField
+              control={form.control}
+              name="pastnometerceiro"
+              render={({ field }) => (
+                  <FormItem style={{ marginBottom: '30px' }}>
+                  <FormLabel>Nome do terceiro a ser mudado</FormLabel>
+                  <FormControl>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger className="w-[100%]">
+                            <SelectValue placeholder="Escolher" />
+                        </SelectTrigger>
+                        <SelectContent {...field }>
+                            {terceirosData?.map((e)=>{
+                                return (
+                                    <SelectItem value={e.nome}>{e.nome}</SelectItem>
+                                )
+                            })}
+                        </SelectContent>
+                      </Select>
+                  </FormControl>
+                  <FormMessage />
+                  </FormItem>
+              )}
+              />
+            }
             <FormField
               control={form.control}
               name="nometerceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>Nome do terceiro</FormLabel>
+                  <FormLabel>{"Nome do terceiro " + (edit && "(novo)")}</FormLabel>
                   <FormControl>
                       <Input placeholder="nome terceiro" {...field} />
                   </FormControl>
@@ -142,7 +179,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="tipoterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>Tipo terceiro</FormLabel>
+                  <FormLabel>{"Tipo do terceiro " + (edit && "(novo)")}</FormLabel>
                   <FormControl>
                       <Input placeholder="fornecedor,cliente,etc.." {...field} />
                   </FormControl>
@@ -155,7 +192,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="cnpjcpfterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>CNPJ/CPF (sem máscara)</FormLabel>
+                  <FormLabel>{"CNPJ/CPF sem máscara " + (edit && "(novo)")}</FormLabel>
                   <FormControl>
                       <Input placeholder="CNPJ/CPF" {...field} />
                   </FormControl>
@@ -168,7 +205,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="uf"
               render={({ field }) => (
                   <FormItem  style={{ marginBottom: '30px' }}>
-                  <FormLabel>Estado</FormLabel>
+                  <FormLabel>{"Estado " + (edit && "(novo)")}</FormLabel>
                   <FormControl>
                       <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100%]">

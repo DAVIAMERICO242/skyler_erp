@@ -24,8 +24,7 @@ terceiros_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     }
 });
 
-terceiros_router.post('/get',async (req:RequestModel,res:Response)=>{
-    const {terceiro} = req.body;
+terceiros_router.get('/get',async (req:RequestModel,res:Response)=>{
     try{
         const response = await getTerceiros();
         res.status(200).send({

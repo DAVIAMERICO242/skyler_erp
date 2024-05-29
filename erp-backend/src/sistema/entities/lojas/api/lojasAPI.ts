@@ -24,8 +24,7 @@ lojas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     }
 });
 
-lojas_router.post('/get',async (req:RequestModel,res:Response)=>{
-    const {loja} = req.body;
+lojas_router.get('/get',async (req:RequestModel,res:Response)=>{
     try{
         const response = await getLojas();
         res.status(200).send({

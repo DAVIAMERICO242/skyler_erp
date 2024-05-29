@@ -16,21 +16,12 @@ import { useState } from "react";
 import { TerceirosForm } from "./TerceirosForm";
 
 export const EditTerceiros = ()=>{
-  const [open,setOpen] = useState<boolean>(false);
-  const [loading,setLoading] = useState<boolean>(false);
+    const [open,setOpen] = useState<boolean>(false);
 
-  const submit = ()=>{
-    setLoading(true);
-    setOpen(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  }
     return(
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-            <LoadingButton onClick={()=>{}} loading={false} type="neutral" className="w-3/5">
+            <LoadingButton loading={false} type="neutral" className="w-3/5">
                     Editar
             </LoadingButton>
         </DialogTrigger>
