@@ -27,7 +27,7 @@ export const EditTerceiros = ()=>{
           <DialogHeader>
             <DialogTitle>Editar terceiros</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              Essa ação é irreversível
             </DialogDescription>
           </DialogHeader>
             <TerceirosForm edit={true} setOpen={setOpen}/>

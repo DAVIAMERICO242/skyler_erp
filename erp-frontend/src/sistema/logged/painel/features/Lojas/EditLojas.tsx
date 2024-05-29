@@ -26,7 +26,7 @@ export const EditLojas = ()=>{
         <DialogHeader>
           <DialogTitle>Editar Lojas</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Essa ação é irreversível
           </DialogDescription>
         </DialogHeader>
           <LojasForm edit={true} setOpen={setOpen}/>

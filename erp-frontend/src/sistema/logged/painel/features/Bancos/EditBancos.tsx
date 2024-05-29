@@ -25,7 +25,7 @@ return(
       <DialogHeader>
         <DialogTitle>Editar Bancos</DialogTitle>
         <DialogDescription>
-          Make changes to your profile here. Click save when you're done.
+          Essa ação é irreversível
         </DialogDescription>
       </DialogHeader>
         <BancosForm edit={true} setOpen={setOpen}/>

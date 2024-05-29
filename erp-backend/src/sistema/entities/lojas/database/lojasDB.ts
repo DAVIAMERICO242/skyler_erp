@@ -102,7 +102,7 @@ export function deleteLoja(loja: string): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`DELETE FROM lojas WHERE nome=${loja}`,
+                connection.query(`DELETE FROM lojas WHERE nome='${loja}'`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){

@@ -103,7 +103,7 @@ export function deleteBanco(conta: string): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`DELETE FROM bancos WHERE conta=${conta}`,
+                connection.query(`DELETE FROM bancos WHERE conta='${conta}'`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){

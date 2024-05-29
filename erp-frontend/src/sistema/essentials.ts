@@ -67,5 +67,12 @@ export function Excel(data: any[], filename: string = 'data.xlsx') {
 
     // Save the Blob object as a file using FileSaver.js
     saveAs(blob, filename);
+}
 
+export const firstCharUpper = (string:string)=>{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const singularWord = (string:string)=>{
+    return string.slice(0,string.length-1)
 }
