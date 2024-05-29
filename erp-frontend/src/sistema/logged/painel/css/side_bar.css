@@ -38,12 +38,6 @@
     cursor: pointer;
     background-color: var(--deep-white);
   }
-
-  .side_bar_items>ul>li:hover .circle{
-    cursor: pointer;
-    background-color: var(--skyler-blue);
-    color: var(--deep-white);
-  }
   
   .hello_user{
     transform: translateY(10px);

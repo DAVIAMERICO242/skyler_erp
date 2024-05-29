@@ -12,20 +12,21 @@ import {
 import { FaRegChartBar } from "react-icons/fa";
 import { GiNotebook } from "react-icons/gi";
 import { FaStoreAlt } from "react-icons/fa";
-import { IoPeopleSharp } from "react-icons/io5";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BsBank2 } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuPlus } from "react-icons/lu";
-import { useState, useRef,useEffect,useReducer } from "react";
+import { useState, useRef,useEffect} from "react";
 import { useNavigate} from 'react-router-dom';
 import { CiLogout } from "react-icons/ci";
 import './css/side_bar.css';
 import logo from '../../../../public/skyler.png';
 import favicon from '../../../../public/skyler-favicon.png';
+import { CircleSideBar } from "@/components/ui/circleSideBar";
 
-export const SideBar = ({features,setFocusedFeature, setFatherToggle}: 
+export const SideBar = ({features,focusedFeature,setFocusedFeature, setFatherToggle}: 
     {features: string[],
+    focusedFeature:string,
     setFocusedFeature: (feature: string) => void,
     setFatherToggle:(feature: boolean) => void}
     )=>{
@@ -76,59 +77,19 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
 
     //Abaixo é a logica de focar o elemento
 
-    interface ActionToFocus{
-        clicked_item:HTMLElement;
-    }
+    const handle_click = (e):void=>{
+        
+        const target = e.currentTarget
 
-    interface FocusedElement{
-        previous_focused?:HTMLElement;
-        focused?:HTMLElement;
-        previous_focused_feature?:string;
-        focused_feature?:string;
-    }
-
-    const item_focus_reducer = (state:FocusedElement,action:ActionToFocus):FocusedElement=>{
-        if(action.clicked_item.getElementsByTagName('p')[0]){
-            setFocusedFeature(action.clicked_item.getElementsByTagName('p')[0].innerText);
+        if(target.getElementsByTagName('p')[0]){
+            setFocusedFeature(target.getElementsByTagName('p')[0].innerText);
         }
-        else if(action.clicked_item.getElementsByClassName('item_name')[0]){
-            setFocusedFeature(action.clicked_item.getElementsByClassName('item_name')[0].innerText);
-        }
-        return{
-            previous_focused:state.focused,
-            focused:action.clicked_item,
-            focused_feature: action.clicked_item.innerText,
-            previous_focused_feature: state.focused_feature
+        else if(target.getElementsByClassName('item_name')[0]){
+            setFocusedFeature(target.getElementsByClassName('item_name')[0].innerText);
         }
 
     }
 
-    const [clickedItem,dispatch] = useReducer(item_focus_reducer,{});
-
-    const firstFeatureRef = useRef(null);
-
-    useEffect(()=>{
-        console.log(clickedItem);
-        if(firstFeatureRef.current){
-            const children = firstFeatureRef.current.getElementsByClassName('circle');
-            (children[0] as HTMLElement).style.backgroundColor = 'var(--skyler-blue)';
-            (children[0] as HTMLElement).style.color= 'white';
-            dispatch({'clicked_item':firstFeatureRef.current})
-            firstFeatureRef.current=null;
-        }
-
-        if(clickedItem.focused){
-            console.log(clickedItem.focused)
-            const children = clickedItem.focused.getElementsByClassName('circle');
-            (children[0] as HTMLElement).style.backgroundColor = 'var(--skyler-blue)';
-            (children[0] as HTMLElement).style.color= 'white';
-        }
-        if(clickedItem.previous_focused && clickedItem.previous_focused!==clickedItem.focused){
-            const children = clickedItem.previous_focused.getElementsByClassName('circle');
-            (children[0] as HTMLElement).style.backgroundColor = 'var(--deep-white)';
-            (children[0] as HTMLElement).style.color= 'var(--skyler-blue)';
-        }
-    },[clickedItem]);
 
     return(
         <div ref={ref} className="side_bar">
@@ -137,8 +98,10 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
             </div>
             <div className="hello_user">
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src="" alt="@shadcn" />
+                    <AvatarFallback>
+                        {localStorage.getItem('username')?.toLocaleUpperCase().slice(0,2)}
+                    </AvatarFallback>
                 </Avatar>
                 <div className="hello_text">
                     {"Olá " + localStorage.getItem('username')}
@@ -163,11 +126,13 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                     {toggle?<IoIosArrowBack/>:<LuPlus/>}
                 </div>
                 <ul className={(toggle?"toggled":"")}>
-                    <li ref={firstFeatureRef} onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
+                    <li onClick={handle_click}>
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><FaRegChartBar/></div>
+                                    <CircleSideBar focused={focusedFeature===features[0]}>
+                                        <FaRegChartBar/>
+                                    </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[0]}</p>
@@ -179,11 +144,13 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                             {features[0]}
                         </div>
                     </li>
-                    <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
+                    <li onClick={handle_click}>
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><GiNotebook/></div>
+                                    <CircleSideBar focused={focusedFeature===features[1]}>
+                                        <GiNotebook/>
+                                    </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[1]}</p>
@@ -194,11 +161,13 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                             {features[1]}
                         </div>
                     </li>
-                    <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
+                    <li onClick={handle_click}>
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><FaStoreAlt/></div>
+                                    <CircleSideBar focused={focusedFeature===features[2]}>
+                                        <FaStoreAlt/>
+                                    </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[2]}</p>
@@ -209,11 +178,13 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                             {features[2]}
                         </div>
                     </li>
-                    <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
+                    <li onClick={handle_click}>
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><BsBank2/></div>
+                                    <CircleSideBar focused={focusedFeature===features[3]}>
+                                        <BsBank2/>
+                                    </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[3]}</p>
@@ -224,11 +195,13 @@ export const SideBar = ({features,setFocusedFeature, setFatherToggle}:
                           {features[3]}
                         </div>
                     </li>
-                    <li onClick={(e)=>dispatch({'clicked_item':e.currentTarget})}>
+                    <li onClick={handle_click}>
                         <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <div className="circle"><FaMoneyBillTransfer/></div>
+                                    <CircleSideBar focused={focusedFeature===features[4]}>
+                                        <FaMoneyBillTransfer/>
+                                    </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[4]}</p>

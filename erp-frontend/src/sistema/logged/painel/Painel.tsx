@@ -60,7 +60,9 @@ export const Painel = ()=>{
             <LoadingAuth />
           ) : (
             <div className="main_flex">
-              <SideBar features={features}
+              <SideBar 
+              features={features}
+              focusedFeature={focusedFeature}
               setFocusedFeature={setFocusedFeature}
               setFatherToggle={setFatherToggle}
               />
