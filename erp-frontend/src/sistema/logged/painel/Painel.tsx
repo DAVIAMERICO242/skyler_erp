@@ -10,11 +10,16 @@ import { Conciliacao } from "./features/Conciliacao/AnaliseDRE";
 import { Bancos } from "./features/Bancos/Bancos";
 import './css/main_position.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-
+import { useParams } from "react-router-dom";
+import { convertToPARAM } from "@/sistema/essentials";
 // eslint-disable-next-line
 export const Painel = ()=>{
 
-  
+    const {feature} = useParams();
+
+    console.log('URL FEATURE');
+    console.log(feature)
+
     const location = useLocation();
 
     const features:string[]= [
@@ -25,6 +30,22 @@ export const Painel = ()=>{
       "Conciliação",
     ];
 
+    const featuresToPARAM: { [key: string]: string } = {
+      "Resumo geral": "resumo_geral",
+      "Terceiros": "terceiros",
+      "Lojas": "lojas",
+      "Bancos": "bancos",
+      "Conciliação":"conciliacao"
+    }
+
+    const PARAMSTofeature: { [key: string]: string } = {
+      "resumo_geral": "Resumo geral",
+      "terceiros":"Terceiros",
+      "lojas":"Lojas",
+      "bancos":"Bancos",
+      "conciliacao":"Conciliação"
+    }
+
   //   const featureComponents: { [key: string]: JSX.Element } = {
   //     "Resumo geral": <ResumoGeral />,
   //     "Terceiros": <Terceiros />,
@@ -34,7 +55,7 @@ export const Painel = ()=>{
   // };
 
     const [fatherToggle,setFatherToggle] = useState<boolean>(false);
-    const [focusedFeature,setFocusedFeature] = useState<string>("Resumo geral");
+    const [focusedFeature,setFocusedFeature] = useState<string>(feature?PARAMSTofeature[feature]:"Resumo geral");
 
     const navigateTo = useNavigate();
     const [isLoading,setIsLoading] = useState<boolean>(true);
@@ -46,7 +67,7 @@ export const Painel = ()=>{
     },[]);
 
     useEffect(()=>{
-      navigateTo(focusedFeature);
+      navigateTo("/painel/" + featuresToPARAM[focusedFeature]);
       console.log(focusedFeature)
       console.log('FATHER TOGGLE');
       console.log(fatherToggle);
@@ -60,21 +81,19 @@ export const Painel = ()=>{
             <LoadingAuth />
           ) : (
             <div className="main_flex">
-              <SideBar 
+              <SideBar
+              featuresToPARAM={featuresToPARAM}
               features={features}
               focusedFeature={focusedFeature}
               setFocusedFeature={setFocusedFeature}
               setFatherToggle={setFatherToggle}
               />
               <div className={"main " + (fatherToggle?'toggled':'')}>
-              <Routes>
-                {/* CAMINHO RELATIVO A ROTA ATUAL */}
-                <Route path="Resumo Geral" element={<ResumoGeral/>} />
-                <Route path="Terceiros" element={<Terceiros />} />
-                <Route path="Lojas" element={<Lojas />} />
-                <Route path="Bancos" element={<Bancos />} />
-                <Route path="Conciliação" element={<Conciliacao />} />
-              </Routes>
+                {feature===featuresToPARAM[features[0]] && <ResumoGeral/>}
+                {feature===featuresToPARAM[features[1]] && <Terceiros/>}
+                {feature===featuresToPARAM[features[2]] && <Lojas/>}
+                {feature===featuresToPARAM[features[3]] && <Bancos/>}
+                {feature===featuresToPARAM[features[4]] && <Conciliacao/>}
               </div>
             </div>
           )}

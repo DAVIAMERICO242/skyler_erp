@@ -41,3 +41,8 @@ export function compare( a:GenericObject, b:GenericObject, key="label" ) {
         }
         return 0;
 }
+
+export function convertToPARAM(x:string){
+    const r = x.replace(" ","_").replace('ç','c').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    return r;
+}

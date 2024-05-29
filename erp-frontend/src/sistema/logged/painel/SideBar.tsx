@@ -23,9 +23,11 @@ import './css/side_bar.css';
 import logo from '../../../../public/skyler.png';
 import favicon from '../../../../public/skyler-favicon.png';
 import { CircleSideBar } from "@/components/ui/circleSideBar";
+import { Link } from "react-router-dom";
 
-export const SideBar = ({features,focusedFeature,setFocusedFeature, setFatherToggle}: 
+export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeature, setFatherToggle}: 
     {features: string[],
+    featuresToPARAM:{[key:string]:string},
     focusedFeature:string,
     setFocusedFeature: (feature: string) => void,
     setFatherToggle:(feature: boolean) => void}
