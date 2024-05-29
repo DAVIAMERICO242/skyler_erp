@@ -31,9 +31,6 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     const terceirosData = useTerceiros().data;//cache dos dados
     const { refetch } = useTerceiros();
 
-    console.log('TERCEIROS DATA')
-    console.log(terceirosData)
-
     const terceirosSchema = z.object({
       pastnometerceiro: z.string().min(2, {
         message: "O nome do terceiro deve ter no mínimo 2 caracteres",
