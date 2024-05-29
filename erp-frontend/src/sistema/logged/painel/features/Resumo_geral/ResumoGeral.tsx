@@ -1,7 +1,7 @@
 import '../../css/ResumoGeral.css';
 import {BasicLineChart, BasicPie, BasicBars } from './Charts';
 import {useEffect, useState} from 'react';
-import { FeatureTitle } from '../reusable/FeatureTitle';
+import { FeatureTitle } from '../entidades/reusable/FeatureTitle';
 
 export  const ResumoGeral = ()=>{
     const [faturado, setFaturado] = useState(0);
