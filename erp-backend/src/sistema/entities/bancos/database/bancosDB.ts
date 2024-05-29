@@ -73,7 +73,7 @@ export function updateBanco(conta: changeBanco): Promise<null|DBError>{
                     banco=${conta.banco},
                     agencia=${conta.agencia},
                     conta=${conta.conta}
-                    WHERE nome=${conta.pastconta}
+                    WHERE conta=${conta.pastconta}
                     `,
                     (err, result) => {
                         if (err) {
