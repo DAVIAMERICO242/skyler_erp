@@ -25,7 +25,7 @@ import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 
-const formSchema = z.object({
+export const bancosSchema = z.object({
     banco: z.string().regex(/^\d{3}$/, {
       message: "O banco deve ter 3 caracteres numéricos.",
     }),
@@ -36,11 +36,11 @@ const formSchema = z.object({
         message: "A conta sem dígito deve ter 8 caracteres numéricos.",
       }),
   });
-export  const Bancos = ()=>{
+export const Bancos = ()=>{
     const { toast } = useToast()
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof bancosSchema>>({
+        resolver: zodResolver(bancosSchema),
         defaultValues: {
           banco: "",
           agencia:"",
@@ -50,7 +50,7 @@ export  const Bancos = ()=>{
 
     const [loading,setLoading] = useState<boolean>(false);
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof bancosSchema>) {
         setLoading(true);
         fetch(BACKEND_URL+'/bancos/cadastro',{
           method:"POST",

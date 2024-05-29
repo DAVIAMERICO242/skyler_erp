@@ -33,7 +33,24 @@ import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 
-
+export const terceirosSchema = z.object({
+  nometerceiro: z.string().min(2, {
+    message: "O nome do terceiro deve ter no mínimo 2 caracteres",
+  }),
+  uf: z.string().min(2, {
+      message: "UF deve ter no mínimo 2 caracteres",
+    }),
+  cnpjcpfterceiro: z.string().min(10, {
+      message: "O campo deve ter no mínimo 10 caracteres",
+    }).max(14, {
+      message: "O campo deve ter no máximo 14 caracteres",
+    }).regex(/^\d+$/, {
+      message: "O campo deve conter apenas dígitos numéricos.",
+    }),
+  tipoterceiro: z.string().min(2,{
+    message: "O tipo do terceiro deve ter no mínimo 2 caracteres"
+  })
+});
 
 export const Terceiros = ()=>{
 
@@ -58,28 +75,8 @@ export const Terceiros = ()=>{
     
     console.log(BRStates);
 
-    const formSchema = z.object({
-      nometerceiro: z.string().min(2, {
-        message: "O nome do terceiro deve ter no mínimo 2 caracteres",
-      }),
-      uf: z.string().min(2, {
-          message: "UF deve ter no mínimo 2 caracteres",
-        }),
-      cnpjcpfterceiro: z.string().min(10, {
-          message: "O campo deve ter no mínimo 10 caracteres",
-        }).max(14, {
-          message: "O campo deve ter no máximo 14 caracteres",
-        }).regex(/^\d+$/, {
-          message: "O campo deve conter apenas dígitos numéricos.",
-        }),
-      tipoterceiro: z.string().min(2,{
-        message: "O tipo do terceiro deve ter no mínimo 2 caracteres"
-      })
-    });
-
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof terceirosSchema>>({
+        resolver: zodResolver(terceirosSchema),
         defaultValues: {
           nometerceiro: "",
           cnpjcpfterceiro: ""
@@ -88,7 +85,7 @@ export const Terceiros = ()=>{
     const [loading,setLoading] = useState<boolean>(false);
 
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof terceirosSchema>) {
         setLoading(true);
         fetch(BACKEND_URL+'/terceiros/cadastro',{
           method:"POST",

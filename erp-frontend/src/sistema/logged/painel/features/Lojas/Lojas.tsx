@@ -28,7 +28,7 @@ import { useState } from 'react';
 
 import BACKEND_URL from '@/sistema/backend-urls';
 
-const formSchema = z.object({
+export const lojasSchema = z.object({
     nomeloja: z.string().min(2, {
       message: "O nome da loja deve ter 2 caracteres",
     }),
@@ -42,8 +42,8 @@ const formSchema = z.object({
 
 export const Lojas = ()=>{
     const { toast } = useToast()
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof lojasSchema>>({
+        resolver: zodResolver(lojasSchema),
         defaultValues: {
           nomeloja: "",
           cnpjloja: ""
@@ -51,7 +51,7 @@ export const Lojas = ()=>{
       });
       const [loading,setLoading] = useState<boolean>(false);
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof lojasSchema>) {
         setLoading(true);
         fetch(BACKEND_URL+'/lojas/cadastro',{
           method:"POST",
