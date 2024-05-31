@@ -26,6 +26,7 @@ export interface Loja{
 }
 
 export interface Banco{
+    nomebanco:string,
     banco:string,
     agencia:string,
     conta:string
@@ -57,6 +58,7 @@ export interface DBLoja{
 }
 
 export interface DBBanco{
+    nome_banco:string,
     banco:string,
     agencia:string,
     conta:string

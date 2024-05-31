@@ -11,6 +11,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 
 export interface BancosData {
+    nome_banco?:string;
     banco?: string;
     agencia?: string;
     conta?: string;

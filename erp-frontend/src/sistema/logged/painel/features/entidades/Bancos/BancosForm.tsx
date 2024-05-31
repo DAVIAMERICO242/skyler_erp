@@ -26,6 +26,9 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   console.log(bancosData)
 
   const bancosSchema = z.object({
+    nomebanco: z.string().min(2, {
+      message: "O nome do banco deve ter no mínimo 2 caracteres",
+    }),
     banco: z.string().regex(/^\d{3}$/, {
       message: "O banco deve ter 3 caracteres numéricos.",
     }),
@@ -145,6 +148,20 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   )}
                   />
                 }
+
+              <FormField
+                control={form.control}
+                name="nomebanco"
+                render={({ field }) => (
+                    <FormItem style={{ marginBottom: '30px' }}>
+                    <FormLabel>Nome do banco</FormLabel>
+                    <FormControl>
+                        <Input placeholder={selectedPastBanco.nome_banco || "Itau, Nubank, etc..."} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
                 <FormField
                 control={form.control}
                 name="banco"
@@ -187,7 +204,7 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
             <LoadingButton
                     loading={loading}
                     className="w-[100%]"
-                    type="skyler">Cadastrar
+                    type="skyler">{!edit?"Cadastrar":"Confirmar edição"}
             </LoadingButton>
             </form>
         </Form>

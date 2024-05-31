@@ -8,8 +8,8 @@ export function cadastroBanco(banco: Banco): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`INSERT INTO bancos (banco, agencia, conta) VALUES 
-                   ('${banco.banco}', '${banco.agencia}', '${banco.conta}')`,
+                connection.query(`INSERT INTO bancos (nome_banco, banco, agencia, conta) VALUES 
+                   ('${banco.nomebanco}','${banco.banco}', '${banco.agencia}', '${banco.conta}')`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
@@ -70,10 +70,11 @@ export function updateBanco(conta: changeBanco): Promise<null|DBError>{
             if (connection) {
                 connection.query(
                     `UPDATE bancos SET
-                    banco=${conta.banco},
-                    agencia=${conta.agencia},
-                    conta=${conta.conta}
-                    WHERE conta=${conta.pastconta}
+                    nome_banco='${conta.nomebanco}',
+                    banco='${conta.banco}',
+                    agencia='${conta.agencia}',
+                    conta='${conta.conta}'
+                    WHERE conta='${conta.pastconta}'
                     `,
                     (err, result) => {
                         if (err) {
