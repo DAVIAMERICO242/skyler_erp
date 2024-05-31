@@ -41,6 +41,7 @@ export interface CategoriaContas{
 export interface TipoContas{
     nome_conta:string,
     categoria_conta:string
+    indice:number
 }
 
 export interface HistoricoContas{
@@ -95,7 +96,9 @@ export interface DBCategoriaContas{
 
 export interface DBTipoContas{
     nome_conta:string,
-    categoria_conta:string
+    categoria_conta:string,
+    indice:number
+
 }
 
 export interface DBHistoricoContas{
