@@ -33,6 +33,28 @@ export interface Banco{
     conta:string
 }
 
+export interface CategoriaContas{
+    nome_categoria:string,
+    pagar_receber:string
+}
+
+export interface TipoContas{
+    nome_conta:string,
+    categoria_conta:string
+}
+
+export interface HistoricoContas{
+    id:number,
+    nossa_conta_bancaria:string,
+    data:Date,
+    vencimento:Date,
+    conta_tipo:string,
+    terceiro:string,
+    valor:number,
+    situacao:string
+}
+
+
 export interface changeTerceiro extends Terceiro{
     pastnometerceiro:string
 }
@@ -64,6 +86,27 @@ export interface DBBanco{
     banco:string,
     agencia:string,
     conta:string
+}
+
+export interface DBCategoriaContas{
+    nome_categoria:string,
+    pagar_receber:string
+}
+
+export interface DBTipoContas{
+    nome_conta:string,
+    categoria_conta:string
+}
+
+export interface DBHistoricoContas{
+    id:number,
+    nossa_conta_bancaria:string,
+    data:Date,
+    vencimento:Date,
+    conta_tipo:string,
+    terceiro:string,
+    valor:number,
+    situacao:string
 }
 
 export interface DBError{
