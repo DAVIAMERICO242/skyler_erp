@@ -83,9 +83,16 @@ export const Delete:FC<Author> = ({author})=>{
                 toast({
                   title: "Duplicata",
                   className: "error",
-                  description: "Esse nome já existe no banco de dados",
+                  description: "Esse nome ou conta bancária já existe no banco de dados",
                 })
-              }else{
+              }else if(d.foreign_key){
+                toast({
+                  title: "GENERIC FOREIGN KEY ERROR",
+                  className: "error",
+                  description: "Esse erro provavelmente foi gerado porque você tentou excluir uma conta bancária relacionada a uma loja",
+                })
+              }
+              else{
                 toast({
                   title: "Erro desconhecido",
                   className: "error",

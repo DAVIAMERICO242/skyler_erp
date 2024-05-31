@@ -168,7 +168,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[2]}>
-                                        <FaStoreAlt className="side_icon"/>
+                                        <BsBank2 className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -177,7 +177,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                            {features[2]}
+                          {features[2]}
                         </div>
                     </li>
                     <li onClick={handle_click}>
@@ -185,7 +185,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[3]}>
-                                        <BsBank2 className="side_icon"/>
+                                        <FaStoreAlt className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -194,7 +194,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                          {features[3]}
+                            {features[3]}
                         </div>
                     </li>
                     <li onClick={handle_click}>

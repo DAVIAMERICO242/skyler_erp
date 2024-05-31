@@ -25,24 +25,24 @@ export const Painel = ()=>{
     const features:string[]= [
       "Resumo geral",
       "Terceiros",
-      "Lojas",
       "Bancos",
+      "Lojas",
       "Conciliação",
     ];
 
     const featuresToPARAM: { [key: string]: string } = {
       "Resumo geral": "resumo_geral",
       "Terceiros": "terceiros",
-      "Lojas": "lojas",
       "Bancos": "bancos",
+      "Lojas": "lojas",
       "Conciliação":"conciliacao"
     }
 
     const PARAMSTofeature: { [key: string]: string } = {
       "resumo_geral": "Resumo geral",
       "terceiros":"Terceiros",
-      "lojas":"Lojas",
       "bancos":"Bancos",
+      "lojas":"Lojas",
       "conciliacao":"Conciliação"
     }
 
@@ -91,8 +91,8 @@ export const Painel = ()=>{
               <div className={"main " + (fatherToggle?'toggled':'')}>
                 {feature===featuresToPARAM[features[0]] && <ResumoGeral/>}
                 {feature===featuresToPARAM[features[1]] && <Terceiros/>}
-                {feature===featuresToPARAM[features[2]] && <Lojas/>}
-                {feature===featuresToPARAM[features[3]] && <Bancos/>}
+                {feature===featuresToPARAM[features[2]] && <Bancos/>}
+                {feature===featuresToPARAM[features[3]] && <Lojas/>}
                 {feature===featuresToPARAM[features[4]] && <Conciliacao/>}
               </div>
             </div>

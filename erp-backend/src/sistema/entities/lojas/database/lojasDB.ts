@@ -8,8 +8,8 @@ export function cadastroLoja(loja: Loja): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`INSERT INTO lojas (nome, razao, cnpj) VALUES 
-                   ('${loja.nomeloja}', '${loja.razaoloja}', '${loja.cnpjloja}')`,
+                connection.query(`INSERT INTO lojas (conta, nome, razao, cnpj) VALUES 
+                   ('${loja.contaloja}','${loja.nomeloja}', '${loja.razaoloja}', '${loja.cnpjloja}')`,
                     (err, result) => {
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
@@ -69,6 +69,7 @@ export function updateLoja(loja: changeLoja): Promise<null|DBError>{
             if (connection) {
                 connection.query(
                     `UPDATE lojas SET
+                    conta='${loja.contaloja}',
                     nome='${loja.nomeloja}',
                     razao='${loja.razaoloja}',
                     cnpj='${loja.cnpjloja}'

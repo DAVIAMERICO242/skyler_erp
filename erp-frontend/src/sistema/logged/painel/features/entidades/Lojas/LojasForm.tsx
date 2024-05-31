@@ -25,12 +25,15 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useLojas } from './Lojas';
+import { useBancos } from '../Bancos/Bancos';
 import { LojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
 export const LojasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     const lojasData = useLojas().data;//cache dos dados
-    const { refetch } = useLojas();
+    const refetchLojas = useLojas().refetch;
+    const bancosData = useBancos().data
+    const refetchBancos = useBancos().refetch
 
     console.log('lojas data')
     console.log(lojasData)
@@ -39,6 +42,11 @@ export const LojasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
         pastnomeloja: z.string().min(2, {
           message: "O nome da loja deve ter 2 caracteres",
         }).optional(),
+
+        contaloja: z.string().regex(/^\d{8}$/, {
+          message: "A conta sem dígito deve ter 8 caracteres numéricos.",
+        }),
+
         nomeloja: z.string().min(2, {
           message: "O nome da loja deve ter 2 caracteres",
         }),
@@ -89,7 +97,8 @@ export const LojasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       }).then((d)=>d.json())
         .then((d)=>{
           if(d.success){
-            refetch();
+            refetchLojas();
+            refetchBancos();
             toast({
               title: "Sucesso",
               className: "success",
@@ -153,6 +162,30 @@ export const LojasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   )}
                   />
                 }
+                <FormField
+                  control={form.control}
+                  name="contaloja"
+                  render={({ field }) => (
+                      <FormItem style={{ marginBottom: '30px' }}>
+                      <FormLabel>Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
+                      <FormControl>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedLoja(); }}>
+                            <SelectTrigger className="w-[100%]">
+                                <SelectValue placeholder={selectedPastLoja.conta?`Conta atual: ${selectedPastLoja.conta}`:"Escolher"}/>
+                            </SelectTrigger>
+                            <SelectContent {...field }>
+                                {bancosData?.map((e)=>{
+                                    return (
+                                        <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
+                                    )
+                                })}
+                            </SelectContent>
+                          </Select>
+                      </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                  )}
+                />
                 <FormField
                 control={form.control}
                 name="nomeloja"

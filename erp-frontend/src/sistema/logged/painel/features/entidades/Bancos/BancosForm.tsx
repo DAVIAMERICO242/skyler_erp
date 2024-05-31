@@ -99,7 +99,8 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               className: "error",
               description: "Esse nome já existe no banco de dados",
             })
-          }else{
+          }
+          else{
             toast({
               title: "Erro desconhecido",
               className: "error",

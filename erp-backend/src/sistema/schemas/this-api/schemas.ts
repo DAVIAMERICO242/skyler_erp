@@ -20,6 +20,7 @@ export interface Terceiro{
 }
 
 export interface Loja{
+    contaloja:string,
     nomeloja:string,
     razaoloja:string,
     cnpjloja:string
@@ -52,6 +53,7 @@ export interface DBTerceiro{
 }
 
 export interface DBLoja{
+    conta:string,
     nome:string,
     razao:string,
     cnpj:string
@@ -65,6 +67,8 @@ export interface DBBanco{
 }
 
 export interface DBError{
+    foreign_key?:boolean,
     duplicate?:boolean,
-    exists?:boolean
+    exists?:boolean,
+    error_msg?:string
 }

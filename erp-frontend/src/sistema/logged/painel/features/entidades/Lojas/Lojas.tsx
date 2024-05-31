@@ -5,29 +5,30 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-
 import { Gerenciar } from '../reusable/Gerenciar';
-
 import { LojasForm } from './LojasForm';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { BancosProvider } from '../Bancos/Bancos';
 import BACKEND_URL from '@/sistema/backend-urls';
 
 
 export interface LojasData {
+  conta?:string,
   nome?:string,
   razao?:string,
   cnpj?:string
 }
 
 interface lojasContextType {
-  data: lojasData[] | null;
+  data: LojasData[] | null;
   refetch: () => void;
 }
+
 
 const LojasContext = createContext<lojasContextType>({ data: null,refetch: () => {} });
 
 export const LojasProvider = ({ children }:{children:ReactNode}) => {
-  const [data, setData] = useState<lojasData[] | null>(null);
+  const [data, setData] = useState<LojasData[] | null>(null);
 
   const fetchData = async () => {
         try {
@@ -69,6 +70,7 @@ export const Lojas = ()=>{
     
     return (
         <>
+        <BancosProvider>
           <LojasProvider>
             <FeatureTitle>Gestão de lojas</FeatureTitle>
             <Tabs defaultValue="cadastro" className="space-y-8 2xl:w-[30%] md:w-[45%] sm:w-[55%] w-[80%] mt-[5%]">
@@ -84,6 +86,7 @@ export const Lojas = ()=>{
               </TabsContent>
             </Tabs>
           </LojasProvider>
+        </BancosProvider>
         </>
     )
 }
