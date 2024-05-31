@@ -14,7 +14,7 @@
     
   .side_bar_items{
     position: relative;
-    margin-left: 15px;
+    margin-left: 10px;
   }
   
   .side_bar_items>ul>li{
@@ -70,21 +70,6 @@
   }
 
 
-  
-  .circle{
-    transition: all 0.1s ease;
-    position: relative;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--skyler-blue);
-    background-color: var(--deep-white);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
-
 
   .toggle{
     position: absolute;
@@ -121,4 +106,8 @@
     width:140px;
     height:80px;
     margin-bottom: var(--medium-margin-bottom);
+  }
+
+  .side_icon{
+    font-size: 20px;
   }

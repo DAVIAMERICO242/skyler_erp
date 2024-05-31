@@ -11,8 +11,8 @@ const Circle = styled.div<{ focused: boolean }>`
     justify-content: center;
     color: ${({focused}) => (!focused?"var(--skyler-blue)":'var(--deep-white)')};
     background-color: ${({focused}) => (focused?"var(--skyler-blue)":'var(--deep-white)')};
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;    
     box-shadow: ${({ focused }) => (focused ? '0 0 0 2px var(--focus-color)' : 'none')};
 `;
