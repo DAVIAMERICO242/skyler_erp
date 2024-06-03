@@ -58,19 +58,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       }
   },[categorias_fiscaisDataFiltered]);
 
-  const UXFiscal = (value:string)=>{
-    console.log('UXFISCAL');
-    console.log(value)
-    if(categorias_fiscaisData){
-        setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===value));
-    }
-  }
 
-  console.log('CATEGORIAS PURA');
-  console.log(categoriasPura);
-
-  console.log('contas data')
-  console.log(contasData)
 
   const contasSchema = z.object({
     terceiro: z.string().min(2, {
@@ -94,6 +82,15 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   const form = useForm<z.infer<typeof contasSchema>>({
     resolver: zodResolver(contasSchema)
   });
+
+  const UXFiscal = (value:string)=>{
+    console.log('UXFISCAL');
+    console.log(value);
+    form.setValue("tipo_fiscal","");
+    if(categorias_fiscaisData){
+        setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===value));
+    }
+  }
 
   const { toast } = useToast();
 
