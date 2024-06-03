@@ -73,3 +73,7 @@
 .data-100 button{
   width: 100%;
 }
+.gambiarra>div:nth-child(1){
+  flex:1;
+}
+

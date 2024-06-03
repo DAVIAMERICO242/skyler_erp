@@ -164,6 +164,10 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       })
   }
 
+  const novoTipoFiscal = ()=>{
+     console.log('oi')
+  }
+
   return(
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -182,7 +186,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                             <SelectContent {...field }>
                                 {contasData?.map((e)=>{
                                     return (
-                                        <SelectItem value={e.id?.toString() as string}>{e.id}</SelectItem>
+                                        <SelectItem value={e.id?.toString() as string}>{e.id?.toString()}</SelectItem>
                                     )
                                 })}
                             </SelectContent>
@@ -251,39 +255,42 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                       </FormItem>
                   )}
                   />
-            <FormField
-                  control={form.control}
-                  name="tipo_fiscal"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{"Tipo fiscal " + (edit ? "(novo)":"")}</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
+            <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
+                <FormField
+                    control={form.control}
+                    name="tipo_fiscal"
+                    render={({ field }) => (
+                        <FormItem style={{ marginBottom: '30px' }}>
+                        <FormLabel>{"Tipo fiscal " + (edit ? "(novo)":"")}</FormLabel>
+                        <FormControl>
+                            <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
+                                <SelectTrigger className="w-[100%] flex-1">
+                                    <SelectValue placeholder="Escolher"/>
+                                </SelectTrigger>
+                                <SelectContent {...field }>
 
 
-                                {categoriasPura?.map((e)=>{
-                                    return(
-                                        <SelectGroup>
-                                            <SelectLabel>{e}</SelectLabel>
-                                            {categorias_fiscaisDataFiltered?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
-                                                return(
-                                                    <SelectItem value={e2.nome_conta as string}>{e2.nome_conta}</SelectItem>
-                                                )
-                                            })}
-                                        </SelectGroup>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-                  />
+                                    {categoriasPura?.map((e)=>{
+                                        return(
+                                            <SelectGroup>
+                                                <SelectLabel>{e}</SelectLabel>
+                                                {categorias_fiscaisDataFiltered?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
+                                                    return(
+                                                        <SelectItem value={e2.nome_conta as string}>{e2.nome_conta}</SelectItem>
+                                                    )
+                                                })}
+                                            </SelectGroup>
+                                        )
+                                    })}
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+               <div onClick={novoTipoFiscal} style={{userSelect:"none",cursor:"pointer",height:"100%",fontSize:"13px",padding:'5px 10px' ,borderRadius: '3px', backgroundColor:'var(--deep-white)', color:"var(--skyler-blue)" }}>Novo</div>
+            </div>
              <FormField
                 control={form.control}
                 name="vencimento"

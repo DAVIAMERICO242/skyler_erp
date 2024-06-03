@@ -147,7 +147,7 @@ export const Delete:FC<Author> = ({author})=>{
                 <SelectContent>
                     {data?.map((e)=>{
                         return (
-                            <SelectItem value={e[identifier] as string}>{e[identifier]}</SelectItem>
+                            <SelectItem value={e[identifier] as string}>{e[identifier].toString()}</SelectItem>
                         )
                     })}
                 </SelectContent>
