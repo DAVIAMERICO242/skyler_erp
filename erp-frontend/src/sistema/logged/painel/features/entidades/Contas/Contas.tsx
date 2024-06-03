@@ -27,7 +27,7 @@ export const Contas = ()=>{
                             <ContasForm edit={false}/>
                         </TabsContent>
                         <TabsContent value="gerenciar">
-                            <Gerenciar author="bancos"/>
+                            <Gerenciar author="contas"/>
                         </TabsContent>
                         </Tabs>
                     </TerceirosProvider>

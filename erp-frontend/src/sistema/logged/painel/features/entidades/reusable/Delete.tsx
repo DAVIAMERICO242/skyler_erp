@@ -20,6 +20,7 @@ import { Author } from "./Gerenciar";
 import { firstCharUpper } from "@/sistema/essentials";
 import { singularWord } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast"
+import { useContas } from "../Contas/local-contexts/contas-context";
 import BACKEND_URL from "@/sistema/backend-urls";
 
 export const Delete:FC<Author> = ({author})=>{
@@ -44,6 +45,12 @@ export const Delete:FC<Author> = ({author})=>{
         var excel_name = "bancos_cadastrados.xlsx";
         var identifier = "conta";
         break;
+      case "contas":
+          var {data} = useContas();
+          var {refetch} = useContas();
+          var excel_name = "historico_pagar_receber.xlsx";
+          var identifier = "id";
+          break;
     }
 
     const [toBeDeleted, setToBeDeleted] = useState<string>("");

@@ -90,8 +90,8 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
         SQLConnection().then((connection) => {
             if (connection) {
                 connection.query(
-                    `UPDATE bancos SET
-                    vencimento='${conta.data.slice(0,10)}',
+                    `UPDATE historico_contas SET
+                    vencimento='${conta.vencimento.slice(0,10)}',
                     conta_tipo='${conta.tipo_fiscal}',
                     terceiro='${conta.terceiro}',
                     valor='${conta.valor}'

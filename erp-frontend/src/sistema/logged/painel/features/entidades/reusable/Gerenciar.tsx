@@ -23,9 +23,10 @@ import { Excel } from "@/sistema/essentials";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Delete } from "./Delete";
 import { Exportar } from "./Exportar";
+import { EditContas } from "../Contas/EditContas";
 
 export interface Author{
-  author: "terceiros"|"lojas"|"bancos"//ditará as requisições http e modelo de editar
+  author: "terceiros"|"lojas"|"bancos"|"contas"//ditará as requisições http e modelo de editar
 }
 
 export const Gerenciar:FC<Author> = ({author}) => {
@@ -34,6 +35,7 @@ export const Gerenciar:FC<Author> = ({author}) => {
       {author === "terceiros" ? <EditTerceiros /> : null}
       {author === "lojas" ? <EditLojas /> : null}
       {author === "bancos" ? <EditBancos /> : null}
+      {author === "contas" ? <EditContas /> : null}
       <Exportar author={author}/>
       <Delete author={author}/>
     </div>

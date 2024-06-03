@@ -61,6 +61,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
 
   const contasSchema = z.object({
+    pastid: z.coerce.number(),
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
     }),
@@ -101,10 +102,10 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
           return;
         }
 
-        const current_banco_data:(ContasData | undefined) = contasData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
+        const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id===form.getValues().pastid)[0]
 
         
-        setSelectedPastConta(current_banco_data || {})
+        setSelectedPastConta(current_conta_data || {})
   }
 
   const [loading,setLoading] = useState<boolean>(false);
@@ -166,10 +167,10 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
             {edit && 
                   <FormField
                   control={form.control}
-                  name="terceiro"
+                  name="pastid"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Conta do banco a ser modificada</FormLabel>
+                      <FormLabel>ID  a ser modificado (ver exportação)</FormLabel>
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); }}>
                             <SelectTrigger className="w-[100%]">
@@ -178,7 +179,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                             <SelectContent {...field }>
                                 {contasData?.map((e)=>{
                                     return (
-                                        <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
+                                        <SelectItem value={e.id?.toString() as string}>{e.id}</SelectItem>
                                     )
                                 })}
                             </SelectContent>
@@ -220,7 +221,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>Valor em R$</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastConta.conta || "Ex: 999.90"} {...field} />
+                        <Input placeholder={selectedPastConta.valor?.toString() as string || "Ex: 999.90"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>

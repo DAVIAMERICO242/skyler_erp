@@ -2,6 +2,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 
 export interface ContasData {
+    pastid?:number;
     id?:number;
     data?: Date;
     vencimento?: Date;
