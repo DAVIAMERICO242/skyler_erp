@@ -61,7 +61,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
 
   const contasSchema = z.object({
-    pastid: z.coerce.number(),
+    pastid: z.coerce.number().optional(),
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
     }),
