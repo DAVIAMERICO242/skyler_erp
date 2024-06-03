@@ -33,13 +33,17 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { useContas } from "./local-contexts/contas-context";
+import { useCategoriasFiscais } from "./local-contexts/categorias_fiscais-context";
 
-export const NovoTipoFiscalDialog = ({categorias} : {categorias: string[]})=>{
+export const NovoTipoFiscalDialog = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[], setSignalUpdateUIAfterNewTipo:any})=>{
     const [open,setOpen] = useState<boolean>(false);
 
     const novoTipoFiscal = ()=>{
         console.log('oi')
      }
+
+
+    
     
     return(
         <Dialog open={open} onOpenChange={setOpen}>
@@ -50,14 +54,15 @@ export const NovoTipoFiscalDialog = ({categorias} : {categorias: string[]})=>{
             <DialogHeader>
             <DialogTitle>Cadastrar tipo fiscal</DialogTitle>
             </DialogHeader>
-            <NovoTipoFiscalForm categorias={categorias}/>
+            <NovoTipoFiscalForm categorias={categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
         </DialogContent>
         </Dialog>
     )
 }
 
-const NovoTipoFiscalForm = ({categorias} : {categorias: string[]})=>{
-    const {refetch} = useContas();
+const NovoTipoFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[],setSignalUpdateUIAfterNewTipo:any})=>{
+    const refetch_categorias = useCategoriasFiscais().refetch;
+    const refetch_contas = useContas().refetch
     const [loading, setLoading] = useState(false);
     const [category,setCategory] = useState("");
     const [newTipo, setNewTipo] = useState("");
@@ -82,7 +87,9 @@ const NovoTipoFiscalForm = ({categorias} : {categorias: string[]})=>{
               }).then((d)=>d.json())
                 .then((d)=>{
                   if(d.success){
-                    refetch();
+                    refetch_contas();
+                    refetch_categorias();
+                    setSignalUpdateUIAfterNewTipo((prev:number)=>-1*prev);
                     toast({
                       title: "Sucesso",
                       className: "success",

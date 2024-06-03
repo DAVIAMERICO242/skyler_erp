@@ -44,6 +44,9 @@ import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
 
 export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+
+  const [signalUpdateUIAfterNewTipo,setSignalUpdateUIAfterNewTipo] = useState<number>(-1);
+  const [storePagarReceberToUI,setStorePagarReceberToUI] = useState<"pagar" | "receber" | undefined>(undefined);
   
   const terceirosData = useTerceiros().data;
 
@@ -89,14 +92,22 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     resolver: zodResolver(contasSchema)
   });
 
-  const UXFiscal = (value:string)=>{
+  const UXFiscal = (value:"pagar" | "receber" | undefined)=>{
     console.log('UXFISCAL');
     console.log(value);
     form.setValue("tipo_fiscal","");
     if(categorias_fiscaisData){
         setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===value));
+        setStorePagarReceberToUI(value);
     }
   }
+
+  useEffect(()=>{
+    if(categorias_fiscaisData){
+      setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===storePagarReceberToUI))
+    }
+  },[signalUpdateUIAfterNewTipo, categorias_fiscaisData, storePagarReceberToUI])
+
 
   const { toast } = useToast();
 
@@ -292,7 +303,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                         </FormItem>
                     )}
                 />
-                <NovoTipoFiscalDialog categorias={all_categorias}/>
+                <NovoTipoFiscalDialog categorias={all_categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
             </div>
              <FormField
                 control={form.control}
