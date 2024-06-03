@@ -59,19 +59,65 @@ const NovoTipoFiscalForm = ({categorias} : {categorias: string[]})=>{
     const [loading, setLoading] = useState(false);
     const [category,setCategory] = useState("");
     const [newTipo, setNewTipo] = useState("");
+    const { toast } = useToast();
 
 
    function submit(){
-            if(!newTipo){
-                alert("Tipo inválido")
+            if(!newTipo || !category){
+                alert("Dados inválidos")
             }
+            setLoading(true);
+            fetch(BACKEND_URL+`/categorias_fiscais/cadastro`,{
+                method:"POST",
+                headers:{
+                  'Content-type':"application/json",
+                  'token':localStorage.getItem('token') as string,
+                },
+                body:JSON.stringify({tipo_conta:{
+                    categoria:category,
+                    nome_tipo:newTipo
+                }})
+              }).then((d)=>d.json())
+                .then((d)=>{
+                  if(d.success){
+                    toast({
+                      title: "Sucesso",
+                      className: "success",
+                      description: "Ocorreu tudo certo com a operação",
+                    })
+                    setLoading(false);
+                  }else{
+                    if(d.duplicate){
+                      console.log('duplicata')
+                      toast({
+                        title: "Duplicata",
+                        className: "error",
+                        description: "Esse nome já existe no banco de dados",
+                      })
+                    }
+                    else{
+                      toast({
+                        title: "Erro desconhecido",
+                        className: "error",
+                        description: "Comunique ao desenvolvedor",
+                      })
+                    }
+                    setLoading(false);
+                  }
+                })
+                .catch(()=>{
+                  toast({
+                    title: "Erro desconhecido",
+                    className: "error",
+                    description: "Comunique ao desenvolvedor",
+                  })
+                  setLoading(false);
+                })
             
             console.log({
                 category,
                 newTipo
             })
-
-
    }
 
     return(

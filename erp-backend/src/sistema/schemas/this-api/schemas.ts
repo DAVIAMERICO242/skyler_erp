@@ -44,6 +44,11 @@ export interface TipoContas{
     indice:number
 }
 
+export interface newTipoContasSchema{
+    categoria:string,
+    nome_tipo:string
+}
+
 export interface HistoricoContas{
     id:number,
     data:string,
