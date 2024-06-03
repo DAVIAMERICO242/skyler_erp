@@ -34,18 +34,27 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   
   const terceirosData = useTerceiros().data;
 
-  const categorias_fiscaisData = useCategoriasFiscais().data;
+  var categorias_fiscaisData = useCategoriasFiscais().data;
   const refetch_categorias_fiscais = useCategoriasFiscais().refetch;
   const contasData = useContas().data;//cache dos dados
   const refetchContas  = useContas().refetch;
 
   const [categoriasPura,setCategoriasPura] = useState<string[]>([]);
+  const [categorias_fiscaisDataFiltered,setCategorias_fiscaisDataFiltered] = useState<CategoriasFiscaisData[]>([]);
 
   useEffect(()=>{
     if(categorias_fiscaisData){
-        setCategoriasPura([...new Set(categorias_fiscaisData.map((e)=>e.categoria_conta as string))]);
+        setCategoriasPura([...new Set(categorias_fiscaisDataFiltered.map((e)=>e.categoria_conta as string))]);
       }
-  },[categorias_fiscaisData]);
+  },[categorias_fiscaisDataFiltered]);
+
+  const UXFiscal = (value:string)=>{
+    console.log('UXFISCAL');
+    console.log(value)
+    if(categorias_fiscaisData){
+        setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===value));
+    }
+  }
 
   console.log('CATEGORIAS PURA');
   console.log(categoriasPura);
@@ -217,7 +226,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>Pagar ou receber?</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); UXFiscal(value)}}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder="Escolher"/>
                             </SelectTrigger>
@@ -249,7 +258,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                                     return(
                                         <SelectGroup>
                                             <SelectLabel>{e}</SelectLabel>
-                                            {categorias_fiscaisData?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
+                                            {categorias_fiscaisDataFiltered?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
                                                 return(
                                                     <SelectItem value={e2.nome_conta as string}>{e2.nome_conta}</SelectItem>
                                                 )

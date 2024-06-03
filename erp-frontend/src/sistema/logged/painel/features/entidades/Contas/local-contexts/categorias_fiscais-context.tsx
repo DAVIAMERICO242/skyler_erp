@@ -5,6 +5,7 @@ export interface CategoriasFiscaisData {
     nome_conta?:string;
     categoria_conta?:string;
     indice?:number;
+    pagar_receber?:string;
 }
 
 interface CategoriasFiscaisContextType {
