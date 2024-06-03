@@ -28,7 +28,7 @@ export const Painel = ()=>{
       "Terceiros",
       "Bancos",
       "Lojas",
-      "Conciliação",
+      "Contas a Pagar / Receber",
     ];
 
     const featuresToPARAM: { [key: string]: string } = {
@@ -36,7 +36,7 @@ export const Painel = ()=>{
       "Terceiros": "terceiros",
       "Bancos": "bancos",
       "Lojas": "lojas",
-      "Conciliação":"conciliacao"
+      "Contas a Pagar / Receber":"contas"
     }
 
     const PARAMSTofeature: { [key: string]: string } = {
@@ -44,7 +44,7 @@ export const Painel = ()=>{
       "terceiros":"Terceiros",
       "bancos":"Bancos",
       "lojas":"Lojas",
-      "conciliacao":"Conciliação"
+      "Contas a Pagar / Receber":"contas"
     }
 
   //   const featureComponents: { [key: string]: JSX.Element } = {
