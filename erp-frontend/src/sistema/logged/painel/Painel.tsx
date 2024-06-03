@@ -6,12 +6,13 @@ import { SideBar } from "./SideBar";
 import { ResumoGeral } from "./features/Resumo_geral/ResumoGeral";
 import { Lojas } from "./features/entidades/Lojas/Lojas";
 import { Terceiros } from "./features/entidades/Terceiros/Terceiros";
-import { Conciliacao } from "./features/Conciliacao/AnaliseDRE";
+import { Contas } from "./features/entidades/Contas/Contas";
 import { Bancos } from "./features/entidades/Bancos/Bancos";
 import './css/main_position.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { convertToPARAM } from "@/sistema/essentials";
+import { IoIosContacts } from "react-icons/io";
 // eslint-disable-next-line
 export const Painel = ()=>{
 
@@ -93,7 +94,7 @@ export const Painel = ()=>{
                 {feature===featuresToPARAM[features[1]] && <Terceiros/>}
                 {feature===featuresToPARAM[features[2]] && <Bancos/>}
                 {feature===featuresToPARAM[features[3]] && <Lojas/>}
-                {feature===featuresToPARAM[features[4]] && <Conciliacao/>}
+                {feature===featuresToPARAM[features[4]] && <Contas/>}
               </div>
             </div>
           )}

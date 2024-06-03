@@ -103,7 +103,6 @@ export interface DBTipoContas{
 
 export interface DBHistoricoContas{
     id:number,
-    nossa_conta_bancaria:string,
     data:Date,
     vencimento:Date,
     conta_tipo:string,

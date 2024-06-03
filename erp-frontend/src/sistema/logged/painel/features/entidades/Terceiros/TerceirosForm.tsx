@@ -227,7 +227,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
               name="uf"
               render={({ field }) => (
                   <FormItem  style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Estado " + (edit && "(novo)")}</FormLabel>
+                  <FormLabel>{"Estado " + (!edit?"":"(novo)")}</FormLabel>
                   <FormControl>
                       <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100%]">
