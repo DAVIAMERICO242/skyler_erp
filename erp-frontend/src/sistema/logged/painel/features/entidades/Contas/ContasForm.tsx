@@ -40,6 +40,9 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
+import { DialogTrigger } from "@/components/ui/dialog";
+
 export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   
   const terceirosData = useTerceiros().data;
@@ -164,9 +167,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
       })
   }
 
-  const novoTipoFiscal = ()=>{
-     console.log('oi')
-  }
+
 
   return(
         <Form {...form}>
@@ -289,7 +290,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                         </FormItem>
                     )}
                 />
-               <div onClick={novoTipoFiscal} style={{userSelect:"none",cursor:"pointer",height:"100%",fontSize:"13px",padding:'5px 10px' ,borderRadius: '3px', backgroundColor:'var(--deep-white)', color:"var(--skyler-blue)" }}>Novo</div>
+                <NovoTipoFiscalDialog/>
             </div>
              <FormField
                 control={form.control}

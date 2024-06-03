@@ -44,7 +44,7 @@ export const Painel = ()=>{
       "terceiros":"Terceiros",
       "bancos":"Bancos",
       "lojas":"Lojas",
-      "Contas a Pagar / Receber":"contas"
+      "contas":"Contas a Pagar / Receber"
     }
 
   //   const featureComponents: { [key: string]: JSX.Element } = {
