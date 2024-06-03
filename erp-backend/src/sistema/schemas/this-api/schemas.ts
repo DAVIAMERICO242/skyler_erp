@@ -46,10 +46,20 @@ export interface TipoContas{
 
 export interface HistoricoContas{
     id:number,
-    nossa_conta_bancaria:string,
-    data:Date,
-    vencimento:Date,
-    conta_tipo:string,
+    data:string,
+    vencimento:string,
+    tipo_fiscal:string,
+    terceiro:string,
+    valor:number,
+    situacao:string
+}
+
+export interface changeHistoricoContas{
+    pastid:number,
+    id:number,
+    data:string,
+    vencimento:string,
+    tipo_fiscal:string,
     terceiro:string,
     valor:number,
     situacao:string
@@ -103,8 +113,8 @@ export interface DBTipoContas{
 
 export interface DBHistoricoContas{
     id:number,
-    data:Date,
-    vencimento:Date,
+    data:string,
+    vencimento:string,
     conta_tipo:string,
     terceiro:string,
     valor:number,

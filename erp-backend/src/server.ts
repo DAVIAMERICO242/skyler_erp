@@ -10,6 +10,7 @@ import { terceiros_major_router } from './sistema/entities/terceiros/terceirosRo
 import { lojas_major_router } from './sistema/entities/lojas/lojasRoute';
 import { bancos_major_router } from './sistema/entities/bancos/bancosRoute';
 import { fiscal_category_major_router } from './sistema/fiscal_category/fiscalCategoryRouter';
+import { contas_major_router } from './sistema/entities/contas/bancosRoute';
 
 console.log(FRONTEND_URL);
 const server:Express = express();
@@ -25,7 +26,7 @@ server.use('/',AuthMiddleware, terceiros_major_router);
 server.use('/',AuthMiddleware, lojas_major_router);
 server.use('/',AuthMiddleware, bancos_major_router);
 server.use('/',AuthMiddleware, fiscal_category_major_router);
-
+server.use('/',AuthMiddleware,contas_major_router)
 
 server.listen(process.env.BACKEND_PORT,()=>{
     console.log(`Express server listening on port ${process.env.BACKEND_PORT}`)

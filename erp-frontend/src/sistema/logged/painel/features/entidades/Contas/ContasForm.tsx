@@ -6,7 +6,16 @@ import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
- 
+import { Calendar } from "@/components/ui/calendar"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"   
 import {
   Form,
   FormControl,
@@ -20,6 +29,7 @@ import { Input } from "@/components/ui/input";
 import { useTerceiros } from '../Terceiros/Terceiros';
 import { useCategoriasFiscais } from './local-contexts/categorias_fiscais-context';
 import { ContasData, useContas } from './local-contexts/contas-context';
+import { CategoriasFiscaisData } from './local-contexts/categorias_fiscais-context';
 
 import {
     Select,
@@ -66,13 +76,13 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
     }),
-    valor: z.number().positive({
+    valor: z.coerce.number().positive({
         message: "O valor deve ser um número positivo",
       }),
     pagar_receber: z.string().min(5, {
         message: "Inválido",
       }),
-    tipo_fiscal: z.string().min(5, {
+    tipo_fiscal: z.string().min(2, {
         message: "Inválido",
       }),
     vencimento: z.date().refine((date) => date instanceof Date, {
@@ -103,7 +113,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   const [loading,setLoading] = useState<boolean>(false);
 
   function onSubmit(values: z.infer<typeof contasSchema>) {
-    console.log('form');
+    console.log('eiei');
     console.log(values);
     setLoading(true);
     fetch(BACKEND_URL+`/contas/${!edit?"cadastro":"update"}`,{
@@ -112,7 +122,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
         'Content-type':"application/json",
         'token':localStorage.getItem('token') as string,
       },
-      body:JSON.stringify({banco:values})
+      body:JSON.stringify({conta:values})
     }).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
@@ -273,6 +283,47 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                       </FormItem>
                   )}
                   />
+             <FormField
+                control={form.control}
+                name="vencimento"
+                render={({ field }) => (
+                    <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                    <FormLabel>Data de vencimento</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild className="w-[100%]">
+                        <FormControl >
+                            <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                            )}
+                            >
+                            {field.value ? (
+                                format(field.value, "PPP")
+                            ) : (
+                                <span>Selecione uma data</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                        </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start" >
+                        <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                            date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                        />
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
             <LoadingButton
                     loading={loading}
                     className="w-[100%]"
