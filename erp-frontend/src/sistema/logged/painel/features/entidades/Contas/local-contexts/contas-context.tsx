@@ -4,7 +4,7 @@ import { createContext, ReactNode, useState, useEffect, useContext } from 'react
 export interface ContasData {
     pastid?:number;
     id?:number;
-    data?: Date;
+    data?: string;
     vencimento?: Date;
     conta_tipo?: string;
     terceiro?:string;

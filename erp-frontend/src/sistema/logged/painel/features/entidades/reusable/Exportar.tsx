@@ -6,6 +6,8 @@ import { useLojas } from "../Lojas/Lojas";
 import { useBancos } from "../Bancos/Bancos";
 import { Excel } from "@/sistema/essentials";
 import { Author } from "./Gerenciar";
+import { useContas } from "../Contas/local-contexts/contas-context";
+import { TZtoFriendlyDate } from "@/sistema/essentials";
 
 export const Exportar:FC<Author> = ({author})=>{
     const [loading,setLoading] = useState<boolean>(false);
@@ -22,6 +24,19 @@ export const Exportar:FC<Author> = ({author})=>{
         var {data} = useBancos();
         var excel_name = "bancos_cadastrados.xlsx"
         break;
+      case "contas":
+          var data = useContas().data?.map((e)=>{
+            return{
+              'id':e.id,
+              'Lançamento': TZtoFriendlyDate(e.data),
+              'Vencimento':TZtoFriendlyDate(e.vencimento),
+              'Tipo fiscal':e.conta_tipo,
+              'Terceiro':e.terceiro,
+              'Valor (R$)':e.valor
+            }
+          });
+          var excel_name = "historico_pagar_receber.xlsx"
+          break;
     }
     const submit = ()=>{
       setLoading(true);

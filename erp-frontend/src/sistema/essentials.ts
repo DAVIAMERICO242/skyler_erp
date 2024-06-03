@@ -76,3 +76,15 @@ export const firstCharUpper = (string:string)=>{
 export const singularWord = (string:string)=>{
     return string.slice(0,string.length-1)
 }
+
+export const TZtoFriendlyDate = (string:string)=>{
+    const isoDateString = string;
+    const date = new Date(isoDateString);
+
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+}
