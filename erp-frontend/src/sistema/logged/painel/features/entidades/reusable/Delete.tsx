@@ -46,11 +46,11 @@ export const Delete:FC<Author> = ({author})=>{
         var identifier = "conta";
         break;
       case "contas":
-          var {data} = useContas();
-          var {refetch} = useContas();
-          var excel_name = "historico_pagar_receber.xlsx";
-          var identifier = "id";
-          break;
+        var {data} = useContas();
+        var {refetch} = useContas();
+        var excel_name = "historico_pagar_receber.xlsx";
+        var identifier = "id";
+        break;
     }
 
     const [toBeDeleted, setToBeDeleted] = useState<string>("");
