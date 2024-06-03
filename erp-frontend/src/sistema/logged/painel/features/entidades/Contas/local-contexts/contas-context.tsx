@@ -40,6 +40,7 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
 
 
      useEffect(() => {
+        console.log('REFETCHADO')
         fetchData();
     }, []);
 

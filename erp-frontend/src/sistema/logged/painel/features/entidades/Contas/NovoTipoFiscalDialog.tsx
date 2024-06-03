@@ -32,6 +32,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
+import { useContas } from "./local-contexts/contas-context";
 
 export const NovoTipoFiscalDialog = ({categorias} : {categorias: string[]})=>{
     const [open,setOpen] = useState<boolean>(false);
@@ -56,6 +57,7 @@ export const NovoTipoFiscalDialog = ({categorias} : {categorias: string[]})=>{
 }
 
 const NovoTipoFiscalForm = ({categorias} : {categorias: string[]})=>{
+    const {refetch} = useContas();
     const [loading, setLoading] = useState(false);
     const [category,setCategory] = useState("");
     const [newTipo, setNewTipo] = useState("");
@@ -80,6 +82,7 @@ const NovoTipoFiscalForm = ({categorias} : {categorias: string[]})=>{
               }).then((d)=>d.json())
                 .then((d)=>{
                   if(d.success){
+                    refetch();
                     toast({
                       title: "Sucesso",
                       className: "success",

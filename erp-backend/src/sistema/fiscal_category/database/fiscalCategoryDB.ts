@@ -34,12 +34,19 @@ export function getTipoContas(): Promise<DBTipoContas[]|DBError> {
 }
 
 export function newTipoContas(new_tipo:newTipoContasSchema): Promise<null|DBError> {
+    var index = 0;
+    if(new_tipo.categoria.trim().toLowerCase().includes('outros')){
+        index = 999;
+    }else{
+        index = parseInt(new_tipo.categoria.trim().slice(0,2))
+    }
+
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
                 connection.query(`
                 INSERT INTO tipo_contas(nome_conta,categoria_conta,indice) 
-                VALUES ('${new_tipo.categoria}','${new_tipo.nome_tipo}','${parseInt(new_tipo.categoria.trim().slice(0,2))}')
+                VALUES ('${new_tipo.nome_tipo}','${new_tipo.categoria}','${index}')
                 `,
                     (err, result) => {
                         if (err) {
