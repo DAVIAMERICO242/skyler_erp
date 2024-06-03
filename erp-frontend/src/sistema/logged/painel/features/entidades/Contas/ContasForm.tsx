@@ -95,18 +95,21 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
   const { toast } = useToast();
 
-  const [selectedPastConta, setSelectedPastConta] = useState<ContasData>({});
+  const [selectedPastId, setselectedPastId] = useState<ContasData>({});
 
-  const findSelectedConta = ()=>{
+  const findSelectedId = ()=>{
         if(!edit){
           return;
         }
 
-        const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id===form.getValues().pastid)[0]
+        const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id==form.getValues().pastid)[0]
 
         
-        setSelectedPastConta(current_conta_data || {})
+        setselectedPastId(current_conta_data || {})
   }
+
+  console.log('DADOS333')
+  console.log(selectedPastId);
 
   const [loading,setLoading] = useState<boolean>(false);
 
@@ -172,7 +175,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>ID  a ser modificado (ver exportação)</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder="Escolher"/>
                             </SelectTrigger>
@@ -195,11 +198,11 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   name="terceiro"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Nome do terceiro</FormLabel>
+                      <FormLabel>{"Nome do terceiro " + (edit ? "(novo)":"")}</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
+                                <SelectValue placeholder={selectedPastId.terceiro?`Terceiro atual: ${selectedPastId.terceiro}`:"Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {terceirosData?.map((e)=>{
@@ -219,9 +222,9 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                 name="valor"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Valor em R$</FormLabel>
+                    <FormLabel>{"Valor em R$ " + (edit ? "(novo)":"")}</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastConta.valor?.toString() as string || "Ex: 999.90"} {...field} />
+                        <Input placeholder={selectedPastId.valor?.toString() as string || "Ex: 999.90"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -232,9 +235,9 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   name="pagar_receber"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Pagar ou receber?</FormLabel>
+                      <FormLabel>{"Pagar ou receber " + (edit ? "(novo)":"")}</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); UXFiscal(value)}}>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); UXFiscal(value)}}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder="Escolher"/>
                             </SelectTrigger>
@@ -253,9 +256,9 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   name="tipo_fiscal"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Tipo fiscal</FormLabel>
+                      <FormLabel>{"Tipo fiscal " + (edit ? "(novo)":"")}</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedConta(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder="Escolher"/>
                             </SelectTrigger>
@@ -286,7 +289,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                 name="vencimento"
                 render={({ field }) => (
                     <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                    <FormLabel>Data de vencimento</FormLabel>
+                    <FormLabel>{"Data de vencimento " + (edit ? "(novo)":"")}</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild className="w-[100%]">
                         <FormControl >
