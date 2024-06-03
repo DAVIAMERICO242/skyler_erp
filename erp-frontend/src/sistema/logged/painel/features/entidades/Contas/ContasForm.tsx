@@ -48,6 +48,8 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
   const terceirosData = useTerceiros().data;
 
   var categorias_fiscaisData = useCategoriasFiscais().data;
+  var all_categorias = [...new Set(categorias_fiscaisData?.map((e)=>e.categoria_conta as string))]
+
   const refetch_categorias_fiscais = useCategoriasFiscais().refetch;
   const contasData = useContas().data;//cache dos dados
   const refetchContas  = useContas().refetch;
@@ -290,7 +292,7 @@ export const ContasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                         </FormItem>
                     )}
                 />
-                <NovoTipoFiscalDialog/>
+                <NovoTipoFiscalDialog categorias={all_categorias}/>
             </div>
              <FormField
                 control={form.control}
