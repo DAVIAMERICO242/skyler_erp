@@ -28,8 +28,8 @@ server.use('/',AuthMiddleware, bancos_major_router);
 server.use('/',AuthMiddleware, fiscal_category_major_router);
 server.use('/',AuthMiddleware,contas_major_router)
 
+
 server.listen(process.env.BACKEND_PORT,()=>{
     console.log(`Express server listening on port ${process.env.BACKEND_PORT}`)
 });
-
 

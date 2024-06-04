@@ -96,7 +96,7 @@ export const Delete:FC<Author> = ({author})=>{
                 toast({
                   title: "GENERIC FOREIGN KEY ERROR",
                   className: "error",
-                  description: "Esse erro provavelmente foi gerado porque você tentou excluir uma conta bancária relacionada a uma loja",
+                  description: "Esse erro provavelmente foi gerado porque você tentou excluir uma conta bancária relacionada a uma loja a um historico de contas",
                 })
               }
               else{

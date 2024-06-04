@@ -59,6 +59,7 @@ const NovoTipoFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categ
    function submit(){
             if(!newTipo || !category){
                 alert("Dados inválidos")
+                return
             }
             setLoading(true);
             fetch(BACKEND_URL+`/categorias_fiscais/cadastro`,{

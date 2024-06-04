@@ -21,14 +21,13 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 0;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, conta_tipo, terceiro, valor, situacao) VALUES 
+                    (id, data, vencimento, conta_tipo, terceiro, valor) VALUES 
                     ('${novoId}',
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
                     '${novo_historico.terceiro}',
-                    '${novo_historico.valor}',
-                    'pendente'
+                    '${novo_historico.valor}'
                     )`,
                     (err, result) => {
                         if (err) {
@@ -95,7 +94,7 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                     conta_tipo='${conta.tipo_fiscal}',
                     terceiro='${conta.terceiro}',
                     valor='${conta.valor}'
-                    WHERE id='${conta.pastid}' AND situacao = 'pendente'
+                    WHERE id='${conta.pastid}'
                     `,
                     (err, result) => {
                         if (err) {

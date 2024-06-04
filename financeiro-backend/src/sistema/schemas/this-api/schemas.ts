@@ -56,8 +56,7 @@ export interface HistoricoContas{
     vencimento:string,
     tipo_fiscal:string,
     terceiro:string,
-    valor:number,
-    situacao:string
+    valor:number
 }
 
 export interface changeHistoricoContas{
@@ -67,8 +66,7 @@ export interface changeHistoricoContas{
     vencimento:string,
     tipo_fiscal:string,
     terceiro:string,
-    valor:number,
-    situacao:string
+    valor:number
 }
 
 
@@ -124,8 +122,7 @@ export interface DBHistoricoContas{
     vencimento:string,
     conta_tipo:string,
     terceiro:string,
-    valor:number,
-    situacao:string
+    valor:number
 }
 
 export interface DBError{
