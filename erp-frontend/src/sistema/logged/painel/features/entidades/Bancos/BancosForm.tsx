@@ -41,6 +41,8 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
     pastconta: z.string().regex(/^\d{8}$/, {
       message: "A conta sem dígito deve ter 8 caracteres numéricos.",
     }).optional(),
+
+    saldoinicial: z.coerce.number(),
   });
 
   
@@ -163,7 +165,7 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                     </FormItem>
                 )}
                 />
-                <FormField
+              <FormField
                 control={form.control}
                 name="banco"
                 render={({ field }) => (
@@ -197,6 +199,19 @@ export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                     <FormLabel>Conta (sem digito)</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.conta || "xxxxxxxx"} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+            <FormField
+                control={form.control}
+                name="saldoinicial"
+                render={({ field }) => (
+                    <FormItem style={{ marginBottom: '30px' }}>
+                    <FormLabel>Saldo inicial</FormLabel>
+                    <FormControl>
+                        <Input placeholder={selectedPastBanco.saldo_inicial || "Ex: 999.90"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>

@@ -1,29 +1,16 @@
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog";
   
 import { LoadingButton } from "@/components/ui/LoadingButton";
-import { ContasForm } from "./ContasForm";
 
-import {FC} from 'react';
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useToast } from "@/components/ui/use-toast"
 import BACKEND_URL from '@/sistema/backend-urls';
-import { useEffect, useState } from 'react';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form";
+import { useState } from 'react';
 import {
     Select,
     SelectContent,

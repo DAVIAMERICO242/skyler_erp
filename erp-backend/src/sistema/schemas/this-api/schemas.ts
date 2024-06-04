@@ -30,7 +30,8 @@ export interface Banco{
     nomebanco:string,
     banco:string,
     agencia:string,
-    conta:string
+    conta:string,
+    saldoinicial:number
 }
 
 export interface CategoriaContas{
@@ -101,7 +102,8 @@ export interface DBBanco{
     nome_banco:string,
     banco:string,
     agencia:string,
-    conta:string
+    conta:string,
+    saldo_inicial:number
 }
 
 export interface DBCategoriaContas{

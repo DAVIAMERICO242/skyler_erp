@@ -15,6 +15,7 @@ export interface BancosData {
     banco?: string;
     agencia?: string;
     conta?: string;
+    saldo_incial:number;
 }
 
 interface BancosContextType {
