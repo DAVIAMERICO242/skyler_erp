@@ -20,8 +20,8 @@ import { useState, useRef,useEffect} from "react";
 import { useNavigate} from 'react-router-dom';
 import { CiLogout } from "react-icons/ci";
 import './css/side_bar.css';
-import logo from '../../../../public/skyler.png';
-import favicon from '../../../../public/skyler-favicon.png';
+import logo from '/skyler.png';
+import favicon from '/skyler-favicon.png';
 import { CircleSideBar } from "@/components/ui/circleSideBar";
 import { Link } from "react-router-dom";
 

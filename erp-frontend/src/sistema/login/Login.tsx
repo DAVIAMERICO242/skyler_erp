@@ -1,6 +1,7 @@
 import { useReducer, useState,useRef} from "react";
 import { Input } from "@/components/ui/input";
-import logo from '../../../public/skyler.png';
+import logo from '/skyler.png';
+import login from '/login.jpg';
 import BACKEND_URL from "../backend-urls";
 import { useNavigate } from 'react-router-dom';
 import './login.css';

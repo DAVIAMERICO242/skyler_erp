@@ -6,11 +6,10 @@
 .marketing{
     clip-path: polygon(0 0, calc(100% - 200px) 0, 100% 100%, calc(100% - 200px) 100%, 0 100%);
     background-color: black;
-    background: url('../public/login.jpg');
+    background: url('/login.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-
     width: 60%;
     height: 100%;
 }
