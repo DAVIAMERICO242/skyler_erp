@@ -6,15 +6,14 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 
-import { Gerenciar } from '../reusable/Gerenciar';
-import { TerceirosForm } from './TerceirosForm';
+
 import { createContext } from 'react';
 import { useEffect,useState,useContext } from 'react';
 import { ReactNode } from 'react';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
-import { DataTable, FeatureTable } from '../reusable/feature_table/FeatureTable';
+import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 
 export interface TerceirosData {
   nome?: string;
@@ -92,7 +91,7 @@ export const TerceirosUI = ()=>{
     useEffect(()=>{
       if(thisContextData!==null){
         setLoading(false);
-        if(thisContextData.length){
+        if(thisContextData?.length){
           setFoundData(true);
         }else{
           setFoundData(false);

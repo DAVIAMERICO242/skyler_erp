@@ -16,7 +16,6 @@ import { useTerceiros } from "../Terceiros/Terceiros";
 import { useLojas } from "../Lojas/Lojas";
 import { useBancos } from "../Bancos/Bancos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Author } from "./Gerenciar";
 import { firstCharUpper } from "@/sistema/essentials";
 import { singularWord } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast"
@@ -132,7 +131,6 @@ export const Delete:FC<Author> = ({author})=>{
                 {"Deletar " + singularWord(author)}
             </DialogTitle>
             <DialogDescription>
-                Essa ação é irreversível
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

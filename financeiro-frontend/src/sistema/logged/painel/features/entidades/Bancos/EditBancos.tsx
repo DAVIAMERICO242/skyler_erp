@@ -25,7 +25,6 @@ return(
       <DialogHeader>
         <DialogTitle>Editar Bancos</DialogTitle>
         <DialogDescription>
-          Essa ação é irreversível
         </DialogDescription>
       </DialogHeader>
         <BancosForm edit={true} setOpen={setOpen}/>

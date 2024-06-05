@@ -25,7 +25,6 @@ import {
             <DialogHeader>
             <DialogTitle>Editar Histórico de Contas</DialogTitle>
             <DialogDescription>
-                Essa ação é irreversível
             </DialogDescription>
             </DialogHeader>
             <ContasForm edit={true} setOpen={setOpen}/>

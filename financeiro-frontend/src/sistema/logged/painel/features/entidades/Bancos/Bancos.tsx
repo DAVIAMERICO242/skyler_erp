@@ -5,7 +5,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Gerenciar } from '../reusable/Gerenciar';
 import { BancosForm } from './BancosForm';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
@@ -79,7 +78,6 @@ export const Bancos = ()=>{
                     <BancosForm edit={false}/>
                 </TabsContent>
                 <TabsContent value="gerenciar">
-                    <Gerenciar author="bancos"/>
                 </TabsContent>
                 </Tabs>
             </BancosProvider>

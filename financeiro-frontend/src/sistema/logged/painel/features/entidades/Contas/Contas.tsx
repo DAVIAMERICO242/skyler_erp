@@ -5,7 +5,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Gerenciar } from '../reusable/Gerenciar';
 import { ContasForm } from './ContasForm';
 
 import { TerceirosProvider } from '../Terceiros/Terceiros';
@@ -27,7 +26,6 @@ export const Contas = ()=>{
                             <ContasForm edit={false}/>
                         </TabsContent>
                         <TabsContent value="gerenciar">
-                            <Gerenciar author="contas"/>
                         </TabsContent>
                         </Tabs>
                     </TerceirosProvider>

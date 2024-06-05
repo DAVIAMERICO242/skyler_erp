@@ -56,7 +56,6 @@ export const NotFoundFeature = ({author}:{author:string})=>{
                         <DialogHeader>
                         <DialogTitle>Cadastrar {author}</DialogTitle>
                         <DialogDescription>
-                            Essa ação é irreversível
                         </DialogDescription>
                         </DialogHeader>
                             {author === "terceiros" ? <TerceirosForm edit={false}/> : null}

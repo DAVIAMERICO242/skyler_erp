@@ -1,15 +1,10 @@
 import { FeatureTitle } from '../reusable/FeatureTitle';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { Gerenciar } from '../reusable/Gerenciar';
-import { LojasForm } from './LojasForm';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { BancosProvider } from '../Bancos/Bancos';
 import BACKEND_URL from '@/sistema/backend-urls';
+import { LoadingFeature } from '../reusable/LoadingFeature';
+import { FeatureTable } from '../reusable/feature_table/FeatureTable';
+import { NotFoundFeature } from '../reusable/NotFoundFeature';
 
 
 export interface LojasData {
@@ -67,26 +62,41 @@ export const useLojas = () => {
 };
 
 export const Lojas = ()=>{
-    
-    return (
-        <>
-        <BancosProvider>
+
+  console.log("oi")
+  return (
+      <>
+       <BancosProvider>
           <LojasProvider>
-            <FeatureTitle>Gestão de lojas</FeatureTitle>
-            <Tabs defaultValue="cadastro" className="space-y-8 2xl:w-[30%] md:w-[45%] sm:w-[55%] w-[80%] mt-[5%]">
-              <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="cadastro">Cadastrar</TabsTrigger>
-                  <TabsTrigger value="gerenciar">Gerenciar</TabsTrigger>
-              </TabsList>
-              <TabsContent value="cadastro">
-                <LojasForm edit={false}/>
-              </TabsContent>
-              <TabsContent value="gerenciar">
-                <Gerenciar author="lojas"/>
-              </TabsContent>
-            </Tabs>
+              <FeatureTitle>Gestão de lojas</FeatureTitle>
+              <LojasUI/>
           </LojasProvider>
-        </BancosProvider>
-        </>
-    )
+       </BancosProvider>
+      </>
+  )
+}
+
+export const LojasUI = ()=>{
+  const [loading,setLoading] = useState(true);
+  const [foundData,setFoundData] = useState(false);
+
+  const thisContextData = useLojas().data;
+
+  useEffect(()=>{
+    if(thisContextData!==null){
+      setLoading(false);
+      if(thisContextData?.length){
+        setFoundData(true);
+      }else{
+        setFoundData(false);
+      }
+    }
+  },[thisContextData])
+  
+  return(
+    <>
+      {loading?<LoadingFeature/>
+        :foundData?(<FeatureTable author="lojas"/>):(<NotFoundFeature author="lojas"/>)}
+    </> 
+  )
 }

@@ -1,6 +1,8 @@
+/* eslint-disable no-var */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { LoadingButton } from '@/components/ui/LoadingButton';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BACKEND_URL from '@/sistema/backend-urls';
 
@@ -58,28 +60,38 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
         }),
       })
     
-    const form = useForm<z.infer<typeof lojasSchema>>({
-          resolver: zodResolver(lojasSchema),
-          defaultValues: {
-            nomeloja: "",
-            cnpjloja: ""
-          },
-        });
+    if(identifier_value){
+      var form = useForm<z.infer<typeof lojasSchema>>({
+        resolver: zodResolver(lojasSchema),
+        defaultValues: {
+          pastnomeloja:identifier_value || "",
+          nomeloja: "",
+          cnpjloja: ""
+        },
+      });
+    }else{
+      var form = useForm<z.infer<typeof lojasSchema>>({
+        resolver: zodResolver(lojasSchema),
+        defaultValues: {
+          nomeloja: "",
+          cnpjloja: ""
+        },
+      });      
+    }
+  
 
     const { toast } = useToast();
 
     const [selectedPastLoja, setSelectedPastLoja] = useState<LojasData>({});
 
-    const findSelectedLoja = ()=>{
-          if(!edit){
-            return;
-          }
-
-          const current_loja_data:(LojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
-
-          
-          setSelectedPastLoja(current_loja_data || {})
+    useEffect(()=>{
+      if(identifier_value){
+        const current_loja_data:(LojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
+        setSelectedPastLoja(current_loja_data || {})
     }
+    },[identifier_value,lojasData])
+
+
 
     const [loading,setLoading] = useState<boolean>(false);
   
@@ -142,20 +154,9 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                   name="pastnomeloja"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Nome da loja a ser mudada</FormLabel>
+                      <FormLabel>Nome do terceiro a ser mudado</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedLoja(); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {lojasData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
+                          <Input {...field} defaultValue={identifier_value} disabled/>
                       </FormControl>
                       <FormMessage />
                       </FormItem>
@@ -169,7 +170,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedLoja(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder={selectedPastLoja.conta?`Conta atual: ${selectedPastLoja.conta}`:"Escolher"}/>
                             </SelectTrigger>
