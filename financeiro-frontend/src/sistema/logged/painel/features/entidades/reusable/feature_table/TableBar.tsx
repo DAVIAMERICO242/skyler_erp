@@ -8,7 +8,7 @@ const TableBarContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
-    width:60%;
+    width:100%;
     gap:10px;
     text-wrap: nowrap;
     font-weight:500;
@@ -45,12 +45,19 @@ const FiltroContainer = styled.div`
 
 export const TableBar = ({filteredKey,setFilteredKey,author}:{filter:string,setFilteredKey:any,author:string})=>{
 
-    const manage_filter = (value:string)=>{
-        setFilteredKey(value.trim());
+    const manage_filter = (value:string | number)=>{
+        
+        if(typeof value==="string"){
+            setFilteredKey(value.trim());
+        }
+
+        if(typeof value==="number"){
+            setFilteredKey(value.toString());
+        }
     }
 
     return(
-        <TableBarContainer>
+        <TableBarContainer className="table_bar_container">
             <FiltroContainer>
                 Filtrar {author}:
                 <Input className="h-[24px] w-[200px]" onChange={(e)=>{manage_filter(e.target.value)}}></Input>

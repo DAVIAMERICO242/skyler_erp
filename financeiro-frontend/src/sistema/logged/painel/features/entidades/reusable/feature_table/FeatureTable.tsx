@@ -20,8 +20,8 @@ const TableContainer = styled.div`
 `
 
 const Table = styled.table`
+    width:100%;
     border:var(--light-border);
-    width:60%;
 `
 
 const TableHeader = styled.tr`
@@ -91,8 +91,12 @@ export const FeatureTable = ({author}:{author:string})=>{
 
     console.log('DATA NA TABELA');
 
+    console.log('IDENTIFIER');
+
+    console.log(identifier)
+
     return(
-        <TableContainer>
+        <TableContainer className="table_container">
             <TableBar filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
             <Table>
                 <TableHeader>
@@ -107,7 +111,15 @@ export const FeatureTable = ({author}:{author:string})=>{
                 </TableHeader>
                 {data?.filter((data_row)=>{
                     if(filteredKey){
-                        return data_row[identifier].includes(filteredKey);
+
+                        console.log(identifier)
+
+                        if(typeof data_row[identifier]==="string"){
+                            return data_row[identifier].includes(filteredKey);
+                        }else{
+                            return data_row[identifier].toString().includes(filteredKey);
+                        }
+
                     }else{
                         return true;
                     }
