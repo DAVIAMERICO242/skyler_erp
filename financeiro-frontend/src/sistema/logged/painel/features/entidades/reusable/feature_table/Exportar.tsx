@@ -8,8 +8,10 @@ import { useBancos } from "../../Bancos/Bancos";
 import { Excel } from "@/sistema/essentials";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Exportar = ({author}:{author:string})=>{
+    const { toast } = useToast()
     const [loading,setLoading] = useState<boolean>(false);
     switch (author){
       case "terceiros":
@@ -42,6 +44,11 @@ export const Exportar = ({author}:{author:string})=>{
       setLoading(true);
       Excel(data,excel_name);
       setLoading(false);
+      toast({
+        title: "Sucesso",
+        className: "success",
+        description: "EXPORTAÇÃO BEM SUCEDIDA",
+      });
     }
   
     return(

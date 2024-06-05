@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-var */
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { FC } from 'react';
 import { useState } from "react";
@@ -8,8 +10,10 @@ import { Excel } from "@/sistema/essentials";
 import { Author } from "./Gerenciar";
 import { useContas } from "../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Exportar:FC<Author> = ({author})=>{
+    const { toast } = useToast()
     const [loading,setLoading] = useState<boolean>(false);
     switch (author){
       case "terceiros":
@@ -42,6 +46,11 @@ export const Exportar:FC<Author> = ({author})=>{
       setLoading(true);
       Excel(data,excel_name);
       setLoading(false);
+      toast({
+        title: "Sucesso",
+        className: "success",
+        description: "Ocorreu tudo certo com a operação",
+      });
     }
   
     return(
