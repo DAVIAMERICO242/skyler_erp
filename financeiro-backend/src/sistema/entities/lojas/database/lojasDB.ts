@@ -11,6 +11,7 @@ export function cadastroLoja(loja: Loja): Promise<null|DBError> {
                 connection.query(`INSERT INTO lojas (conta, nome, razao, cnpj) VALUES 
                    ('${loja.contaloja}','${loja.nomeloja}', '${loja.razaoloja}', '${loja.cnpjloja}')`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -40,6 +41,7 @@ export function getLojas(): Promise<DBLoja[]|DBError> {
             if (connection) {
                 connection.query(`SELECT * FROM lojas`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -76,6 +78,7 @@ export function updateLoja(loja: changeLoja): Promise<null|DBError>{
                     WHERE nome='${loja.pastnomeloja}'
                     `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -105,6 +108,7 @@ export function deleteLoja(loja: string): Promise<null|DBError>{
             if (connection) {
                 connection.query(`DELETE FROM lojas WHERE nome='${loja}'`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({

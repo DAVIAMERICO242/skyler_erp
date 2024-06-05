@@ -11,6 +11,7 @@ export function cadastroBanco(banco: Banco): Promise<null|DBError> {
                 connection.query(`INSERT INTO bancos (nome_banco, banco, agencia, conta, saldo_inicial) VALUES 
                    ('${banco.nomebanco}','${banco.banco}', '${banco.agencia}', '${banco.conta}','${banco.saldoinicial}')`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -40,6 +41,7 @@ export function getBancos(): Promise<DBBanco[]|DBError> {
             if (connection) {
                 connection.query(`SELECT * FROM bancos`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -78,6 +80,7 @@ export function updateBanco(conta: changeBanco): Promise<null|DBError>{
                     WHERE conta='${conta.pastconta}'
                     `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -107,6 +110,7 @@ export function deleteBanco(conta: string): Promise<null|DBError>{
             if (connection) {
                 connection.query(`DELETE FROM bancos WHERE conta='${conta}'`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({

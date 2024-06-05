@@ -30,6 +30,7 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                     '${novo_historico.valor}'
                     )`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -60,6 +61,7 @@ export function getHistoricoConta(): Promise<DBHistoricoContas[]|DBError> {
             if (connection) {
                 connection.query(`SELECT * FROM historico_contas`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -97,6 +99,7 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                     WHERE id='${conta.pastid}'
                     `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -126,6 +129,7 @@ export function deleteHistoricoConta(conta_id: number): Promise<null|DBError>{
             if (connection) {
                 connection.query(`DELETE FROM historico_contas WHERE id='${conta_id}'`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({

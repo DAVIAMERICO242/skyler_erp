@@ -11,6 +11,7 @@ export function cadastroTerceiro(terceiro: Terceiro): Promise<null|DBError> {
                 connection.query(`INSERT INTO terceiros (nome, cnpj_cpf, tipo, estado) VALUES 
                    ('${terceiro.nometerceiro}', '${terceiro.cnpjcpfterceiro}', '${terceiro.tipoterceiro}', '${terceiro.uf}')`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -41,6 +42,7 @@ export function getTerceiros(): Promise<DBTerceiro[]|DBError> {
             if (connection) {
                 connection.query(`SELECT * FROM terceiros`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -78,6 +80,7 @@ export function updateTerceiro(terceiro: changeTerceiro): Promise<null|DBError>{
                     WHERE nome='${terceiro.pastnometerceiro}'
                     `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -107,6 +110,7 @@ export function deleteTerceiro(terceiro: string): Promise<null|DBError>{
             if (connection) {
                 connection.query(`DELETE FROM terceiros WHERE nome='${terceiro}'`,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({

@@ -10,6 +10,7 @@ export function getTipoContas(): Promise<DBTipoContas[]|DBError> {
                 WHERE categoria_conta=nome_categoria
                 `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
@@ -49,6 +50,7 @@ export function newTipoContas(new_tipo:newTipoContasSchema): Promise<null|DBErro
                 VALUES ('${new_tipo.nome_tipo}','${new_tipo.categoria}','${index}')
                 `,
                     (err, result) => {
+                        connection.end(); // Simply close the connection
                         if (err) {
                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
                                 reject({
