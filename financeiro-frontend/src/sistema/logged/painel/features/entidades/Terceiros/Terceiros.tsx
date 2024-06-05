@@ -13,6 +13,8 @@ import { useEffect,useState,useContext } from 'react';
 import { ReactNode } from 'react';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
+import { NotFoundFeature } from '../reusable/NotFoundFeature';
+import { DataTable, FeatureTable } from '../reusable/feature_table/FeatureTable';
 
 export interface TerceirosData {
   nome?: string;
@@ -100,7 +102,8 @@ export const TerceirosUI = ()=>{
     
     return(
       <>
-        {loading?<LoadingFeature/>:'carregado'}
-      </>
+        {loading?<LoadingFeature/>
+          :foundData?(<FeatureTable author="terceiros"/>):(<NotFoundFeature author="terceiros"/>)}
+      </> 
     )
 }
