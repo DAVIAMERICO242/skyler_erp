@@ -22,7 +22,7 @@ const TableBarContainer = styled.div`
     @media(max-width: 1200px) {
         /* Defina as propriedades de estilo específicas para telas menores aqui */
 
-        flex-direction:column;
+        flex-direction:column-reverse;
         align-items:flex-start;
         gap:10px;
     }

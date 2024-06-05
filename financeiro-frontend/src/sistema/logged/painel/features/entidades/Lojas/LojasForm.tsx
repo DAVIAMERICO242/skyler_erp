@@ -154,7 +154,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                   name="pastnomeloja"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Nome do terceiro a ser mudado</FormLabel>
+                      <FormLabel>Nome da loja a ser mudada</FormLabel>
                       <FormControl>
                           <Input {...field} defaultValue={identifier_value} disabled/>
                       </FormControl>

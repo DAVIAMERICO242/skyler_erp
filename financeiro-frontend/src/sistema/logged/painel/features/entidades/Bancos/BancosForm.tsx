@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-var */
+import { useEffect, useState } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
@@ -45,30 +47,37 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     saldoinicial: z.coerce.number(),
   });
 
-  
-  const form = useForm<z.infer<typeof bancosSchema>>({
-    resolver: zodResolver(bancosSchema),
-    defaultValues: {
-      banco: "",
-      agencia:"",
-      conta: ""
-    },
-  });
 
+  if(identifier_value){
+    var form = useForm<z.infer<typeof bancosSchema>>({
+      resolver: zodResolver(bancosSchema),
+      defaultValues: {
+        pastconta:identifier_value || "",
+        agencia:"",
+        conta: ""
+      },
+    });  
+  }else{
+    var form = useForm<z.infer<typeof bancosSchema>>({
+      resolver: zodResolver(bancosSchema),
+      defaultValues: {
+        banco: "",
+        agencia:"",
+        conta: ""
+      },
+    });        
+  }
+  
   const { toast } = useToast();
 
   const [selectedPastBanco, setSelectedPastBanco] = useState<BancosData>({});
 
-  const findSelectedBanco = ()=>{
-        if(!edit){
-          return;
-        }
-
-        const current_banco_data:(BancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
-
-        
-        setSelectedPastBanco(current_banco_data || {})
-  }
+  useEffect(()=>{
+    if(identifier_value){
+      const current_banco_data:(BancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
+      setSelectedPastBanco(current_banco_data || {})
+    }
+  },[identifier_value,bancosData])
 
   const [loading,setLoading] = useState<boolean>(false);
 
@@ -125,26 +134,15 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   return(
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            {edit && 
+              {edit && 
                   <FormField
                   control={form.control}
                   name="pastconta"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Conta do banco a ser modificada</FormLabel>
+                      <FormLabel>Conta bancária a ser mudada</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedBanco(); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {bancosData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
+                          <Input {...field} defaultValue={identifier_value} disabled/>
                       </FormControl>
                       <FormMessage />
                       </FormItem>

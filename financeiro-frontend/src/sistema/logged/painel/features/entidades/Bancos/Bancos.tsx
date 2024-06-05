@@ -1,13 +1,9 @@
 import { FeatureTitle } from '../reusable/FeatureTitle';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { BancosForm } from './BancosForm';
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
+import { LoadingFeature } from '../reusable/LoadingFeature';
+import { FeatureTable } from '../reusable/feature_table/FeatureTable';
+import { NotFoundFeature } from '../reusable/NotFoundFeature';
 
 export interface BancosData {
     nome_banco?:string;
@@ -68,19 +64,34 @@ export const Bancos = ()=>{
     return (
         <>
             <BancosProvider>
-                <FeatureTitle>Gerenciar bancos</FeatureTitle>
-                <Tabs defaultValue="cadastro" className="space-y-8 2xl:w-[30%] md:w-[45%] sm:w-[55%] w-[80%] mt-[5%]">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="cadastro">Cadastrar</TabsTrigger>
-                    <TabsTrigger value="gerenciar">Gerenciar</TabsTrigger>
-                </TabsList>
-                <TabsContent value="cadastro">
-                    <BancosForm edit={false}/>
-                </TabsContent>
-                <TabsContent value="gerenciar">
-                </TabsContent>
-                </Tabs>
+                <FeatureTitle>Gestão de Bancos</FeatureTitle>
+                <BancosUI/>
             </BancosProvider>
         </>
+    )
+}
+
+export const BancosUI = ()=>{
+    const [loading,setLoading] = useState(true);
+    const [foundData,setFoundData] = useState(false);
+
+    const thisContextData = useBancos().data;
+
+    useEffect(()=>{
+      if(thisContextData!==null){
+        setLoading(false);
+        if(thisContextData?.length){
+          setFoundData(true);
+        }else{
+          setFoundData(false);
+        }
+      }
+    },[thisContextData])
+    
+    return(
+      <>
+        {loading?<LoadingFeature/>
+          :foundData?(<FeatureTable author="bancos"/>):(<NotFoundFeature author="bancos"/>)}
+      </> 
     )
 }
