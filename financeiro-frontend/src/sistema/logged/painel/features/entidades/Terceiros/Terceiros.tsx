@@ -31,6 +31,7 @@ const TerceirosContext = createContext<TerceirosContextType>({ data: null,refetc
 export const TerceirosProvider = ({ children }:{children:ReactNode}) => {
   const [data, setData] = useState<TerceirosData[] | null>(null);
 
+  console.log('renderizou terceiros provider');
   const fetchData = async () => {
         try {
           const response = await fetch(BACKEND_URL + '/terceiros/get',{
@@ -69,23 +70,30 @@ export const useTerceiros = () => {
 
 export const Terceiros = ()=>{
 
+    console.log("oi")
     return (
         <>
-          <TerceirosProvider>
-            <FeatureTitle>Gestão de terceiros</FeatureTitle>
-            <Tabs defaultValue="cadastro" className="space-y-8 2xl:w-[30%] md:w-[45%] sm:w-[55%] w-[80%] mt-[5%]">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="cadastro">Cadastrar</TabsTrigger>
-                    <TabsTrigger value="gerenciar">Gerenciar</TabsTrigger>
-                </TabsList>
-                <TabsContent value="cadastro">
-                  <TerceirosForm edit={false}/>
-                </TabsContent>
-                <TabsContent value="gerenciar">
-                  <Gerenciar author="terceiros"/>
-                </TabsContent>
-            </Tabs>
-          </TerceirosProvider>
+           <TerceirosProvider>
+              <FeatureTitle>Gestão de terceiros</FeatureTitle>
+              <TerceirosUI/>
+           </TerceirosProvider>
         </>
+    )
+}
+
+export const TerceirosUI = ()=>{
+    const [loading,setLoading] = useState(true);
+
+    const thisContextData = useTerceiros().data;
+
+    useEffect(()=>{
+      if(thisContextData!==null){
+        setLoading(false);
+      }
+    },[thisContextData])
+
+    
+    return(
+      <div>{loading?'carregando':'carregado'} </div>
     )
 }
