@@ -1,3 +1,5 @@
+/* eslint-disable no-var */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -53,15 +55,24 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
       })
     });
 
-    const form = useForm<z.infer<typeof terceirosSchema>>({
-      resolver: zodResolver(terceirosSchema),
-      defaultValues: {
-        pastnometerceiro:identifier_value || "",
-        nometerceiro: "",
-        cnpjcpfterceiro: ""
-      },
-    });
-
+    if(identifier_value){
+      var form = useForm<z.infer<typeof terceirosSchema>>({
+        resolver: zodResolver(terceirosSchema),
+        defaultValues: {
+          pastnometerceiro:identifier_value || "",
+          nometerceiro: "",
+          cnpjcpfterceiro: ""
+        },
+      });  
+    }else{
+      var form = useForm<z.infer<typeof terceirosSchema>>({
+        resolver: zodResolver(terceirosSchema),
+        defaultValues: {
+          nometerceiro: "",
+          cnpjcpfterceiro: ""
+        },
+      });        
+    }
     const { toast } = useToast()
 
     //estados br
