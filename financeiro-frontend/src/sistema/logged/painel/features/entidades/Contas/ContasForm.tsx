@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-var */
 import { useEffect, useState } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
@@ -87,10 +88,18 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     })
   });
 
-  
-  const form = useForm<z.infer<typeof contasSchema>>({
-    resolver: zodResolver(contasSchema)
-  });
+  if(identifier_value){
+    var form = useForm<z.infer<typeof contasSchema>>({
+      resolver: zodResolver(contasSchema),
+      defaultValues: {
+        pastid: (parseInt(identifier_value) as number) || -1
+      },
+    });  
+  }else{
+    var form = useForm<z.infer<typeof contasSchema>>({
+      resolver: zodResolver(contasSchema),
+    });        
+  }
 
   const UXFiscal = (value:"pagar" | "receber" | undefined)=>{
     console.log('UXFISCAL');
@@ -113,16 +122,13 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const [selectedPastId, setselectedPastId] = useState<ContasData>({});
 
-  const findSelectedId = ()=>{
-        if(!edit){
-          return;
-        }
 
-        const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id==form.getValues().pastid)[0]
-
-        
-        setselectedPastId(current_conta_data || {})
-  }
+  useEffect(()=>{
+    if(identifier_value){
+      const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id==form.getValues().pastid)[0]
+      setselectedPastId(current_conta_data || {})
+    }
+  },[identifier_value,terceirosData])
 
   console.log('DADOS333')
   console.log(selectedPastId);
@@ -186,31 +192,20 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {edit && 
-                  <FormField
-                  control={form.control}
-                  name="pastid"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>ID  a ser modificado (ver exportação)</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {contasData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.id?.toString() as string}>{e.id?.toString()}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-                  />
-                }
+                <FormField
+                control={form.control}
+                name="pastid"
+                render={({ field }) => (
+                    <FormItem style={{ marginBottom: '30px' }}>
+                    <FormLabel>ID da conta a ser mudada</FormLabel>
+                    <FormControl>
+                        <Input {...field} defaultValue={identifier_value} disabled/>
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+              }
             <FormField
                   control={form.control}
                   name="terceiro"
@@ -218,7 +213,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>{"Nome do terceiro " + (edit ? "(novo)":"")}</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
+                          <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder={selectedPastId.terceiro?`Terceiro atual: ${selectedPastId.terceiro}`:"Escolher"}/>
                             </SelectTrigger>
@@ -255,7 +250,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>{"Pagar ou receber " + (edit ? "(novo)":"")}</FormLabel>
                       <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); UXFiscal(value)}}>
+                          <Select onValueChange={(value) => { field.onChange(value); UXFiscal(value)}}>
                             <SelectTrigger className="w-[100%]">
                                 <SelectValue placeholder="Escolher"/>
                             </SelectTrigger>
@@ -277,7 +272,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                         <FormItem style={{ marginBottom: '30px' }}>
                         <FormLabel>{"Tipo fiscal " + (edit ? "(novo)":"")}</FormLabel>
                         <FormControl>
-                            <Select onValueChange={(value) => { field.onChange(value); findSelectedId(); }}>
+                            <Select onValueChange={(value) => { field.onChange(value); }}>
                                 <SelectTrigger className="w-[100%] flex-1">
                                     <SelectValue placeholder="Escolher"/>
                                 </SelectTrigger>

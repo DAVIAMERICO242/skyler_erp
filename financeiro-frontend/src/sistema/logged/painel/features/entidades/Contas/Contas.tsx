@@ -1,15 +1,11 @@
 import { FeatureTitle } from '../reusable/FeatureTitle';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { ContasForm } from './ContasForm';
-
 import { TerceirosProvider } from '../Terceiros/Terceiros';
-import { CategoriasFiscaisProvider } from './local-contexts/categorias_fiscais-context';
-import { ContasProvider } from './local-contexts/contas-context';
+import { CategoriasFiscaisProvider, useCategoriasFiscais } from './local-contexts/categorias_fiscais-context';
+import { ContasProvider, useContas } from './local-contexts/contas-context';
+import { LoadingFeature } from '../reusable/LoadingFeature';
+import { FeatureTable } from '../reusable/feature_table/FeatureTable';
+import { NotFoundFeature } from '../reusable/NotFoundFeature';
+import { useEffect, useState } from 'react';
 
 export const Contas = ()=>{
     return(
@@ -17,19 +13,45 @@ export const Contas = ()=>{
                 <ContasProvider>
                     <TerceirosProvider>
                         <FeatureTitle>Contas</FeatureTitle>
-                        <Tabs defaultValue="cadastro" className="space-y-8 2xl:w-[30%] md:w-[45%] sm:w-[55%] w-[80%] mt-[5%]">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="cadastro">Cadastrar</TabsTrigger>
-                            <TabsTrigger value="gerenciar">Gerenciar</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="cadastro">
-                            <ContasForm edit={false}/>
-                        </TabsContent>
-                        <TabsContent value="gerenciar">
-                        </TabsContent>
-                        </Tabs>
+                        <ContasUI/>
                     </TerceirosProvider>
                 </ContasProvider>
             </CategoriasFiscaisProvider>
     )
+}
+
+export const ContasUI = ()=>{
+    const [loading,setLoading] = useState(true);
+    const [foundData,setFoundData] = useState(false);
+
+    const thisContextDataPart1 = useCategoriasFiscais().data;
+    const thisContextDataPart2 = useContas().data;
+
+    useEffect(()=>{
+
+      if(thisContextDataPart1!==null){
+        setLoading(false);
+        if(thisContextDataPart1?.length){
+          setFoundData(true);
+        }else{
+          setFoundData(false);
+        }
+      }
+
+      if(thisContextDataPart2!==null){
+        setLoading(false);
+        if(thisContextDataPart2?.length){
+          setFoundData(true);
+        }else{
+          setFoundData(false);
+        }
+      }
+    },[thisContextDataPart1,thisContextDataPart2])
+    
+    return(
+        <>
+          {loading?<LoadingFeature/>
+            :foundData?(<FeatureTable author="contas"/>):(<NotFoundFeature author="contas"/>)}
+        </> 
+      )
 }
