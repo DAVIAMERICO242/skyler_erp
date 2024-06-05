@@ -8,6 +8,8 @@ import { useLojas } from "../../Lojas/Lojas";
 import { useTerceiros } from "../../Terceiros/Terceiros";
 import { useBancos } from "../../Bancos/Bancos";
 import { useContas } from "../../Contas/local-contexts/contas-context";
+import { CriarEditar } from "./CriarEditar";
+
 const TableContainer = styled.div`
     padding:30px;
 `
@@ -86,7 +88,7 @@ export const FeatureTable = ({author}:{author:string})=>{
 
     return(
         <TableContainer>
-            <TableBar filteredKey={filteredKey} setFilteredKey={setFilteredKey}/>
+            <TableBar filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
             <Table>
                 <TableHeader>
                     {columns?.map((e)=>{
@@ -115,9 +117,7 @@ export const FeatureTable = ({author}:{author:string})=>{
                                 )
                             })}
                                 <TableRowValue>
-                                    <a style={{color:"var(--skyler-blue)",cursor:"pointer"}}>
-                                        {"Editar "}
-                                    </a>
+                                    <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
                                     /
                                     <a style={{color:"var(--red)", cursor:"pointer"}}>
                                         {" Deletar"}

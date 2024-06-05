@@ -27,7 +27,7 @@ import { TerceirosData } from "./Terceiros";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
     const terceirosData = useTerceiros().data;//cache dos dados
     const { refetch } = useTerceiros();
 
@@ -86,17 +86,16 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
     const [selectedPastTerceiro, setSelectedPastTerceiro] = useState<TerceirosData>({});
 
-    const findSelectedTerceiro = ()=>{
-      if(!edit){
-        return;
-      }
 
-      const current_terceiro_data:(TerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===form.getValues().pastnometerceiro)[0]
-      console.log("terceiro passado");
-      console.log(form.getValues().pastnometerceiro)
-      
-      setSelectedPastTerceiro(current_terceiro_data || {})
-    }
+
+      useEffect(()=>{
+        if(identifier_value){
+          const current_terceiro_data:(TerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===identifier_value)[0]
+          setSelectedPastTerceiro(current_terceiro_data || {})
+        }
+      },[identifier_value,terceirosData])
+
+    
 
     //form
 
@@ -156,7 +155,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
 
       return (
           <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} onChange={findSelectedTerceiro}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             {edit && 
               <FormField
               control={form.control}
@@ -165,18 +164,7 @@ export const TerceirosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
                   <FormItem style={{ marginBottom: '30px' }}>
                   <FormLabel>Nome do terceiro a ser mudado</FormLabel>
                   <FormControl>
-                      <Select onValueChange={(value) => { field.onChange(value); findSelectedTerceiro(); }}>
-                        <SelectTrigger className="w-[100%]">
-                            <SelectValue placeholder="Escolher"/>
-                        </SelectTrigger>
-                        <SelectContent {...field }>
-                            {terceirosData?.map((e)=>{
-                                return (
-                                    <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
-                                )
-                            })}
-                        </SelectContent>
-                      </Select>
+                      <Input {...field} value={identifier_value} disabled/>
                   </FormControl>
                   <FormMessage />
                   </FormItem>

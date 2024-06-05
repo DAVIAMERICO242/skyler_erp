@@ -29,7 +29,7 @@ import { useBancos } from '../Bancos/Bancos';
 import { LojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
-export const LojasForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
     const lojasData = useLojas().data;//cache dos dados
     const refetchLojas = useLojas().refetch;
     const bancosData = useBancos().data

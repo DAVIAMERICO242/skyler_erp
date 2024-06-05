@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { BancosData, useBancos } from './Bancos';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-export const BancosForm = ({edit,setOpen}:{edit:boolean, setOpen?:any})=>{
+export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
   const bancosData = useBancos().data;//cache dos dados
   const { refetch } = useBancos();
 
