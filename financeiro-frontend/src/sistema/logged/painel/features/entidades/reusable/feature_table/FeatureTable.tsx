@@ -13,6 +13,10 @@ import { Deletar } from "./Deletar";
 
 const TableContainer = styled.div`
     padding:30px;
+    opacity:0;
+    transform: translateY(50px);
+    animation: fadeIn 0.5s ease forwards;
+
 `
 
 const Table = styled.table`
@@ -53,28 +57,28 @@ export const FeatureTable = ({author}:{author:string})=>{
           var {refetch} = useTerceiros();
           var excel_name = "terceiros_cadastrados.xlsx"
           var identifier = "nome";
-          var columns = Object.keys(data?data[0]:'')
+          var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "lojas":
           var {data} = useLojas();
           var {refetch} = useLojas();
           var excel_name = "lojas_cadastradas.xlsx"
           var identifier = "nome";
-          var columns = Object.keys(data?data[0]:[])
+          var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "bancos":
           var {data} = useBancos();
           var {refetch} = useBancos();
           var excel_name = "bancos_cadastrados.xlsx";
           var identifier = "conta";
-          var columns = Object.keys(data?data[0]:[])
+          var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "contas":
           var {data} = useContas();
           var {refetch} = useContas();
           var excel_name = "historico_pagar_receber.xlsx";
           var identifier = "id";
-          var columns = Object.keys(data?data[0]:[])
+          var columns = Object.keys((data?.length)?data[0]:{})
           break;
         default:
           var {data} = [];

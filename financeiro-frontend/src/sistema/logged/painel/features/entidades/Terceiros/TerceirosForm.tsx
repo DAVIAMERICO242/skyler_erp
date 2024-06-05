@@ -56,6 +56,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
     const form = useForm<z.infer<typeof terceirosSchema>>({
       resolver: zodResolver(terceirosSchema),
       defaultValues: {
+        pastnometerceiro:identifier_value || "",
         nometerceiro: "",
         cnpjcpfterceiro: ""
       },
@@ -164,7 +165,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
                   <FormItem style={{ marginBottom: '30px' }}>
                   <FormLabel>Nome do terceiro a ser mudado</FormLabel>
                   <FormControl>
-                      <Input {...field} value={identifier_value} disabled/>
+                      <Input {...field} defaultValue={identifier_value} disabled/>
                   </FormControl>
                   <FormMessage />
                   </FormItem>
