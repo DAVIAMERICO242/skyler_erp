@@ -9,6 +9,7 @@ import { useTerceiros } from "../../Terceiros/Terceiros";
 import { useBancos } from "../../Bancos/Bancos";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
+import { Deletar } from "./Deletar";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -119,9 +120,7 @@ export const FeatureTable = ({author}:{author:string})=>{
                                 <TableRowValue>
                                     <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
                                     /
-                                    <a style={{color:"var(--red)", cursor:"pointer"}}>
-                                        {" Deletar"}
-                                    </a> 
+                                    <Deletar author={author} identifier_value={row[identifier]}/>
                                 </TableRowValue>                   
                         </TableRow>
                     )

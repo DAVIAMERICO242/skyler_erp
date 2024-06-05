@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { CriarEditar } from "./CriarEditar";
+import { Exportar } from "./Exportar";
 
 const TableBarContainer = styled.div`
     display:flex;
@@ -56,7 +57,7 @@ export const TableBar = ({filteredKey,setFilteredKey,author}:{filter:string,setF
             </FiltroContainer>
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
-                <LoadingButton type="neutral">Exportar tudo</LoadingButton>
+                <Exportar author={author}/>
             </div>
         </TableBarContainer>
     )
