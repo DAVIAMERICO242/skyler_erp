@@ -12,7 +12,7 @@ import { createContext } from 'react';
 import { useEffect,useState,useContext } from 'react';
 import { ReactNode } from 'react';
 import BACKEND_URL from '@/sistema/backend-urls';
-
+import { LoadingFeature } from '../reusable/LoadingFeature';
 
 export interface TerceirosData {
   nome?: string;
@@ -83,17 +83,24 @@ export const Terceiros = ()=>{
 
 export const TerceirosUI = ()=>{
     const [loading,setLoading] = useState(true);
+    const [foundData,setFoundData] = useState(false);
 
     const thisContextData = useTerceiros().data;
 
     useEffect(()=>{
       if(thisContextData!==null){
         setLoading(false);
+        if(thisContextData.length){
+          setFoundData(true);
+        }else{
+          setFoundData(false);
+        }
       }
     },[thisContextData])
-
     
     return(
-      <div>{loading?'carregando':'carregado'} </div>
+      <>
+        {loading?<LoadingFeature/>:'carregado'}
+      </>
     )
 }

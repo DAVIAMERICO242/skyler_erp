@@ -77,3 +77,15 @@
   flex:1;
 }
 
+@keyframes fadeInOut {
+  0% {
+    opacity: 1; /* Início: totalmente visível */
+  }
+  50% {
+    opacity: 0; /* Metade: totalmente invisível */
+  }
+  100% {
+    opacity: 1; /* Fim: totalmente visível */
+  }
+}
+
