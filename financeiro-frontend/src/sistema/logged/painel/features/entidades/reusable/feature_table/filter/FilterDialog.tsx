@@ -9,7 +9,7 @@ const FilterDialogContainer = styled.div`
 `;
 
 const FilterUI = styled.div`
-  display: flex;
+  display: ${props => props.open ? 'flex' : 'none'};
   flex-direction: column;
   align-items: flex-start;
   padding: 10px 20px;
@@ -65,13 +65,13 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
   return (
     <FilterDialogContainer className="filter_dialog_container" ref={containerRef}>
       <BsFilter onClick={manageOpen} className="filter_icon text-2xl cursor-pointer" />
-      {open && (
-        <FilterUI className="filter_UI">
-          <FilterTitle>Filtro</FilterTitle>
-          <Input className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
-          <FilterContent data={data} column={column}/>
-        </FilterUI>
-      )}
+      
+      <FilterUI className="filter_UI" open={open}>
+        <FilterTitle>Filtro</FilterTitle>
+        <Input className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
+        <FilterContent data={data} column={column}/>
+      </FilterUI>
+      
     </FilterDialogContainer>
   );
 };
