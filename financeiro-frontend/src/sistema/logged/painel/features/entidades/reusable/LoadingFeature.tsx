@@ -21,24 +21,10 @@ const StyledLoading = styled.div`
 
 
 export const LoadingFeature = ()=>{
-    const [progress, setProgress] = useState(100);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-          if (progress === 100) {
-            setProgress(13);
-          } else {
-            setProgress(100);
-          }
-        }, 2000);
-    
-        return () => clearTimeout(timeout); // Limpa o timeout quando o componente é desmontado
-      }, [progress]);
     
     return (
         <StyledLoading>
             <img src={favicon}/>
-            <Progress value={progress} className="w-[300px]" />
         </StyledLoading>
     )
 }
