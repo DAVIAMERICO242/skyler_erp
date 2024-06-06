@@ -11,8 +11,8 @@ import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
 import { FilterDialog } from "./filter/FilterDialog";
-import { useTableFilter } from "./filter/FilterContext";
-import { TableFilterProvider } from "./filter/FilterContext";
+import { useTableFilter } from "./filter/FilterContexts";
+import { TableFilterProvider } from "./filter/FilterContexts";
 import { FaLessThanEqual } from "react-icons/fa";
 
 const TableContainer = styled.div`
@@ -100,7 +100,27 @@ const FeatureTableUI = ({author}:{author:string})=>{
           var columns:string[] = [];
       }
 
-    const filteredData = useTableFilter().filteredData;
+    const dataFilter = useTableFilter().dataFilter;
+
+    const filteredData = data?.filter((data_row)=>{
+        if(dataFilter){
+            for (let column of Object.keys(data_row)){
+                if(!dataFilter[column]?.length){
+                    continue;
+                }else{
+                    if(!dataFilter[column].includes(data_row[column])){
+                        return false;
+                    }
+                }
+            }
+            return true;//nao foi barrado
+        }else{
+            return true;
+        }
+    })
+
+    
+
     console.log('FILTERED DATA');
     console.log(filteredData);
 
@@ -126,12 +146,12 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     <TableHeaderValue>Gerenciar</TableHeaderValue>                   
                 </TableHeader>
                 {data?.filter((data_row)=>{
-                    if(filteredData){
+                    if(dataFilter){
                         for (let column of Object.keys(data_row)){
-                            if(!filteredData[column]?.length){
+                            if(!dataFilter[column]?.length){
                                 continue;
                             }else{
-                                if(!filteredData[column].includes(data_row[column])){
+                                if(!dataFilter[column].includes(data_row[column])){
                                     return false;
                                 }
                             }

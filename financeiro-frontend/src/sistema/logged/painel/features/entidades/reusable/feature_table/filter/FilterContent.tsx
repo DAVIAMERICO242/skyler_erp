@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useTableFilter } from "./FilterContext";
+import { useTableFilter } from "./FilterContexts";
 
 const FilterContentContainer = styled.div`
     border: var(--light-border);
@@ -32,7 +32,7 @@ const ItemValue = styled.div`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | number]:any}[], searchedValue:string, column:string}) => {
 
-    const setFilter = useTableFilter().setFilteredData;//global (nao so nessa coluna)
+    const setFilter = useTableFilter().setdataFilter;//global (nao so nessa coluna)
 
 
     const list = [...new Set(data.map((row)=>{ return row[column];}))];
