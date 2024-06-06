@@ -25,30 +25,23 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
     const { toast } = useToast();
     const [loading,setLoading] = useState<boolean>(false);
 
+    const terceiros_refetch = useTerceiros().refetch;
+    const lojas_refetch = useLojas().refetch;
+    const bancos_refetch = useBancos().refetch;
+    const contas_refetch = useContas().refetch
+
     switch (author){
       case "terceiros":
-        var {data} = useTerceiros();
-        var {refetch} = useTerceiros();
-        var excel_name = "terceiros_cadastrados.xlsx"
-        var identifier = "nome";
+        var refetch = terceiros_refetch;
         break;
       case "lojas":
-        var {data} = useLojas();
-        var {refetch} = useLojas();
-        var excel_name = "lojas_cadastradas.xlsx"
-        var identifier = "nome";
+        var refetch = lojas_refetch;
         break;
       case "bancos":
-        var {data} = useBancos();
-        var {refetch} = useBancos();
-        var excel_name = "bancos_cadastrados.xlsx";
-        var identifier = "conta";
+        var refetch = bancos_refetch;
         break;
       case "contas":
-        var {data} = useContas();
-        var {refetch} = useContas();
-        var excel_name = "historico_pagar_receber.xlsx";
-        var identifier = "id";
+        var refetch = contas_refetch;
         break;
     }
 

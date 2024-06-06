@@ -81,29 +81,29 @@ const FeatureTableUI = ({author}:{author:string})=>{
 
     switch (author){
         case "terceiros":
-          var {data} = useTerceiros();
-          var {refetch} = useTerceiros();
+          var data = terceiros_data;
+          var refetch = terceiros_refetch;
           var excel_name = "terceiros_cadastrados.xlsx"
           var identifier = "nome";
           var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "lojas":
-          var {data} = useLojas();
-          var {refetch} = useLojas();
+          var data = lojas_data;
+          var refetch = lojas_refetch;
           var excel_name = "lojas_cadastradas.xlsx"
           var identifier = "nome";
           var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "bancos":
-          var {data} = useBancos();
-          var {refetch} = useBancos();
+          var data = bancos_data;
+          var refetch = bancos_refetch;
           var excel_name = "bancos_cadastrados.xlsx";
           var identifier = "conta";
           var columns = Object.keys((data?.length)?data[0]:{})
           break;
         case "contas":
-          var {data} = useContas();
-          var {refetch} = useContas();
+          var data = contas_data;
+          var refetch = contas_refetch;
           var excel_name = "historico_pagar_receber.xlsx";
           var identifier = "id";
           var columns = Object.keys((data?.length)?data[0]:{})
