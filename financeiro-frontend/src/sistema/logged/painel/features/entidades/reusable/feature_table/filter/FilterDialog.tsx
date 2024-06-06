@@ -23,7 +23,7 @@ const FilterUI = styled.div`
   position: absolute;
   left: 70%;
   top: 70%;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 const FilterTitle = styled.div`

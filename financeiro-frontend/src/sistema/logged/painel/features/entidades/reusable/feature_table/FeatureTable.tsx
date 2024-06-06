@@ -15,6 +15,7 @@ import { useFilteredData, useTableFilter } from "./filter/FilterContexts";
 import { TableFilterProvider } from "./filter/FilterContexts";
 import { FilteredDataProvider } from "./filter/FilterContexts";
 import { FaLessThanEqual } from "react-icons/fa";
+import { CleanAllFilterProvider } from "./filter/FilterContexts";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -34,6 +35,12 @@ const TableHeader = styled.tr`
     background-color: var(--skyler-blue);
     color:white;
 `;
+
+const TableMainContent = styled.div`
+    height:200px;
+    overflow:auto;
+    width:fit-content;
+`
 
 const TableRow = styled.tr`
     background-color:white;
@@ -59,7 +66,9 @@ export const FeatureTable = ({author}:{author:string})=>{
     return(
         <FilteredDataProvider>
             <TableFilterProvider>
-                <FeatureTableUI author={author}/>
+                <CleanAllFilterProvider>
+                    <FeatureTableUI author={author}/>
+                </CleanAllFilterProvider>
             </TableFilterProvider>
         </FilteredDataProvider>
     )
@@ -136,8 +145,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
             }
         })
         setFilteredData(filtered)
-    },[dataFilter])
-
+    },[dataFilter]);
 
 
     console.log('FILTERED DATA');
@@ -164,39 +172,41 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     })}
                     <TableHeaderValue>Gerenciar</TableHeaderValue>                   
                 </TableHeader>
-                {data?.filter((data_row)=>{
-                    if(dataFilter){
-                        for (let column of Object.keys(data_row)){
-                            if(!dataFilter[column]?.length){
-                                continue;
-                            }else{
-                                if(!dataFilter[column].includes(data_row[column])){
-                                    return false;
+                {/* <TableMainContent> */}
+                    {data?.filter((data_row)=>{
+                        if(dataFilter){
+                            for (let column of Object.keys(data_row)){
+                                if(!dataFilter[column]?.length){
+                                    continue;
+                                }else{
+                                    if(!dataFilter[column].includes(data_row[column])){
+                                        return false;
+                                    }
                                 }
                             }
+                            return true;//nao foi barrado
+                        }else{
+                            return true;
                         }
-                        return true;//nao foi barrado
-                    }else{
-                        return true;
-                    }
-                }).map((row)=>{
-                    return(
-                        <TableRow id={row[identifier]}>
-                            {columns?.map((column)=>{
-                                return(
-                                    <>
-                                        <TableRowValue>{row[column]}</TableRowValue>
-                                    </>
-                                )
-                            })}
-                                <TableRowValue>
-                                    <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
-                                    /
-                                    <Deletar author={author} identifier_value={row[identifier]}/>
-                                </TableRowValue>                   
-                        </TableRow>
-                    )
-                })}
+                    }).map((row)=>{
+                        return(
+                            <TableRow id={row[identifier]}>
+                                {columns?.map((column)=>{
+                                    return(
+                                        <>
+                                            <TableRowValue>{row[column]}</TableRowValue>
+                                        </>
+                                    )
+                                })}
+                                    <TableRowValue>
+                                        <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
+                                        /
+                                        <Deletar author={author} identifier_value={row[identifier]}/>
+                                    </TableRowValue>                   
+                            </TableRow>
+                        )
+                    })}
+                {/* </TableMainContent> */}
             </Table>
         </TableContainer>
     )

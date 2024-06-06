@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTableFilter } from "./FilterContexts";
+import { useCleanAllFilter } from "./FilterContexts";
 
 const FilterContentContainer = styled.div`
     border: var(--light-border);
@@ -35,6 +36,9 @@ export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllS
     const dataFilter = useTableFilter().dataFilter;
     const setFilter = useTableFilter().setdataFilter;//global (nao so nessa coluna)
 
+    const cleanAllState = useCleanAllFilter().cleanAll
+    const setCleanAll = useCleanAllFilter().setCleanAll
+
 
     const list = [...new Set(data.map((row)=>{ return row[column];}))];
 
@@ -50,18 +54,22 @@ export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllS
         }
     };
 
-    useEffect(()=>{
+    useEffect(()=>{//embora seja executado apenas nesse componente com contexto de coluna, a logica permite limpar em todas colunas
+        setCheckedValues([]);
+    },[cleanAllState]);
+
+    useEffect(()=>{//selecionar todos valores do filtro da coluna
         if(isAllSelected){
             setCheckedValues([...list])
         }
     },[isAllSelected])
 
-    useEffect(()=>{
+    useEffect(()=>{//limpar filtro de coluna
         setCheckedValues([]);
         setIsAllSelected(false);
     },[limparSignal])
 
-    useEffect(()=>{
+    useEffect(()=>{//configurar objeto abastrato que ajuda a gerenciar filtros
         setFilter((prev)=>{
             return{
                 ...prev,
@@ -70,14 +78,6 @@ export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllS
         })
     },[checkedValues])
 
-    useEffect(()=>{
-        console.log(checkedValues)
-    },[checkedValues]);
-
-    useEffect(()=>{
-        console.log('DATA FILTER AA');
-        console.log(dataFilter)
-    },[dataFilter])
 
     return (
         <FilterContentContainer>

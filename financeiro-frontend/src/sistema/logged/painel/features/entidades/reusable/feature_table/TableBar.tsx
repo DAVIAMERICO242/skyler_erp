@@ -3,11 +3,12 @@ import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { CriarEditar } from "./CriarEditar";
 import { Exportar } from "./Exportar";
+import { CleanAll } from "./filter/CleanAll";
 
 const TableBarContainer = styled.div`
     display:flex;
     align-items:center;
-    justify-content:flex-end;
+    justify-content:space-between;
     width:100%;
     gap:10px;
     text-wrap: nowrap;
@@ -22,9 +23,9 @@ const TableBarContainer = styled.div`
     @media(max-width: 1200px) {
         /* Defina as propriedades de estilo específicas para telas menores aqui */
 
-        flex-direction:column-reverse;
+        flex-direction:column;
         align-items:flex-start;
-        gap:10px;
+        gap:20px;
     }
 `
 
@@ -34,6 +35,7 @@ export const TableBar = ({author}:{author:string})=>{
 
     return(
         <TableBarContainer className="table_bar_container">
+            <CleanAll/>
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
                 <Exportar author={author}/>
