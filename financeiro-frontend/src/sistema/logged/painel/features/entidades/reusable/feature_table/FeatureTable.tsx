@@ -16,7 +16,7 @@ const TableContainer = styled.div`
     opacity:0;
     transform: translateY(50px);
     animation: fadeIn 0.5s ease forwards;
-    min-width:fit-content
+    min-width:fit-content;
 
 `
 
