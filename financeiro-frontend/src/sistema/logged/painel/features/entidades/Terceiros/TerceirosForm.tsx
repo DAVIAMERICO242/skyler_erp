@@ -26,6 +26,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 import { useTerceiros } from "./Terceiros";
 import { TerceirosData } from "./Terceiros";
+import { EditFieldAlert } from "../reusable/EditFieldAlert";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -188,7 +189,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
               name="nometerceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Nome do terceiro " + (edit ? "(novo)":"")}</FormLabel>
+                  <FormLabel>{edit && <EditFieldAlert/>} {"Nome do terceiro"}</FormLabel>
                   <FormControl>
                       <Input placeholder={selectedPastTerceiro.nome || "nome terceiro"}  {...field}/>
                   </FormControl>
@@ -201,7 +202,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
               name="tipoterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Tipo do terceiro " + (edit ? "(novo)":"")}</FormLabel>
+                  <FormLabel>{edit && <EditFieldAlert/>} {"Tipo do terceiro" }</FormLabel>
                   <FormControl>
                       <Input placeholder={selectedPastTerceiro.tipo ||"fornecedor,cliente,etc.."} {...field} />
                   </FormControl>
@@ -214,7 +215,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
               name="cnpjcpfterceiro"
               render={({ field }) => (
                   <FormItem style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"CNPJ/CPF sem máscara " + (edit ? "(novo)":"")}</FormLabel>
+                  <FormLabel>{edit && <EditFieldAlert/>} {"CNPJ/CPF sem máscara"}</FormLabel>
                   <FormControl>
                       <Input placeholder={selectedPastTerceiro.cnpj_cpf ||"CNPJ/CPF"} {...field} />
                   </FormControl>
@@ -227,7 +228,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
               name="uf"
               render={({ field }) => (
                   <FormItem  style={{ marginBottom: '30px' }}>
-                  <FormLabel>{"Estado " + (!edit?"":"(novo)")}</FormLabel>
+                  <FormLabel>{edit && <EditFieldAlert/>} {"Estado"}</FormLabel>
                   <FormControl>
                       <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100%]">

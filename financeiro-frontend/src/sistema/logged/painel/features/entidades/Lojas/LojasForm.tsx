@@ -31,6 +31,7 @@ import { useBancos } from '../Bancos/Bancos';
 import { LojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
+import { EditFieldAlert } from '../reusable/EditFieldAlert';
 export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
     const lojasData = useLojas().data;//cache dos dados
     const refetchLojas = useLojas().refetch;
@@ -168,7 +169,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                   name="contaloja"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
+                      <FormLabel>{edit && <EditFieldAlert/>} Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
@@ -192,7 +193,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                 name="nomeloja"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Nome da loja</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Nome da loja</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastLoja.nome || "nome loja"} {...field} />
                     </FormControl>
@@ -205,7 +206,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                 name="razaoloja"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Razão</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Razão</FormLabel>
                     <FormControl>
                         <Input  placeholder={selectedPastLoja.razao || "razão social"} {...field} />
                     </FormControl>
@@ -218,7 +219,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                 name="cnpjloja"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>CNPJ Loja (sem máscara)</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} CNPJ Loja (sem máscara)</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastLoja.cnpj || "CNPJ"} {...field} />
                     </FormControl>

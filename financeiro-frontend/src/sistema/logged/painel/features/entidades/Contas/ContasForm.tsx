@@ -43,6 +43,7 @@ import {
   } from "@/components/ui/select"
 import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
+import { EditFieldAlert } from '../reusable/EditFieldAlert';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -211,7 +212,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                   name="terceiro"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{"Nome do terceiro " + (edit ? "(novo)":"")}</FormLabel>
+                      <FormLabel>{edit && <EditFieldAlert/>} {"Nome do terceiro"}</FormLabel>
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
@@ -235,7 +236,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="valor"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>{"Valor em R$ " + (edit ? "(novo)":"")}</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} {"Valor em R$"}</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastId.valor?.toString() as string || "Ex: 999.90"} {...field} />
                     </FormControl>
@@ -248,7 +249,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                   name="pagar_receber"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{"Pagar ou receber " + (edit ? "(novo)":"")}</FormLabel>
+                      <FormLabel>{edit && <EditFieldAlert/>} {"Pagar ou receber"}</FormLabel>
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); UXFiscal(value)}}>
                             <SelectTrigger className="w-[100%]">
@@ -270,7 +271,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     name="tipo_fiscal"
                     render={({ field }) => (
                         <FormItem style={{ marginBottom: '30px' }}>
-                        <FormLabel>{"Tipo fiscal " + (edit ? "(novo)":"")}</FormLabel>
+                        <FormLabel>{edit && <EditFieldAlert/>} {"Tipo fiscal"}</FormLabel>
                         <FormControl>
                             <Select onValueChange={(value) => { field.onChange(value); }}>
                                 <SelectTrigger className="w-[100%] flex-1">
@@ -305,7 +306,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="vencimento"
                 render={({ field }) => (
                     <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                    <FormLabel>{"Data de vencimento " + (edit ? "(novo)":"")}</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} {"Data de vencimento"}</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild className="w-[100%]">
                         <FormControl >

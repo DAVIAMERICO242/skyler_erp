@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { BancosData, useBancos } from './Bancos';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { EditFieldAlert } from '../reusable/EditFieldAlert';
 
 export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
   const bancosData = useBancos().data;//cache dos dados
@@ -155,7 +156,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="nomebanco"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Nome do banco</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Nome do banco</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.nome_banco || "Itau, Nubank, etc..."} {...field} />
                     </FormControl>
@@ -168,7 +169,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="banco"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Banco</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Banco</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.banco || "Número do banco (xxx)"} {...field} />
                     </FormControl>
@@ -181,7 +182,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="agencia"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Agência (sem digito)</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Agência (sem digito)</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.agencia || "AAAA"} {...field} />
                     </FormControl>
@@ -194,7 +195,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="conta"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Conta (sem digito)</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Conta (sem digito)</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.conta || "xxxxxxxx"} {...field} />
                     </FormControl>
@@ -207,7 +208,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 name="saldoinicial"
                 render={({ field }) => (
                     <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>Saldo inicial</FormLabel>
+                    <FormLabel>{edit && <EditFieldAlert/>} Saldo inicial</FormLabel>
                     <FormControl>
                         <Input placeholder={selectedPastBanco.saldo_inicial || "Ex: 999.90"} {...field} />
                     </FormControl>
