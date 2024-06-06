@@ -109,7 +109,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
           var columns = Object.keys((data?.length)?data[0]:{})
           break;
         default:
-          var {data} = [];
+          var data = [];
           var identifier = "";
           var columns:string[] = [];
       }

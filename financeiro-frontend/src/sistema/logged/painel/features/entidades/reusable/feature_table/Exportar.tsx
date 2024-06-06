@@ -10,11 +10,21 @@ import { useContas } from "../../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast";
 import { useFilteredData } from "./filter/FilterContexts";
+import { useTableFilter } from "./filter/FilterContexts";
+import { areAllValuesEmptyArrays } from "@/sistema/essentials";
 
 export const Exportar = ({author}:{author:string})=>{
     const { toast } = useToast()
     const [loading,setLoading] = useState<boolean>(false);
     var {filteredData} = useFilteredData();
+
+    var {dataFilter} = useTableFilter();
+
+    var check_is_a_filter= !areAllValuesEmptyArrays(dataFilter);
+
+    console.log('DATA FILTER EM EXPORTAR');
+    console.log(dataFilter);
+    
     switch (author){
       case "terceiros":
         var excel_name = "terceiros_cadastrados.xlsx"
@@ -52,7 +62,7 @@ export const Exportar = ({author}:{author:string})=>{
   
     return(
       <LoadingButton onClick={()=>{submit()}} loading={loading} type="neutral" className="w-3/5">
-          Exportar tudo
+          Exportar {check_is_a_filter?"Filtro":""}
       </LoadingButton>
     )
   }

@@ -32,6 +32,7 @@ const ItemValue = styled.div`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | number]:any}[], searchedValue:string, column:string}) => {
 
+    const dataFilter = useTableFilter().dataFilter;
     const setFilter = useTableFilter().setdataFilter;//global (nao so nessa coluna)
 
 
@@ -60,8 +61,12 @@ export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | n
 
     useEffect(()=>{
         console.log(checkedValues)
-    },[checkedValues])
+    },[checkedValues]);
 
+    useEffect(()=>{
+        console.log('DATA FILTER AA');
+        console.log(dataFilter)
+    },[dataFilter])
 
     return (
         <FilterContentContainer>

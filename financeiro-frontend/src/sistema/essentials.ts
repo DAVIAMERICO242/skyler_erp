@@ -88,3 +88,7 @@ export const TZtoFriendlyDate = (string:string)=>{
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
 }
+
+export function areAllValuesEmptyArrays(obj: { [key: string]: any[] }): boolean {
+    return Object.values(obj).every(value => Array.isArray(value) && value.length === 0);
+}
