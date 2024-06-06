@@ -106,7 +106,7 @@ export const FeatureTable = ({author}:{author:string})=>{
                         return(
                             <>
                                 <TableHeaderValue className="table_header_value" key={e}>
-                                    <div className="flex items-center justify-center gap-[25px] cursor-pointer">
+                                    <div className="flex items-center justify-center gap-[25px]">
                                         <div>
                                             {e} 
                                         </div>
