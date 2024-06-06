@@ -13,6 +13,7 @@ import { Deletar } from "./Deletar";
 import { FilterDialog } from "./filter/FilterDialog";
 import { useTableFilter } from "./filter/FilterContext";
 import { TableFilterProvider } from "./filter/FilterContext";
+import { FaLessThanEqual } from "react-icons/fa";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -125,16 +126,17 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     <TableHeaderValue>Gerenciar</TableHeaderValue>                   
                 </TableHeader>
                 {data?.filter((data_row)=>{
-                    if(filteredKey){
-
-                        console.log(identifier)
-
-                        if(typeof data_row[identifier]==="string"){
-                            return data_row[identifier].includes(filteredKey);
-                        }else{
-                            return data_row[identifier].toString().includes(filteredKey);
+                    if(filteredData){
+                        for (let column of Object.keys(data_row)){
+                            if(!filteredData[column]?.length){
+                                continue;
+                            }else{
+                                if(!filteredData[column].includes(data_row[column])){
+                                    return false;
+                                }
+                            }
                         }
-
+                        return true;//nao foi barrado
                     }else{
                         return true;
                     }
