@@ -11,8 +11,9 @@ import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
 import { FilterDialog } from "./filter/FilterDialog";
-import { useTableFilter } from "./filter/FilterContexts";
+import { useFilteredData, useTableFilter } from "./filter/FilterContexts";
 import { TableFilterProvider } from "./filter/FilterContexts";
+import { FilteredDataProvider } from "./filter/FilterContexts";
 import { FaLessThanEqual } from "react-icons/fa";
 
 const TableContainer = styled.div`
@@ -56,15 +57,28 @@ const TableRowValue = styled.td`
 export const FeatureTable = ({author}:{author:string})=>{
 
     return(
-        <TableFilterProvider>
-            <FeatureTableUI author={author}/>
-        </TableFilterProvider>
+        <FilteredDataProvider>
+            <TableFilterProvider>
+                <FeatureTableUI author={author}/>
+            </TableFilterProvider>
+        </FilteredDataProvider>
     )
     
 }
 
 const FeatureTableUI = ({author}:{author:string})=>{
     const [filteredKey,setFilteredKey] = useState("");
+
+    const terceiros_data = useTerceiros().data;
+    const terceiros_refetch = useTerceiros().refetch;
+    const lojas_data = useLojas().data;
+    const lojas_refetch = useLojas().refetch;
+    const bancos_data = useBancos().data;
+    const bancos_refetch = useBancos().refetch;
+    const contas_data = useContas().data;
+    const contas_refetch = useContas().refetch
+
+
     switch (author){
         case "terceiros":
           var {data} = useTerceiros();
@@ -101,25 +115,30 @@ const FeatureTableUI = ({author}:{author:string})=>{
       }
 
     const dataFilter = useTableFilter().dataFilter;
+    const filteredData = useFilteredData().filteredData;
+    const setFilteredData = useFilteredData().setFilteredData;
 
-    const filteredData = data?.filter((data_row)=>{
-        if(dataFilter){
-            for (let column of Object.keys(data_row)){
-                if(!dataFilter[column]?.length){
-                    continue;
-                }else{
-                    if(!dataFilter[column].includes(data_row[column])){
-                        return false;
+    useEffect(()=>{
+        const filtered = data?.filter((data_row)=>{
+            if(dataFilter){
+                for (let column of Object.keys(data_row)){
+                    if(!dataFilter[column]?.length){
+                        continue;
+                    }else{
+                        if(!dataFilter[column].includes(data_row[column])){
+                            return false;
+                        }
                     }
                 }
+                return true;//nao foi barrado
+            }else{
+                return true;
             }
-            return true;//nao foi barrado
-        }else{
-            return true;
-        }
-    })
+        })
+        setFilteredData(filtered)
+    },[dataFilter])
 
-    
+
 
     console.log('FILTERED DATA');
     console.log(filteredData);

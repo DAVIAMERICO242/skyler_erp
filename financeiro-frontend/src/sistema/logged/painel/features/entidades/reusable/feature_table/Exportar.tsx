@@ -9,25 +9,24 @@ import { Excel } from "@/sistema/essentials";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast";
+import { useFilteredData } from "./filter/FilterContexts";
 
 export const Exportar = ({author}:{author:string})=>{
     const { toast } = useToast()
     const [loading,setLoading] = useState<boolean>(false);
+    var {filteredData} = useFilteredData();
     switch (author){
       case "terceiros":
-        var {data} = useTerceiros();
         var excel_name = "terceiros_cadastrados.xlsx"
         break;
       case "lojas":
-        var {data} = useLojas();
         var excel_name = "lojas_cadastradas.xlsx"
         break;
       case "bancos":
-        var {data} = useBancos();
         var excel_name = "bancos_cadastrados.xlsx"
         break;
       case "contas":
-          var data = useContas().data?.map((e)=>{
+        var filteredData = filteredData?.map((e)=>{
             return{
               'id':e.id,
               'Lançamento': TZtoFriendlyDate(e.data),
@@ -42,7 +41,7 @@ export const Exportar = ({author}:{author:string})=>{
     }
     const submit = ()=>{
       setLoading(true);
-      Excel(data,excel_name);
+      Excel(filteredData,excel_name);
       setLoading(false);
       toast({
         title: "Sucesso",
