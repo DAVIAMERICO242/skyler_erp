@@ -10,6 +10,7 @@ import { useBancos } from "../../Bancos/Bancos";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
+import { FilterDialog } from "./filter/FilterDialog";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -26,6 +27,7 @@ const Table = styled.table`
 `
 
 const TableHeader = styled.tr`
+    user-select:none;
     background-color: var(--skyler-blue);
     color:white;
 `;
@@ -40,7 +42,6 @@ const TableHeaderValue = styled.th`
         font-weight:500;
 `
 const TableRowValue = styled.td`
-    
         border: var(--light-border);
         padding:10px;
         font-size:13px;
@@ -104,7 +105,14 @@ export const FeatureTable = ({author}:{author:string})=>{
                     {columns?.map((e)=>{
                         return(
                             <>
-                                <TableHeaderValue key={e}>{e}</TableHeaderValue>                   
+                                <TableHeaderValue className="table_header_value" key={e}>
+                                    <div className="flex items-center justify-center gap-[25px] cursor-pointer">
+                                        <div>
+                                            {e} 
+                                        </div>
+                                        <FilterDialog/>
+                                    </div>
+                                </TableHeaderValue>                   
                             </>
                         )
                     })}
