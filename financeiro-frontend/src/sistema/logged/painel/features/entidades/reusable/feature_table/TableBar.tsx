@@ -7,7 +7,7 @@ import { Exportar } from "./Exportar";
 const TableBarContainer = styled.div`
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    justify-content:flex-end;
     width:100%;
     gap:10px;
     text-wrap: nowrap;
@@ -28,40 +28,12 @@ const TableBarContainer = styled.div`
     }
 `
 
-const FiltroContainer = styled.div`
-    display:flex;
-    align-items:center;
-    gap:10px;
-    text-wrap: nowrap;
-    font-weight:500;
-    @media(max-width: 1200px) {
-        /* Defina as propriedades de estilo específicas para telas menores aqui */
 
-        flex-direction:column;
-        align-items:flex-start;
-        gap:10px;
-    }
-`
+export const TableBar = ({author}:{author:string})=>{
 
-export const TableBar = ({filteredKey,setFilteredKey,author}:{filter:string,setFilteredKey:any,author:string})=>{
-
-    const manage_filter = (value:string | number)=>{
-        
-        if(typeof value==="string"){
-            setFilteredKey(value.trim());
-        }
-
-        if(typeof value==="number"){
-            setFilteredKey(value.toString());
-        }
-    }
 
     return(
         <TableBarContainer className="table_bar_container">
-            <FiltroContainer>
-                Filtrar {author}:
-                <Input className="h-[24px] w-[200px]" onChange={(e)=>{manage_filter(e.target.value)}}></Input>
-            </FiltroContainer>
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
                 <Exportar author={author}/>

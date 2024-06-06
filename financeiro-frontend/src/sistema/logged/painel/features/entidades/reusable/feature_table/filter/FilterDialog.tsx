@@ -40,6 +40,8 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 
+  const [searchedValue,setSearchedValue] = useState("");
+
   const manageOpen = () => {
     setOpen((prev) => !prev);
   };
@@ -68,8 +70,11 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
       
       <FilterUI className="filter_UI" open={open}>
         <FilterTitle>Filtro</FilterTitle>
-        <Input className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
-        <FilterContent data={data} column={column}/>
+        <Input onChange={(e)=>{setSearchedValue(e?.target?.value?.trim())}} className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
+        <FilterContent data={data}
+            column={column}
+            searchedValue={searchedValue}
+         />
       </FilterUI>
       
     </FilterDialogContainer>

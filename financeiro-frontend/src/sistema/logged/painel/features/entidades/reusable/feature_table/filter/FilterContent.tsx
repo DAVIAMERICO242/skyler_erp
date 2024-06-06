@@ -30,14 +30,12 @@ const ItemValue = styled.div`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const FilterContent = ({data,column}:{data:{[key:string | number]:any}[],column:string}) => {
+export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | number]:any}[], searchedValue:string, column:string}) => {
 
     const setFilter = useTableFilter().setFilteredData;//global (nao so nessa coluna)
 
 
-    const list = data.map((row)=>{
-        return row[column];
-    });
+    const list = [...new Set(data.map((row)=>{ return row[column];}))];
 
     const [checkedValues, setCheckedValues] = useState([]);
 
@@ -67,7 +65,13 @@ export const FilterContent = ({data,column}:{data:{[key:string | number]:any}[],
 
     return (
         <FilterContentContainer>
-            {list.map((element) => (
+            {list.filter((e)=>{
+                if(typeof e==="string"){
+                    return e.includes(searchedValue)
+                }else{
+                    return e===searchedValue;
+                }
+            }).map((element) => (
                 <ItemContainer key={element}>
                     <ItemCheckBoxInput
                         checked={checkedValues.includes(element)}
