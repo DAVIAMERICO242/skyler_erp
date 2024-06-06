@@ -28,9 +28,12 @@ const ItemValue = styled.div`
     color: gray;
 `;
 
-export const FilterContent = () => {
-    
-    const list = ['A', 'B', 'C', 'D', 'E', 'F'];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const FilterContent = ({data,column}:{data:{[key:string | number]:any}[],column:string}) => {
+
+    const list = data.map((row)=>{
+        return row[column];
+    });
 
     const [checkedValues, setCheckedValues] = useState([]);
 

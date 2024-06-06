@@ -35,7 +35,8 @@ const FilterTitle = styled.div`
   color: gray;
 `;
 
-export const FilterDialog = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],column:string}) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 
@@ -68,7 +69,7 @@ export const FilterDialog = () => {
         <FilterUI className="filter_UI">
           <FilterTitle>Filtro</FilterTitle>
           <Input className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
-          <FilterContent/>
+          <FilterContent data={data} column={column}/>
         </FilterUI>
       )}
     </FilterDialogContainer>

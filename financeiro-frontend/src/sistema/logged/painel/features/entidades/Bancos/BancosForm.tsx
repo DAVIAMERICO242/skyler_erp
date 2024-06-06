@@ -108,7 +108,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
             toast({
               title: "Duplicata",
               className: "error",
-              description: "Esse nome já existe no banco de dados",
+              description: "Essa conta bancária já existe no banco de dados",
             })
           }
           else{

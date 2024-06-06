@@ -110,7 +110,7 @@ export const FeatureTable = ({author}:{author:string})=>{
                                         <div>
                                             {e} 
                                         </div>
-                                        <FilterDialog/>
+                                        <FilterDialog data={data} column={e}/>
                                     </div>
                                 </TableHeaderValue>                   
                             </>
