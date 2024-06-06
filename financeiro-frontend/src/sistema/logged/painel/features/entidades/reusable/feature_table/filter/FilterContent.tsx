@@ -30,7 +30,7 @@ const ItemValue = styled.div`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | number]:any}[], searchedValue:string, column:string}) => {
+export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllSelected,limparSignal}:{data:{[key:string | number]:any}[], searchedValue:string, column:string,isAllSelected:boolean,setIsAllSelected:any,limparSignal:number}) => {
 
     const dataFilter = useTableFilter().dataFilter;
     const setFilter = useTableFilter().setdataFilter;//global (nao so nessa coluna)
@@ -49,6 +49,17 @@ export const FilterContent = ({data,column,searchedValue}:{data:{[key:string | n
             setCheckedValues([...checkedValues, value]);
         }
     };
+
+    useEffect(()=>{
+        if(isAllSelected){
+            setCheckedValues([...list])
+        }
+    },[isAllSelected])
+
+    useEffect(()=>{
+        setCheckedValues([]);
+        setIsAllSelected(false);
+    },[limparSignal])
 
     useEffect(()=>{
         setFilter((prev)=>{

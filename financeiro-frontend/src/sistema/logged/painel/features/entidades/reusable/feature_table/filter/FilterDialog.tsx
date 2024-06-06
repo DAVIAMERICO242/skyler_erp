@@ -42,6 +42,9 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
 
   const [searchedValue,setSearchedValue] = useState("");
 
+  const [isAllSelected, setIsAllSelected] = useState(false);
+  const [limparSignal, setLimparSignal] = useState(-1);
+
   const manageOpen = () => {
     setOpen((prev) => !prev);
   };
@@ -70,8 +73,16 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
       
       <FilterUI className="filter_UI" open={open}>
         <FilterTitle>Filtro</FilterTitle>
+        <div style={{display:"flex",gap:"10px", marginBottom:"10px"}}>
+          <a href="#" onClick={()=>{setIsAllSelected(true)}}  style={{color:"var(--skyler-blue)", fontSize:"10px", textDecoration:"underline"}}>Selecionar tudo</a>
+          <a href="#" onClick={()=>{setLimparSignal((prev)=>-1*prev)}} style={{color:"red", fontSize:"10px", textDecoration:"underline"}}>Limpar</a>
+        </div>
         <Input onChange={(e)=>{setSearchedValue(e?.target?.value?.trim())}} className="h-[10px] w-[180px] text-xs p-3 mb-[10px] text-black" placeholder="Buscar..." />
-        <FilterContent data={data}
+        <FilterContent
+            limparSignal={limparSignal}
+            isAllSelected={isAllSelected}
+            setIsAllSelected={setIsAllSelected}
+            data={data}
             column={column}
             searchedValue={searchedValue}
          />
