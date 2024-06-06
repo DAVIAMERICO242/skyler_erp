@@ -11,6 +11,8 @@ import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
 import { FilterDialog } from "./filter/FilterDialog";
+import { useTableFilter } from "./filter/FilterContext";
+import { TableFilterProvider } from "./filter/FilterContext";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -18,7 +20,6 @@ const TableContainer = styled.div`
     transform: translateY(50px);
     animation: fadeIn 0.5s ease forwards;
     min-width:fit-content;
-
 `
 
 const Table = styled.table`
@@ -52,6 +53,16 @@ const TableRowValue = styled.td`
 `
 
 export const FeatureTable = ({author}:{author:string})=>{
+
+    return(
+        <TableFilterProvider>
+            <FeatureTableUI author={author}/>
+        </TableFilterProvider>
+    )
+    
+}
+
+const FeatureTableUI = ({author}:{author:string})=>{
     const [filteredKey,setFilteredKey] = useState("");
     switch (author){
         case "terceiros":
@@ -87,15 +98,10 @@ export const FeatureTable = ({author}:{author:string})=>{
           var identifier = "";
           var columns:string[] = [];
       }
-    useEffect(()=>{
-        console.log(filteredKey);
-    },[filteredKey])
 
-    console.log('DATA NA TABELA');
-
-    console.log('IDENTIFIER');
-
-    console.log(identifier)
+    const filteredData = useTableFilter().filteredData;
+    console.log('FILTERED DATA');
+    console.log(filteredData);
 
     return(
         <TableContainer className="table_container">
@@ -155,3 +161,5 @@ export const FeatureTable = ({author}:{author:string})=>{
     )
     
 }
+
+

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useTableFilter } from "./FilterContext";
 
 const FilterContentContainer = styled.div`
     border: var(--light-border);
@@ -31,21 +32,38 @@ const ItemValue = styled.div`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const FilterContent = ({data,column}:{data:{[key:string | number]:any}[],column:string}) => {
 
+    const setFilter = useTableFilter().setFilteredData;//global (nao so nessa coluna)
+
+
     const list = data.map((row)=>{
         return row[column];
     });
 
     const [checkedValues, setCheckedValues] = useState([]);
 
+
     const manageCheck = (value) => {
         if (checkedValues.includes(value)) {
             setCheckedValues(checkedValues.filter((element) => element !== value));
+
         } else {
             setCheckedValues([...checkedValues, value]);
         }
     };
 
-    console.log(checkedValues)
+    useEffect(()=>{
+        setFilter((prev)=>{
+            return{
+                ...prev,
+                [column]:checkedValues
+            }
+        })
+    },[checkedValues])
+
+    useEffect(()=>{
+        console.log(checkedValues)
+    },[checkedValues])
+
 
     return (
         <FilterContentContainer>
