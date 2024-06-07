@@ -80,7 +80,8 @@ export function getFrotendHistoricoConta(): Promise<DBHistoricoContas[]|DBError>
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria;
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+                    ORDER BY historico_contas.data;
                     `,
                     (err, result) => {
                         connection.end(); // Simply close the connection

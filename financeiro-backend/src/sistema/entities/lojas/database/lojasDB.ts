@@ -39,7 +39,7 @@ export function getLojas(): Promise<DBLoja[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM lojas`,
+                connection.query(`SELECT * FROM lojas ORDER BY nome`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {

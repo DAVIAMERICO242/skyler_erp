@@ -28,7 +28,7 @@ const TableContainer = styled.div`
     animation: fadeIn 0.5s ease forwards;
     min-width:fit-content;
 `
-
+    
 const Table = styled.table`
     width:100%;
     border:var(--light-border);

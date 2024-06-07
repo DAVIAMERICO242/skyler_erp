@@ -39,7 +39,7 @@ export function getBancos(): Promise<DBBanco[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM bancos`,
+                connection.query(`SELECT * FROM bancos ORDER BY nome_banco`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {

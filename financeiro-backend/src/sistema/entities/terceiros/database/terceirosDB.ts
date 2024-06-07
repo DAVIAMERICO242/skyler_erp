@@ -40,7 +40,7 @@ export function getTerceiros(): Promise<DBTerceiro[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM terceiros`,
+                connection.query(`SELECT * FROM terceiros ORDER BY nome`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
