@@ -124,6 +124,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
         criarEditarTerceiros(edit,values).then((d)=>d.json())
           .then((d)=>{
             if(d.success){
+              setOpen(false);
               refetch();
               toast({
                 title: "Sucesso",

@@ -104,6 +104,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
       criarEditarLojas(edit,values).then((d)=>d.json())
         .then((d)=>{
           if(d.success){
+            setOpen(false);
             refetchLojas();
             refetchBancos();
             toast({

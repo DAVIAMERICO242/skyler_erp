@@ -90,6 +90,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     criarEditarBancos(edit,values).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
+          setOpen(false);
           refetch();
           toast({
             title: "Sucesso",

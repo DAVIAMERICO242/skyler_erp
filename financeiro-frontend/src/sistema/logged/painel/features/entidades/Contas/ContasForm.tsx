@@ -144,6 +144,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     criarEditarContas(edit,values).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
+          setOpen(false);
           refetchContas();
           refetch_categorias_fiscais();
           toast({
