@@ -151,11 +151,11 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[1]}>
-                                        <GiNotebook className="side_icon"/>
+                                        <FaMoneyBillTransfer className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
-                                <TooltipContent className="tooltip">
-                                <p>{features[1]}</p>
+                                <TooltipContent className="tooltip z-1000">
+                                    <p>{features[1]}</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
@@ -202,7 +202,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[4]}>
-                                        <FaMoneyBillTransfer className="side_icon"/>
+                                        <GiNotebook className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">

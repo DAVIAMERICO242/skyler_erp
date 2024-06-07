@@ -1,6 +1,6 @@
 .main{
     position: relative;
-    margin-left: calc(var(--untoggled-side-bar-width) + 100px); /* Adicionando 30px à margem esquerda */
+    margin-left: calc(var(--untoggled-side-bar-width) + 30px); /* Adicionando 30px à margem esquerda */
     transition: all 0.1s ease;
     transform: translateY(30px);
 }

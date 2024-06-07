@@ -1,5 +1,4 @@
 .resumo-graphs {
-    z-index: 99999;
     display: grid;
     grid-template-columns: 40% 40%; /* Define a largura fixa para os gráficos */
 }

@@ -52,7 +52,7 @@ const TableRow = styled.tr`
 
 const TableHeaderValue = styled.th`
         padding:10px;
-        font-size:15px;
+        font-size:13px;
         font-weight:500;
 `
 const TableRowValue = styled.td`
