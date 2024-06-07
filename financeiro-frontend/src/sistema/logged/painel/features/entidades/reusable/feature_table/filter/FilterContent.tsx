@@ -83,6 +83,9 @@ export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllS
     return (
         <FilterContentContainer>
             {list.filter((e)=>{
+                if(!searchedValue){
+                    return true;
+                }
                 if(typeof e==="string"){
                     return e.includes(searchedValue)
                 }else{
