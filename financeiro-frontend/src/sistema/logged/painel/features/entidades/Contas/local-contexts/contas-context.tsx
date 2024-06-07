@@ -2,26 +2,28 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 import { getContas } from '../../API/fetch';
 
-export interface ContasData {
+export interface ContasFrontendData {
     pastid?:number;
-    id?:number;
-    data?: string;
-    vencimento?: Date;
+    id?:number,
+    data?:string,
+    vencimento?:string,
     conta_tipo?: string;
-    terceiro?:string;
-    valor?:number;
-    situacao?:string;
+    terceiro?:string,
+    valor?:number,
+    data_resolucao?:string,
+    valor_resolucao?:number,
+    nossa_conta_bancaria?:string,
 }
 
 interface ContasContextType {
-    data: ContasData[] | null;
+    data: ContasFrontendData[] | null;
     refetch: () => void;
 }
 
 const ContasContext = createContext<ContasContextType>({ data: null,refetch: () => {} });
 
 export const ContasProvider = ({ children }:{children:ReactNode}) => {
-    const [data, setData] = useState<ContasData[] | null>(null);
+    const [data, setData] = useState<ContasFrontendData[] | null>(null);
 
     const fetchData = async () => {
             try {

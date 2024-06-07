@@ -59,7 +59,29 @@ export function getHistoricoConta(): Promise<DBHistoricoContas[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`SELECT * FROM historico_contas`,
+                connection.query(`
+                    SELECT 
+                        historico_contas.id,
+                        historico_contas.data, 
+                        historico_contas.vencimento, 
+                        historico_contas.terceiro, 
+                        tipo_contas.categoria_conta,
+                        historico_contas.conta_tipo, 
+                        categoria_contas.pagar_receber, 
+                        historico_contas.valor, 
+                        historico_contas.data_resolucao, 
+                        historico_contas.valor_resolucao, 
+                        historico_contas.nossa_conta_bancaria, 
+                        lojas.nome as nome_loja
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria;
+                    `,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {

@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 
 import { useTerceiros } from '../Terceiros/Terceiros';
 import { useCategoriasFiscais } from './local-contexts/categorias_fiscais-context';
-import { ContasData, useContas } from './local-contexts/contas-context';
+import { ContasFrontendData, useContas } from './local-contexts/contas-context';
 import { CategoriasFiscaisData } from './local-contexts/categorias_fiscais-context';
 
 import {
@@ -57,7 +57,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   var all_categorias = [...new Set(categorias_fiscaisData?.map((e)=>e.categoria_conta as string))]
 
   const refetch_categorias_fiscais = useCategoriasFiscais().refetch;
-  const contasData = useContas().data;//cache dos dados
+  const ContasFrontendData = useContas().data;//cache dos dados
   const refetchContas  = useContas().refetch;
 
   const [categoriasPura,setCategoriasPura] = useState<string[]>([]);
@@ -122,12 +122,12 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const { toast } = useToast();
 
-  const [selectedPastId, setselectedPastId] = useState<ContasData>({});
+  const [selectedPastId, setselectedPastId] = useState<ContasFrontendData>({});
 
 
   useEffect(()=>{
     if(identifier_value){
-      const current_conta_data:(ContasData | undefined) = contasData?.filter((e)=>e.id==form.getValues().pastid)[0]
+      const current_conta_data:(ContasFrontendData | undefined) = ContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
       setselectedPastId(current_conta_data || {})
     }
   },[identifier_value,terceirosData])
