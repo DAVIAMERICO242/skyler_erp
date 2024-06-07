@@ -90,14 +90,12 @@ export const TZtoFriendlyDate = (string:string)=>{
 }
 
 export function isStringDate(value:string | number){
+
     if (typeof value !== "string"){
         return false;
     }else{
-        if (!isNaN(Date.parse(value))) {
-            return true;
-          } else {
-            return false;
-          }
+        const regex = /^\d{4}-\d{2}-\d{2}/;
+        return !!regex.test(value)
     }
 }
 

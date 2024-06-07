@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTableFilter } from "./FilterContexts";
 import { useCleanAllFilter } from "./FilterContexts";
+import { TZtoFriendlyDate, isStringDate} from "@/sistema/essentials";
 
 const FilterContentContainer = styled.div`
     border: var(--light-border);
@@ -24,7 +25,7 @@ const ItemCheckBoxInput = styled.input`
     border-radius: 50%;
 `;
 
-const ItemValue = styled.div`
+const ItemUIValue = styled.div`
     font-size: 14px;
     font-weight: 300;
     color: gray;
@@ -94,7 +95,12 @@ export const FilterContent = ({data,column,searchedValue,isAllSelected,setIsAllS
                         onChange={() => manageCheck(element)}
                         type="checkbox"
                     />
-                    <ItemValue>{element}</ItemValue>
+                    <ItemUIValue>
+                        {
+                            isStringDate(element)?
+                            TZtoFriendlyDate(element):element
+                        }
+                    </ItemUIValue>
                 </ItemContainer>
             ))}
         </FilterContentContainer>
