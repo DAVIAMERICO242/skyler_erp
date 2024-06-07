@@ -154,8 +154,8 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                                         <FaMoneyBillTransfer className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
-                                <TooltipContent className="tooltip z-1000">
-                                    <p>{features[1]}</p>
+                                <TooltipContent className="tooltip">
+                                <p>{features[1]}</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
