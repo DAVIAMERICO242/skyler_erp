@@ -61,38 +61,46 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
           message: "A o cnpj deve conter 14 caracteres númericos",
         }),
       })
-    
+
     if(identifier_value){
-      var form = useForm<z.infer<typeof lojasSchema>>({
-        resolver: zodResolver(lojasSchema),
-        defaultValues: {
-          pastnomeloja:identifier_value || "",
-          nomeloja: "",
-          cnpjloja: ""
-        },
-      });
-    }else{
-      var form = useForm<z.infer<typeof lojasSchema>>({
-        resolver: zodResolver(lojasSchema),
-        defaultValues: {
-          nomeloja: "",
-          cnpjloja: ""
-        },
-      });      
-    }
+        var form = useForm<z.infer<typeof lojasSchema>>({
+          resolver: zodResolver(lojasSchema),
+          defaultValues: {
+            pastnomeloja:identifier_value || "",
+            nomeloja: "",
+            contaloja:"",
+            razaoloja:"",
+            cnpjloja: ""
+          },
+        });
+      }
+    else{
+        var form = useForm<z.infer<typeof lojasSchema>>({
+          resolver: zodResolver(lojasSchema),
+          defaultValues: {
+            nomeloja: "",
+            contaloja:"",
+            razaoloja:"",
+            cnpjloja: ""
+          },
+        });      
+      }
   
-
     const { toast } = useToast();
-
-    const [selectedPastLoja, setSelectedPastLoja] = useState<LojasData>({});
 
     useEffect(()=>{
       if(identifier_value){
         const current_loja_data:(LojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
-        setSelectedPastLoja(current_loja_data || {})
+        if(current_loja_data){
+          form.reset({
+            nomeloja: current_loja_data?.nome,
+            contaloja: current_loja_data?.conta,
+            razaoloja: current_loja_data?.razao,
+            cnpjloja: current_loja_data?.cnpj,
+          });
+        }
     }
     },[identifier_value,lojasData])
-
 
 
     const [loading,setLoading] = useState<boolean>(false);
@@ -168,7 +176,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={selectedPastLoja.conta?`Conta atual: ${selectedPastLoja.conta}`:"Escolher"}/>
+                                <SelectValue placeholder={"Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {bancosData?.map((e)=>{
@@ -190,7 +198,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Nome da loja</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastLoja.nome || "nome loja"} {...field} />
+                        <Input placeholder={"nome loja"} {...field}/>
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -203,7 +211,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Razão</FormLabel>
                     <FormControl>
-                        <Input  placeholder={selectedPastLoja.razao || "razão social"} {...field} />
+                        <Input  placeholder={"razão social"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -216,7 +224,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} CNPJ Loja (sem máscara)</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastLoja.cnpj || "CNPJ"} {...field} />
+                        <Input placeholder={"CNPJ"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>

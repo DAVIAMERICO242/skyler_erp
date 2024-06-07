@@ -8,6 +8,7 @@ export interface ContasFrontendData {
     data?:string,
     vencimento?:string,
     conta_tipo?: string;
+    pagar_receber:string;
     terceiro?:string,
     valor?:number,
     data_resolucao?:string,

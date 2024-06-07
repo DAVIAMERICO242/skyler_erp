@@ -20,6 +20,7 @@ import { CleanAllFilterProvider } from "./filter/FilterContexts";
 const TableContainer = styled.div`
     padding:30px;
     opacity:0;
+    width:100%;
     transform: translateY(50px);
     animation: fadeIn 0.5s ease forwards;
     min-width:fit-content;
@@ -160,7 +161,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                         return(
                             <>
                                 <TableHeaderValue className="table_header_value" key={e}>
-                                    <div className="flex items-center justify-center gap-[25px]">
+                                    <div className="flex items-center justify-center gap-[5px]">
                                         <div>
                                             {e} 
                                         </div>

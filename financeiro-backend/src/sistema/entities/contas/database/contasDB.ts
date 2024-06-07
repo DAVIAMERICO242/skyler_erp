@@ -55,7 +55,7 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
     });
 }
 
-export function getHistoricoConta(): Promise<DBHistoricoContas[]|DBError> {
+export function getFrotendHistoricoConta(): Promise<DBHistoricoContas[]|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {

@@ -69,7 +69,7 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
 
   return (
     <FilterDialogContainer className="filter_dialog_container" ref={containerRef}>
-      <BsFilter onClick={manageOpen} className="filter_icon text-2xl cursor-pointer" />
+      <BsFilter onClick={manageOpen} className="filter_icon text-[20px] cursor-pointer" />
       
       <FilterUI className="filter_UI" open={open}>
         <FilterTitle>Filtro</FilterTitle>

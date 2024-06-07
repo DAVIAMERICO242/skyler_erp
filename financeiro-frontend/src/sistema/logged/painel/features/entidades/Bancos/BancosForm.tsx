@@ -56,7 +56,9 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       defaultValues: {
         pastconta:identifier_value || "",
         agencia:"",
-        conta: ""
+        conta: "",
+        nomebanco:"",
+        saldoinicial:undefined
       },
     });  
   }else{
@@ -65,19 +67,28 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       defaultValues: {
         banco: "",
         agencia:"",
-        conta: ""
+        conta: "",
+        nomebanco:"",
+        saldoinicial:undefined
       },
     });        
   }
   
   const { toast } = useToast();
 
-  const [selectedPastBanco, setSelectedPastBanco] = useState<BancosData>({});
 
   useEffect(()=>{
     if(identifier_value){
       const current_banco_data:(BancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
-      setSelectedPastBanco(current_banco_data || {})
+      if(current_banco_data){
+        form.reset({
+          banco: current_banco_data.banco,
+          agencia:current_banco_data.agencia,
+          conta: current_banco_data.conta,
+          nomebanco:current_banco_data.nome_banco,
+          saldoinicial:current_banco_data.saldo_inicial
+        });
+      }
     }
   },[identifier_value,bancosData])
 
@@ -153,7 +164,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Nome do banco</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastBanco.nome_banco || "Itau, Nubank, etc..."} {...field} />
+                        <Input placeholder={"Itau, Nubank, etc..."} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -166,7 +177,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Banco</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastBanco.banco || "Número do banco (xxx)"} {...field} />
+                        <Input placeholder={"Número do banco (xxx)"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -179,7 +190,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Agência (sem digito)</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastBanco.agencia || "AAAA"} {...field} />
+                        <Input placeholder={"AAAA"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -192,7 +203,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Conta (sem digito)</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastBanco.conta || "xxxxxxxx"} {...field} />
+                        <Input placeholder={"xxxxxxxx"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -205,7 +216,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} Saldo inicial</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastBanco.saldo_inicial || "Ex: 999.90"} {...field} />
+                        <Input placeholder={"Ex: 999.90"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>

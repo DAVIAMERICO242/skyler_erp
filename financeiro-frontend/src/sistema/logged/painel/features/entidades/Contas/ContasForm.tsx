@@ -128,8 +128,20 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   useEffect(()=>{
     if(identifier_value){
       const current_conta_data:(ContasFrontendData | undefined) = ContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
-      setselectedPastId(current_conta_data || {})
+      if(current_conta_data){
+        form.reset({
+          terceiro:current_conta_data.terceiro,
+          valor:current_conta_data.valor,
+          pagar_receber:current_conta_data.pagar_receber,
+          tipo_fiscal:current_conta_data.conta_tipo,
+          vencimento:new Date(current_conta_data.vencimento)
+        }
+        )
+      }
+    
     }
+
+
   },[identifier_value,terceirosData])
 
   console.log('DADOS333')
@@ -211,7 +223,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={selectedPastId.terceiro?`Terceiro atual: ${selectedPastId.terceiro}`:"Escolher"}/>
+                                <SelectValue placeholder={"Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {terceirosData?.map((e)=>{
@@ -233,7 +245,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormItem style={{ marginBottom: '30px' }}>
                     <FormLabel>{edit && <EditFieldAlert/>} {"Valor em R$"}</FormLabel>
                     <FormControl>
-                        <Input placeholder={selectedPastId.valor?.toString() as string || "Ex: 999.90"} {...field} />
+                        <Input placeholder={"Ex: 999.90"} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
