@@ -32,6 +32,7 @@ import { LojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
+import { criarEditarLojas } from '../API/fetch';
 export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
     const lojasData = useLojas().data;//cache dos dados
     const refetchLojas = useLojas().refetch;
@@ -100,14 +101,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
       console.log('form');
       console.log(values);
       setLoading(true);
-      fetch(BACKEND_URL+`/lojas/${!edit?"cadastro":"update"}`,{
-        method:"POST",
-        headers:{
-          'Content-type':"application/json",
-          'token':localStorage.getItem('token') as string,
-        },
-        body:JSON.stringify({loja:values})
-      }).then((d)=>d.json())
+      criarEditarLojas(edit,values).then((d)=>d.json())
         .then((d)=>{
           if(d.success){
             refetchLojas();

@@ -44,6 +44,7 @@ import {
 import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
+import { criarEditarContas } from '../API/fetch';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -140,14 +141,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     console.log('eiei');
     console.log(values);
     setLoading(true);
-    fetch(BACKEND_URL+`/contas/${!edit?"cadastro":"update"}`,{
-      method:"POST",
-      headers:{
-        'Content-type':"application/json",
-        'token':localStorage.getItem('token') as string,
-      },
-      body:JSON.stringify({conta:values})
-    }).then((d)=>d.json())
+    criarEditarContas(edit,values).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
           refetchContas();

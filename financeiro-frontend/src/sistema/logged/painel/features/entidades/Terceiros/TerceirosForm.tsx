@@ -22,11 +22,11 @@ import {
   } from "@/components/ui/select"
 import { useState,useEffect } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
-import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 import { useTerceiros } from "./Terceiros";
 import { TerceirosData } from "./Terceiros";
 import { EditFieldAlert } from "../reusable/EditFieldAlert";
+import { criarEditarTerceiros } from "../API/fetch";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -121,14 +121,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
         console.log('form');
         console.log(values);
         setLoading(true);
-        fetch(BACKEND_URL+`/terceiros/${!edit?"cadastro":"update"}`,{
-          method:"POST",
-          headers:{
-            'Content-type':"application/json",
-            'token':localStorage.getItem('token') as string,
-          },
-          body:JSON.stringify({terceiro:values})
-        }).then((d)=>d.json())
+        criarEditarTerceiros(edit,values).then((d)=>d.json())
           .then((d)=>{
             if(d.success){
               refetch();

@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { BancosData, useBancos } from './Bancos';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
+import { criarEditarBancos } from '../API/fetch';
 
 export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
   const bancosData = useBancos().data;//cache dos dados
@@ -86,14 +87,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     console.log('form');
     console.log(values);
     setLoading(true);
-    fetch(BACKEND_URL+`/bancos/${!edit?"cadastro":"update"}`,{
-      method:"POST",
-      headers:{
-        'Content-type':"application/json",
-        'token':localStorage.getItem('token') as string,
-      },
-      body:JSON.stringify({banco:values})
-    }).then((d)=>d.json())
+    criarEditarBancos(edit,values).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
           refetch();

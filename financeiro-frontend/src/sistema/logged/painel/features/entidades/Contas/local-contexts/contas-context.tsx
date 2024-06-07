@@ -1,5 +1,6 @@
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
+import { getContas } from '../../API/fetch';
 
 export interface ContasData {
     pastid?:number;
@@ -24,15 +25,8 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
 
     const fetchData = async () => {
             try {
-            const response = await fetch(BACKEND_URL + '/contas/get',{
-                headers:{
-                "Content-type":"application/json",
-                "token":localStorage.getItem('token') as string
-                }
-            });
-            const result = await response.json();
-            console.log(result.data)
-            setData(result.data);
+            const response = await getContas();
+            setData(response);
             } catch (error) {
             console.log('erro')
             } 

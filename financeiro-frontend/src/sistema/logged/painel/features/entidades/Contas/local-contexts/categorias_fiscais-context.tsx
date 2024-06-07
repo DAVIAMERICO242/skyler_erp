@@ -1,5 +1,6 @@
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
+import { getCategoriasFiscais } from '../../API/fetch';
 
 export interface CategoriasFiscaisData {
     nome_conta?:string;
@@ -20,15 +21,8 @@ export const CategoriasFiscaisProvider = ({ children }:{children:ReactNode}) => 
 
     const fetchData = async () => {
             try {
-            const response = await fetch(BACKEND_URL + '/categorias_fiscais/get',{
-                headers:{
-                "Content-type":"application/json",
-                "token":localStorage.getItem('token') as string
-                }
-            });
-            const result = await response.json();
-            console.log(result.data)
-            setData(result.data);
+            const response = await getCategoriasFiscais();
+            setData(response);
             } catch (error) {
             console.log('erro')
             } 

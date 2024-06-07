@@ -20,6 +20,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { singularWord } from "@/sistema/essentials";
+import { DeleteEntity } from "../../API/fetch";
 
 export const Deletar = ({author,identifier_value}:{author:string,identifier_value:string})=>{
     const { toast } = useToast();
@@ -48,14 +49,7 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
     function submit() {
         console.log('form');
         setLoading(true);
-        fetch(BACKEND_URL+`/${author}/delete`,{
-          method:"POST",
-          headers:{
-            'Content-type':"application/json",
-            'token':localStorage.getItem('token') as string,
-          },
-          body:JSON.stringify({[singularWord(author)]:identifier_value})
-        }).then((d)=>d.json())
+        DeleteEntity(author,identifier_value).then((d)=>d.json())
           .then((d)=>{
             if(d.success){
               refetch();

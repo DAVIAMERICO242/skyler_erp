@@ -5,7 +5,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
-
+import { getLojas } from '../API/fetch';
 
 export interface LojasData {
   conta?:string,
@@ -27,15 +27,8 @@ export const LojasProvider = ({ children }:{children:ReactNode}) => {
 
   const fetchData = async () => {
         try {
-          const response = await fetch(BACKEND_URL + '/lojas/get',{
-            headers:{
-              "Content-type":"application/json",
-              "token":localStorage.getItem('token') as string
-            }
-          });
-          const result = await response.json();
-          console.log(result.data)
-          setData(result.data);
+          const response = await getLojas();
+          setData(response);
         } catch (error) {
           console.log('erro')
         } 

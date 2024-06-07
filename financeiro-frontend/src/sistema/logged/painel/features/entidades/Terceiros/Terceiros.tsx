@@ -5,8 +5,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-
-
 import { createContext } from 'react';
 import { useEffect,useState,useContext } from 'react';
 import { ReactNode } from 'react';
@@ -14,6 +12,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
+import { getTerceiros } from '../API/fetch';
 
 export interface TerceirosData {
   nome?: string;
@@ -35,20 +34,12 @@ export const TerceirosProvider = ({ children }:{children:ReactNode}) => {
   console.log('renderizou terceiros provider');
   const fetchData = async () => {
         try {
-          const response = await fetch(BACKEND_URL + '/terceiros/get',{
-            headers:{
-              "Content-type":"application/json",
-              "token":localStorage.getItem('token') as string
-            }
-          });
-          const result = await response.json();
-          console.log(result.data)
-          setData(result.data);
+          const response = await getTerceiros();
+          setData(response);
         } catch (error) {
           console.log('erro')
         } 
   };
-
 
   useEffect(() => {
     fetchData();
