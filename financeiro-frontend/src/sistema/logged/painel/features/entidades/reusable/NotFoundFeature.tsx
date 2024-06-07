@@ -58,10 +58,10 @@ export const NotFoundFeature = ({author}:{author:string})=>{
                         <DialogDescription>
                         </DialogDescription>
                         </DialogHeader>
-                            {author === "terceiros" ? <TerceirosForm edit={false}/> : null}
-                            {author === "lojas" ? <LojasForm edit={false}/> : null}
-                            {author === "bancos" ? <BancosForm edit={false}/> : null}
-                            {author === "contas" ? <ContasForm edit={false}/> : null}
+                            {author === "terceiros" ? <TerceirosForm edit={false} setOpen={setOpen}/> : null}
+                            {author === "lojas" ? <LojasForm edit={false} setOpen={setOpen}/> : null}
+                            {author === "bancos" ? <BancosForm edit={false} setOpen={setOpen}/> : null}
+                            {author === "contas" ? <ContasForm edit={false} setOpen={setOpen}/> : null}
                     </DialogContent>
                 </Dialog>
         </StyledNotFound>

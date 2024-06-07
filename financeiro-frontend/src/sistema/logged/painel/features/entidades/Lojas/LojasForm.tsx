@@ -145,7 +145,8 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
             setLoading(false);
           }
         })
-        .catch(()=>{
+        .catch((err)=>{
+          console.log(err);
           toast({
             title: "Erro desconhecido",
             className: "error",
