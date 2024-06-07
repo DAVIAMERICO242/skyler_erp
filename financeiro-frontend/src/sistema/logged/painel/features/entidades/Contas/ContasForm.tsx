@@ -122,13 +122,14 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const { toast } = useToast();
 
-  const [selectedPastId, setselectedPastId] = useState<ContasFrontendData>({});
 
+  const [contaToBeEdited,setContaToBeEdited] = useState<ContasFrontendData | undefined>([])
 
   useEffect(()=>{
     if(identifier_value){
       const current_conta_data:(ContasFrontendData | undefined) = ContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
       if(current_conta_data){
+        setContaToBeEdited(current_conta_data);
         form.reset({
           terceiro:current_conta_data.terceiro,
           valor:current_conta_data.valor,
@@ -138,14 +139,20 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
         }
         )
       }
-    
     }
-
-
   },[identifier_value,terceirosData])
 
+  useEffect(()=>{
+    form.reset({
+      terceiro:contaToBeEdited?.terceiro,
+      valor:contaToBeEdited?.valor,
+      pagar_receber:contaToBeEdited?.pagar_receber,
+      tipo_fiscal:contaToBeEdited?.conta_tipo,
+      vencimento:contaToBeEdited?.vencimento?(new Date(contaToBeEdited?.vencimento)):""
+    })
+  },[contaToBeEdited])
+
   console.log('DADOS333')
-  console.log(selectedPastId);
 
   const [loading,setLoading] = useState<boolean>(false);
 
@@ -223,7 +230,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={"Escolher"}/>
+                                <SelectValue placeholder={contaToBeEdited?.terceiro || "Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {terceirosData?.map((e)=>{
@@ -260,7 +267,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); UXFiscal(value)}}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder="Escolher"/>
+                                <SelectValue placeholder={contaToBeEdited?.pagar_receber || "Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 <SelectItem value="pagar">Pagar</SelectItem>
@@ -282,11 +289,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                         <FormControl>
                             <Select onValueChange={(value) => { field.onChange(value); }}>
                                 <SelectTrigger className="w-[100%] flex-1">
-                                    <SelectValue placeholder="Escolher"/>
+                                    <SelectValue placeholder={contaToBeEdited?.conta_tipo || "Escolher"}/>
                                 </SelectTrigger>
                                 <SelectContent {...field }>
-
-
                                     {categoriasPura?.map((e)=>{
                                         return(
                                             <SelectGroup>

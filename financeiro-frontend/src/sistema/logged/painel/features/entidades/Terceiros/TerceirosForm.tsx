@@ -101,24 +101,26 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
 
 
 
+      const [terceiroDataToBeEdited, setTerceiroDataToBeEdited] = useState<TerceirosData | undefined>([]);
 
       useEffect(()=>{
         if(identifier_value){
           const current_terceiro_data:(TerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===identifier_value)[0]
-          
           if(current_terceiro_data){
-            form.reset({
-              nometerceiro: current_terceiro_data.nome,
-              cnpjcpfterceiro: current_terceiro_data.cnpj_cpf,
-              uf:current_terceiro_data.estado,
-              tipoterceiro:current_terceiro_data.tipo
-            });
+            setTerceiroDataToBeEdited(current_terceiro_data)
           }
-  
         }
-      },[identifier_value,terceirosData])
+      },[identifier_value,terceirosData]);
 
-    
+      useEffect(()=>{
+          form.reset({
+            nometerceiro: terceiroDataToBeEdited?.nome,
+            cnpjcpfterceiro: terceiroDataToBeEdited?.cnpj_cpf,
+            uf:terceiroDataToBeEdited?.estado,
+            tipoterceiro:terceiroDataToBeEdited?.tipo
+          });
+      },[terceiroDataToBeEdited])
+
 
     //form
 
@@ -236,7 +238,7 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
                   <FormControl>
                       <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[100%]">
-                          <SelectValue placeholder={"Escolher"} />
+                          <SelectValue placeholder={terceiroDataToBeEdited?.estado || "Escolher"} />
                       </SelectTrigger>
                       <SelectContent {...field }>
                           {BRStates.map((e)=>{

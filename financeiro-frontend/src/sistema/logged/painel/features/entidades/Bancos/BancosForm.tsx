@@ -76,21 +76,26 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   
   const { toast } = useToast();
 
+  const [contaBancariaToBeEdited,setContaBancariaToBeEdited] = useState<BancosData | undefined>([]);
 
   useEffect(()=>{
     if(identifier_value){
       const current_banco_data:(BancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
       if(current_banco_data){
-        form.reset({
-          banco: current_banco_data.banco,
-          agencia:current_banco_data.agencia,
-          conta: current_banco_data.conta,
-          nomebanco:current_banco_data.nome_banco,
-          saldoinicial:current_banco_data.saldo_inicial
-        });
+        setContaBancariaToBeEdited(current_banco_data);
       }
     }
   },[identifier_value,bancosData])
+
+  useEffect(()=>{
+      form.reset({
+        banco: contaBancariaToBeEdited?.banco,
+        agencia:contaBancariaToBeEdited?.agencia,
+        conta: contaBancariaToBeEdited?.conta,
+        nomebanco:contaBancariaToBeEdited?.nome_banco,
+        saldoinicial:contaBancariaToBeEdited?.saldo_inicial
+      });
+  },[contaBancariaToBeEdited]) 
 
   const [loading,setLoading] = useState<boolean>(false);
 

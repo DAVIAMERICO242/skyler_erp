@@ -88,19 +88,25 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
   
     const { toast } = useToast();
 
+    const [lojaToBeEdited,setLojaToBeEdited] = useState<LojasData | undefined>([]);
+
     useEffect(()=>{
       if(identifier_value){
         const current_loja_data:(LojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
         if(current_loja_data){
-          form.reset({
-            nomeloja: current_loja_data?.nome,
-            contaloja: current_loja_data?.conta,
-            razaoloja: current_loja_data?.razao,
-            cnpjloja: current_loja_data?.cnpj,
-          });
+          setLojaToBeEdited(current_loja_data);
         }
     }
-    },[identifier_value,lojasData])
+    },[identifier_value,lojasData]);
+
+    useEffect(()=>{
+      form.reset({
+        nomeloja: lojaToBeEdited?.nome,
+        contaloja: lojaToBeEdited?.conta,
+        razaoloja: lojaToBeEdited?.razao,
+        cnpjloja: lojaToBeEdited?.cnpj,
+      });
+    },[lojaToBeEdited]);
 
 
     const [loading,setLoading] = useState<boolean>(false);
@@ -176,7 +182,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={"Escolher"}/>
+                                <SelectValue placeholder={lojaToBeEdited?.conta || "Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {bancosData?.map((e)=>{
