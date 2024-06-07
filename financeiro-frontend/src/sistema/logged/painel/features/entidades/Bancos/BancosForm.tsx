@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { BancosData, useBancos } from './Bancos';
+import { SchemaBancosData, useBancos } from './Bancos';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarBancos } from '../API/fetch';
@@ -76,11 +76,11 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   
   const { toast } = useToast();
 
-  const [contaBancariaToBeEdited,setContaBancariaToBeEdited] = useState<BancosData | undefined>([]);
+  const [contaBancariaToBeEdited,setContaBancariaToBeEdited] = useState<SchemaBancosData | undefined>([]);
 
   useEffect(()=>{
     if(identifier_value){
-      const current_banco_data:(BancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
+      const current_banco_data:(SchemaBancosData | undefined) = bancosData?.filter((e)=>e.conta===form.getValues().pastconta)[0]
       if(current_banco_data){
         setContaBancariaToBeEdited(current_banco_data);
       }

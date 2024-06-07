@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select"
 import { useLojas } from './Lojas';
 import { useBancos } from '../Bancos/Bancos';
-import { LojasData } from './Lojas';
+import { SchemaLojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
@@ -88,11 +88,11 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
   
     const { toast } = useToast();
 
-    const [lojaToBeEdited,setLojaToBeEdited] = useState<LojasData | undefined>([]);
+    const [lojaToBeEdited,setLojaToBeEdited] = useState<SchemaLojasData | undefined>([]);
 
     useEffect(()=>{
       if(identifier_value){
-        const current_loja_data:(LojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
+        const current_loja_data:(SchemaLojasData | undefined) = lojasData?.filter((e)=>e.nome===form.getValues().pastnomeloja)[0]
         if(current_loja_data){
           setLojaToBeEdited(current_loja_data);
         }

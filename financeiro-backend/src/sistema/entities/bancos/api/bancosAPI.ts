@@ -1,17 +1,17 @@
 import {Router, Response} from 'express';
 import { RequestModel } from '../../../schemas/this-api/schemas';
 import { cadastroBanco, deleteBanco } from '../database/bancosDB';
-import { Banco } from '../../../schemas/this-api/schemas';
+import { BancoFrontendFormInput } from '../../../schemas/this-api/schemas';
 import { getBancos } from '../database/bancosDB';
 import { updateBanco } from '../database/bancosDB';
-import { changeBanco } from '../../../schemas/this-api/schemas';
+import { changeBancoFrontendFormInput } from '../../../schemas/this-api/schemas';
 
 export const bancos_router = Router();
 
 bancos_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     const {banco} = req.body;
     try{
-        const response = await cadastroBanco(banco as Banco);
+        const response = await cadastroBanco(banco as BancoFrontendFormInput);
         res.status(200).send({
             success:true
         })
@@ -41,7 +41,7 @@ bancos_router.get('/get',async (req:RequestModel,res:Response)=>{
 bancos_router.post('/update',async (req:RequestModel,res:Response)=>{
     const {banco} = req.body;
     try{
-        const response = await updateBanco(banco as changeBanco);
+        const response = await updateBanco(banco as changeBancoFrontendFormInput);
         res.status(200).send({
             success:true,
         })

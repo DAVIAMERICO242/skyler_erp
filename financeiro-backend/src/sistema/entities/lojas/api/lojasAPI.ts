@@ -1,10 +1,10 @@
 import {Router, Response} from 'express';
 import { DBError, RequestModel } from '../../../schemas/this-api/schemas';
-import { Loja } from '../../../schemas/this-api/schemas';
+import { LojaFrontendFormInput } from '../../../schemas/this-api/schemas';
 import { cadastroLoja } from '../database/lojasDB';
 import { getLojas } from '../database/lojasDB';
 import { updateLoja } from '../database/lojasDB';
-import { changeLoja } from '../../../schemas/this-api/schemas';
+import { changeLojaFrontendFormInput } from '../../../schemas/this-api/schemas';
 import { deleteLoja } from '../database/lojasDB';
 
 export const lojas_router = Router();
@@ -12,7 +12,7 @@ export const lojas_router = Router();
 lojas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     const {loja} = req.body;
     try{
-        const response = await cadastroLoja(loja as Loja);
+        const response = await cadastroLoja(loja as LojaFrontendFormInput);
         res.status(200).send({
             success:true
         })
@@ -42,7 +42,7 @@ lojas_router.get('/get',async (req:RequestModel,res:Response)=>{
 lojas_router.post('/update',async (req:RequestModel,res:Response)=>{
     const {loja} = req.body;
     try{
-        const response = await updateLoja(loja as changeLoja);
+        const response = await updateLoja(loja as changeLojaFrontendFormInput);
         res.status(200).send({
             success:true
         })

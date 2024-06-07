@@ -2,7 +2,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 import { getCategoriasFiscais } from '../../API/fetch';
 
-export interface CategoriasFiscaisData {
+export interface SchemaCategoriasFiscaisData {
     nome_conta?:string;
     categoria_conta?:string;
     indice?:number;
@@ -10,14 +10,14 @@ export interface CategoriasFiscaisData {
 }
 
 interface CategoriasFiscaisContextType {
-    data: CategoriasFiscaisData[] | null;
+    data: SchemaCategoriasFiscaisData[] | null;
     refetch: () => void;
 }
 
 const CategoriasFiscaisContext = createContext<CategoriasFiscaisContextType>({ data: null,refetch: () => {} });
 
 export const CategoriasFiscaisProvider = ({ children }:{children:ReactNode}) => {
-    const [data, setData] = useState<CategoriasFiscaisData[] | null>(null);
+    const [data, setData] = useState<SchemaCategoriasFiscaisData[] | null>(null);
 
     const fetchData = async () => {
             try {

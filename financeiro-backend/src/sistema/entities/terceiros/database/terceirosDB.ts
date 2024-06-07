@@ -1,10 +1,10 @@
 import { SQLConnection } from "../../../connect-sql";
-import { Terceiro } from "../../../schemas/this-api/schemas";
-import { changeTerceiro } from "../../../schemas/this-api/schemas";
+import { TerceiroFrontendFormInput } from "../../../schemas/this-api/schemas";
+import { changeTerceiroFrontendFormInput } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBTerceiro } from "../../../schemas/this-api/schemas";
 
-export function cadastroTerceiro(terceiro: Terceiro): Promise<null|DBError> {
+export function cadastroTerceiro(terceiro: TerceiroFrontendFormInput): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -67,7 +67,7 @@ export function getTerceiros(): Promise<DBTerceiro[]|DBError> {
 }
 
 
-export function updateTerceiro(terceiro: changeTerceiro): Promise<null|DBError>{
+export function updateTerceiro(terceiro: changeTerceiroFrontendFormInput): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {

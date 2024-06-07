@@ -7,7 +7,7 @@ import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { getLojas } from '../API/fetch';
 
-export interface LojasData {
+export interface SchemaLojasData {
   conta?:string,
   nome?:string,
   razao?:string,
@@ -15,7 +15,7 @@ export interface LojasData {
 }
 
 interface lojasContextType {
-  data: LojasData[] | null;
+  data: SchemaLojasData[] | null;
   refetch: () => void;
 }
 
@@ -23,7 +23,7 @@ interface lojasContextType {
 const LojasContext = createContext<lojasContextType>({ data: null,refetch: () => {} });
 
 export const LojasProvider = ({ children }:{children:ReactNode}) => {
-  const [data, setData] = useState<LojasData[] | null>(null);
+  const [data, setData] = useState<SchemaLojasData[] | null>(null);
 
   const fetchData = async () => {
         try {

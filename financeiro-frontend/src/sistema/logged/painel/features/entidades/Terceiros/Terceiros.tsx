@@ -14,7 +14,7 @@ import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { getTerceiros } from '../API/fetch';
 
-export interface TerceirosData {
+export interface SchemaTerceirosData {
   nome?: string;
   cnpj_cpf?: string;
   tipo?: string;
@@ -22,14 +22,14 @@ export interface TerceirosData {
 }
 
 interface TerceirosContextType {
-  data: TerceirosData[] | null;
+  data: SchemaTerceirosData[] | null;
   refetch: () => void;
 }
 
 const TerceirosContext = createContext<TerceirosContextType>({ data: null,refetch: () => {} });
 
 export const TerceirosProvider = ({ children }:{children:ReactNode}) => {
-  const [data, setData] = useState<TerceirosData[] | null>(null);
+  const [data, setData] = useState<SchemaTerceirosData[] | null>(null);
 
   console.log('renderizou terceiros provider');
   const fetchData = async () => {

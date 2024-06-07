@@ -6,7 +6,7 @@ import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { getBancos } from '../API/fetch';
 
-export interface BancosData {
+export interface SchemaBancosData {
     nome_banco?:string;
     banco?: string;
     agencia?: string;
@@ -15,14 +15,14 @@ export interface BancosData {
 }
 
 interface BancosContextType {
-    data: BancosData[] | null;
+    data: SchemaBancosData[] | null;
     refetch: () => void;
 }
 
 const BancosContext = createContext<BancosContextType>({ data: null,refetch: () => {} });
 
 export const BancosProvider = ({ children }:{children:ReactNode}) => {
-const [data, setData] = useState<BancosData[] | null>(null);
+const [data, setData] = useState<SchemaBancosData[] | null>(null);
 
 const fetchData = async () => {
         try {

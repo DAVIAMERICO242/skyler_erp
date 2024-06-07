@@ -1,10 +1,10 @@
 import { SQLConnection } from "../../../connect-sql";
-import { Loja } from "../../../schemas/this-api/schemas";
-import { changeLoja } from "../../../schemas/this-api/schemas";
+import { LojaFrontendFormInput } from "../../../schemas/this-api/schemas";
+import { changeLojaFrontendFormInput } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBLoja } from "../../../schemas/this-api/schemas";
 
-export function cadastroLoja(loja: Loja): Promise<null|DBError> {
+export function cadastroLoja(loja: LojaFrontendFormInput): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -65,7 +65,7 @@ export function getLojas(): Promise<DBLoja[]|DBError> {
     });
 }
 
-export function updateLoja(loja: changeLoja): Promise<null|DBError>{
+export function updateLoja(loja: changeLojaFrontendFormInput): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {

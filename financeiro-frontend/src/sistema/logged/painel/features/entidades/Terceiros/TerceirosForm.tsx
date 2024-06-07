@@ -24,7 +24,7 @@ import { useState,useEffect } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
 import { useToast } from "@/components/ui/use-toast"
 import { useTerceiros } from "./Terceiros";
-import { TerceirosData } from "./Terceiros";
+import { SchemaTerceirosData } from "./Terceiros";
 import { EditFieldAlert } from "../reusable/EditFieldAlert";
 import { criarEditarTerceiros } from "../API/fetch";
 
@@ -101,11 +101,11 @@ export const TerceirosForm = ({edit,setOpen,identifier_value}:{edit:boolean, set
 
 
 
-      const [terceiroDataToBeEdited, setTerceiroDataToBeEdited] = useState<TerceirosData | undefined>([]);
+      const [terceiroDataToBeEdited, setTerceiroDataToBeEdited] = useState<SchemaTerceirosData | undefined>([]);
 
       useEffect(()=>{
         if(identifier_value){
-          const current_terceiro_data:(TerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===identifier_value)[0]
+          const current_terceiro_data:(SchemaTerceirosData | undefined) = terceirosData?.filter((e)=>e.nome===identifier_value)[0]
           if(current_terceiro_data){
             setTerceiroDataToBeEdited(current_terceiro_data)
           }

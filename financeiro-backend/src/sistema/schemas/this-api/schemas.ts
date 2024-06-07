@@ -12,28 +12,28 @@ export interface JwtModel extends JwtPayload {
     password?:string
 }
 
-export interface Terceiro{
+export interface TerceiroFrontendFormInput{
     nometerceiro:string,
     uf:string,
     cnpjcpfterceiro:string
     tipoterceiro:string
 }
 
-export interface Loja{
+export interface LojaFrontendFormInput{
     contaloja:string,
     nomeloja:string,
     razaoloja:string,
     cnpjloja:string
 }
 
-export interface Banco{
+export interface BancoFrontendFormInput{
     nomebanco:string,
     banco:string,
     agencia:string,
     conta:string,
     saldoinicial:number
 }
-
+//aqui
 export interface CategoriaContas{
     nome_categoria:string,
     pagar_receber:string
@@ -74,17 +74,17 @@ export interface changeHistoricoContas{
     valor_resolucao:number,
     nossa_conta_bancaria:string,
 }
+////
 
-
-export interface changeTerceiro extends Terceiro{
+export interface changeTerceiroFrontendFormInput extends TerceiroFrontendFormInput{
     pastnometerceiro:string
 }
 
-export interface changeLoja extends Loja{
+export interface changeLojaFrontendFormInput extends LojaFrontendFormInput{
     pastnomeloja:string
 }
 
-export interface changeBanco extends Banco{
+export interface changeBancoFrontendFormInput extends BancoFrontendFormInput{
     pastconta:string
 }
 

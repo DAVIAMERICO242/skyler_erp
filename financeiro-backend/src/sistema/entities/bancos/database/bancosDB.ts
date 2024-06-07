@@ -1,10 +1,10 @@
 import { SQLConnection } from "../../../connect-sql";
-import { Banco } from "../../../schemas/this-api/schemas";
-import { changeBanco } from "../../../schemas/this-api/schemas";
+import { BancoFrontendFormInput } from "../../../schemas/this-api/schemas";
+import { changeBancoFrontendFormInput } from "../../../schemas/this-api/schemas";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBBanco } from "../../../schemas/this-api/schemas";
 
-export function cadastroBanco(banco: Banco): Promise<null|DBError> {
+export function cadastroBanco(banco: BancoFrontendFormInput): Promise<null|DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -66,7 +66,7 @@ export function getBancos(): Promise<DBBanco[]|DBError> {
 }
 
 
-export function updateBanco(conta: changeBanco): Promise<null|DBError>{
+export function updateBanco(conta: changeBancoFrontendFormInput): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
         SQLConnection().then((connection) => {
             if (connection) {

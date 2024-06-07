@@ -29,8 +29,8 @@ import { Input } from "@/components/ui/input";
 
 import { useTerceiros } from '../Terceiros/Terceiros';
 import { useCategoriasFiscais } from './local-contexts/categorias_fiscais-context';
-import { ContasFrontendData, useContas } from './local-contexts/contas-context';
-import { CategoriasFiscaisData } from './local-contexts/categorias_fiscais-context';
+import { SchemaContasFrontendData, useContas } from './local-contexts/contas-context';
+import { SchemaCategoriasFiscaisData } from './local-contexts/categorias_fiscais-context';
 
 import {
     Select,
@@ -57,11 +57,11 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   var all_categorias = [...new Set(categorias_fiscaisData?.map((e)=>e.categoria_conta as string))]
 
   const refetch_categorias_fiscais = useCategoriasFiscais().refetch;
-  const ContasFrontendData = useContas().data;//cache dos dados
+  const SchemaContasFrontendData = useContas().data;//cache dos dados
   const refetchContas  = useContas().refetch;
 
   const [categoriasPura,setCategoriasPura] = useState<string[]>([]);
-  const [categorias_fiscaisDataFiltered,setCategorias_fiscaisDataFiltered] = useState<CategoriasFiscaisData[]>([]);
+  const [categorias_fiscaisDataFiltered,setCategorias_fiscaisDataFiltered] = useState<SchemaCategoriasFiscaisData[]>([]);
 
   useEffect(()=>{
     if(categorias_fiscaisData){
@@ -123,11 +123,11 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   const { toast } = useToast();
 
 
-  const [contaToBeEdited,setContaToBeEdited] = useState<ContasFrontendData | undefined>([])
+  const [contaToBeEdited,setContaToBeEdited] = useState<SchemaContasFrontendData | undefined>([])
 
   useEffect(()=>{
     if(identifier_value){
-      const current_conta_data:(ContasFrontendData | undefined) = ContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
+      const current_conta_data:(SchemaContasFrontendData | undefined) = SchemaContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
       if(current_conta_data){
         setContaToBeEdited(current_conta_data);
         form.reset({

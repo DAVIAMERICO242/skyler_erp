@@ -2,7 +2,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 import { getContas } from '../../API/fetch';
 
-export interface ContasFrontendData {
+export interface SchemaContasFrontendData {
     pastid?:number;
     id?:number,
     data?:string,
@@ -17,14 +17,14 @@ export interface ContasFrontendData {
 }
 
 interface ContasContextType {
-    data: ContasFrontendData[] | null;
+    data: SchemaContasFrontendData[] | null;
     refetch: () => void;
 }
 
 const ContasContext = createContext<ContasContextType>({ data: null,refetch: () => {} });
 
 export const ContasProvider = ({ children }:{children:ReactNode}) => {
-    const [data, setData] = useState<ContasFrontendData[] | null>(null);
+    const [data, setData] = useState<SchemaContasFrontendData[] | null>(null);
 
     const fetchData = async () => {
             try {
