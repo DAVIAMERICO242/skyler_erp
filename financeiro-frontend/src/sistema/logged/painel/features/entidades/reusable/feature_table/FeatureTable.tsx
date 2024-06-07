@@ -200,8 +200,13 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                         <>
                                             <TableRowValue>
                                                 {
+                                                    row[column]?(
                                                     isStringDate(row[column])?
-                                                    TZtoFriendlyDate(row[column]):row[column]
+                                                    TZtoFriendlyDate(row[column]):row[column]):(
+                                                        <div style={{fontSize:"9px", color:"gray"}}>
+                                                            Desconhecido
+                                                        </div>
+                                                    )
                                                 }
                                             </TableRowValue>
                                         </>
