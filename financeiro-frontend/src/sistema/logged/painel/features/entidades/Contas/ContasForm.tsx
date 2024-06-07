@@ -44,7 +44,7 @@ import {
 import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
-import { criarEditarContas } from '../API/fetch';
+import { criarEditarContas } from '../BackendHelper/API/fetch';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 

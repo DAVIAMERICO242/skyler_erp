@@ -1,6 +1,6 @@
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
-import { getCategoriasFiscais } from '../../API/fetch';
+import { getCategoriasFiscais } from '../../BackendHelper/API/fetch';
 
 export interface SchemaCategoriasFiscaisData {
     nome_conta?:string;

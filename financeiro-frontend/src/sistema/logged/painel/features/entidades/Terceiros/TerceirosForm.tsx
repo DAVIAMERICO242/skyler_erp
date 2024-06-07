@@ -26,7 +26,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useTerceiros } from "./Terceiros";
 import { SchemaTerceirosData } from "./Terceiros";
 import { EditFieldAlert } from "../reusable/EditFieldAlert";
-import { criarEditarTerceiros } from "../API/fetch";
+import { criarEditarTerceiros } from "../BackendHelper/API/fetch";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 

@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { SchemaBancosData, useBancos } from './Bancos';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
-import { criarEditarBancos } from '../API/fetch';
+import { criarEditarBancos } from '../BackendHelper/API/fetch';
 
 export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
   const bancosData = useBancos().data;//cache dos dados

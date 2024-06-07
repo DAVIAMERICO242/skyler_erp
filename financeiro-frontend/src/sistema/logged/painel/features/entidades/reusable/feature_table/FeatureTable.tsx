@@ -16,6 +16,7 @@ import { TableFilterProvider } from "./filter/FilterContexts";
 import { FilteredDataProvider } from "./filter/FilterContexts";
 import { FaLessThanEqual } from "react-icons/fa";
 import { CleanAllFilterProvider } from "./filter/FilterContexts";
+import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -163,7 +164,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                 <TableHeaderValue className="table_header_value" key={e}>
                                     <div className="flex items-center justify-center gap-[5px]">
                                         <div>
-                                            {e} 
+                                            {getUIColumnName(author,e)} 
                                         </div>
                                         <FilterDialog data={data} column={e}/>
                                     </div>

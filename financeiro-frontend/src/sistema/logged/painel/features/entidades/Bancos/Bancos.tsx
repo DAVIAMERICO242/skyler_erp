@@ -4,7 +4,7 @@ import { createContext, ReactNode, useState, useEffect, useContext } from 'react
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
-import { getBancos } from '../API/fetch';
+import { getBancos } from '../BackendHelper/API/fetch';
 
 export interface SchemaBancosData {
     nome_banco?:string;

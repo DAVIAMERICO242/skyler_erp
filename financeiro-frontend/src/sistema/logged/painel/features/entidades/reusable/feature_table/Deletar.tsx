@@ -20,7 +20,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { singularWord } from "@/sistema/essentials";
-import { DeleteEntity } from "../../API/fetch";
+import { DeleteEntity } from "../../BackendHelper/API/fetch";
 
 export const Deletar = ({author,identifier_value}:{author:string,identifier_value:string})=>{
     const { toast } = useToast();

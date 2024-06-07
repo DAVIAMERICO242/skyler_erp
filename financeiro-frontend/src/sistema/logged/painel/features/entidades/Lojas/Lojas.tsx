@@ -5,7 +5,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
-import { getLojas } from '../API/fetch';
+import { getLojas } from '../BackendHelper/API/fetch';
 
 export interface SchemaLojasData {
   conta?:string,

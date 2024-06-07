@@ -12,7 +12,7 @@ import BACKEND_URL from '@/sistema/backend-urls';
 import { LoadingFeature } from '../reusable/LoadingFeature';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
-import { getTerceiros } from '../API/fetch';
+import { getTerceiros } from '../BackendHelper/API/fetch';
 
 export interface SchemaTerceirosData {
   nome?: string;

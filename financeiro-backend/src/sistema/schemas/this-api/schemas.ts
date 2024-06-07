@@ -33,13 +33,13 @@ export interface BancoFrontendFormInput{
     conta:string,
     saldoinicial:number
 }
-//aqui
-export interface CategoriaContas{
+//EXCEÇÕES LÓGICAS
+export interface CategoriaContas{//FRONTEND NAO CADASTRA ISSO
     nome_categoria:string,
     pagar_receber:string
 }
 
-export interface TipoContas{
+export interface TipoContas{//COMPATIVEL COM O NOME DO BANCO DE DADOS
     nome_conta:string,
     categoria_conta:string
     indice:number
@@ -50,7 +50,7 @@ export interface newTipoContasSchema{
     nome_tipo:string
 }
 
-export interface HistoricoContas{
+export interface HistoricoContas{//IDENTICO NO FROTEND FORM
     id:number,
     data:string,
     vencimento:string,
@@ -62,7 +62,7 @@ export interface HistoricoContas{
     nossa_conta_bancaria:string,
 }
 
-export interface changeHistoricoContas{
+export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
     pastid:number,
     id:number,
     data:string,

@@ -32,7 +32,7 @@ import { SchemaLojasData } from './Lojas';
 
 import { Input } from "@/components/ui/input"
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
-import { criarEditarLojas } from '../API/fetch';
+import { criarEditarLojas } from '../BackendHelper/API/fetch';
 export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
     const lojasData = useLojas().data;//cache dos dados
     const refetchLojas = useLojas().refetch;

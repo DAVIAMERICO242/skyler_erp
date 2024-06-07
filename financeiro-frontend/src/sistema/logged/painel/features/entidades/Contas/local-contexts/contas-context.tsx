@@ -1,6 +1,6 @@
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
-import { getContas } from '../../API/fetch';
+import { getContas } from '../../BackendHelper/API/fetch';
 
 export interface SchemaContasFrontendData {
     pastid?:number;
