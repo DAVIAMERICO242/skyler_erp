@@ -89,6 +89,19 @@ export const TZtoFriendlyDate = (string:string)=>{
     return formattedDate;
 }
 
+export function isStringDate(value:string | number){
+    if (typeof value !== "string"){
+        return false;
+    }else{
+        if (!isNaN(Date.parse(value))) {
+            return true;
+          } else {
+            return false;
+          }
+    }
+}
+
 export function areAllValuesEmptyArrays(obj: { [key: string]: any[] }): boolean {
     return Object.values(obj).every(value => Array.isArray(value) && value.length === 0);
 }
+

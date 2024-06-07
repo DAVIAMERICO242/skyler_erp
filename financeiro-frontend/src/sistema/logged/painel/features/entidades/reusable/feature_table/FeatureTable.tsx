@@ -17,6 +17,8 @@ import { FilteredDataProvider } from "./filter/FilterContexts";
 import { FaLessThanEqual } from "react-icons/fa";
 import { CleanAllFilterProvider } from "./filter/FilterContexts";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
+import { isStringDate } from "@/sistema/essentials";
+import { TZtoFriendlyDate } from "@/sistema/essentials";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -196,7 +198,12 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                 {columns?.map((column)=>{
                                     return(
                                         <>
-                                            <TableRowValue>{row[column]}</TableRowValue>
+                                            <TableRowValue>
+                                                {
+                                                    isStringDate(row[column])?
+                                                    TZtoFriendlyDate(row[column]):row[column]
+                                                }
+                                            </TableRowValue>
                                         </>
                                     )
                                 })}
