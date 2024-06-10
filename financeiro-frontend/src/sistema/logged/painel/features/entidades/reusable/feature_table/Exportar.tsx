@@ -12,6 +12,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { useFilteredData } from "./filter/FilterContexts";
 import { useTableFilter } from "./filter/FilterContexts";
 import { areAllValuesEmptyArrays } from "@/sistema/essentials";
+import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
+import { getAllContas } from "../../BackendHelper/API/fetch";
+import { OrbitIcon } from "lucide-react";
 
 export const Exportar = ({author}:{author:string})=>{
     const { toast } = useToast()
@@ -36,23 +39,20 @@ export const Exportar = ({author}:{author:string})=>{
         var excel_name = "bancos_cadastrados.xlsx"
         break;
       case "contas":
-        var filteredData = filteredData?.map((e)=>{
-            return{
-              'id':e.id,
-              'Lançamento': TZtoFriendlyDate(e.data),
-              'Vencimento':TZtoFriendlyDate(e.vencimento),
-              'Tipo fiscal':e.conta_tipo,
-              'Terceiro':e.terceiro,
-              'Valor (R$)':e.valor
-            }
-          });
           var excel_name = "historico_pagar_receber.xlsx"
           break;
     }
     const submit = ()=>{
       setLoading(true);
-      Excel(filteredData,excel_name);
-      setLoading(false);
+      if(author!=="contas"){
+        Excel(filteredData,excel_name);
+        setLoading(false);
+      }else{
+        getAllContas().then((d)=>{
+          Excel(d.data,excel_name);
+          setLoading(false);
+        })
+      }
       toast({
         title: "Sucesso",
         className: "success",
@@ -62,7 +62,7 @@ export const Exportar = ({author}:{author:string})=>{
   
     return(
       <LoadingButton onClick={()=>{submit()}} loading={loading} type="neutral" className="w-3/5">
-          Exportar {check_is_a_filter?"Filtro":""}
+          Exportar 
       </LoadingButton>
     )
   }

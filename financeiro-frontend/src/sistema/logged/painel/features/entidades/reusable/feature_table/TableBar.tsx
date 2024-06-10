@@ -16,6 +16,8 @@ const TableBarContainer = styled.div`
     padding:20px 30px;
     border:var(--light-border);
     border-bottom:none;
+    opacity: ${(props) => ((props.loadingPagination) ? 0.5 : 1)};
+    pointer-events: ${(props) => ((props.loadingPagination) ? 'none' : '')};
     >.gerenciar{
         display:flex;
         gap:10px;
@@ -30,11 +32,11 @@ const TableBarContainer = styled.div`
 `
 
 
-export const TableBar = ({author}:{author:string})=>{
+export const TableBar = ({author,loadingPagination}:{author:string,loadingPagination:any})=>{
 
 
     return(
-        <TableBarContainer className="table_bar_container">
+        <TableBarContainer loadingPagination={loadingPagination} className="table_bar_container">
             <CleanAll/>
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>

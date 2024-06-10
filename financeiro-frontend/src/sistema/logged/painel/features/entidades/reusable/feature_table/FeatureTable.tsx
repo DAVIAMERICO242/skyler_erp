@@ -33,6 +33,9 @@ const TableContainer = styled.div`
 const Table = styled.table`
     width:100%;
     border:var(--light-border);
+    opacity: ${(props) => ((props.loadingPagination) ? 0.5 : 1)};
+    pointer-events: ${(props) => ((props.loadingPagination) ? 'none' : '')};
+
 `
 
 const TableHeader = styled.tr`
@@ -82,7 +85,6 @@ export const FeatureTable = ({author}:{author:string})=>{
 
 const FeatureTableUI = ({author}:{author:string})=>{
     const [filteredKey,setFilteredKey] = useState("");
-
     const terceiros_data = useTerceiros().data;
     const terceiros_refetch = useTerceiros().refetch;
     const lojas_data = useLojas().data;
@@ -92,7 +94,9 @@ const FeatureTableUI = ({author}:{author:string})=>{
 
     const contas_data = useContas().data;
     const contas_data_n_pages = useContas().n_pages;
-    const contas_refetch = useContas().refetch
+    const contas_refetch = useContas().refetch;
+
+    const [loadingPagination, setLoadingPagination] = useState(false);
 
 
     switch (author){
@@ -160,8 +164,8 @@ const FeatureTableUI = ({author}:{author:string})=>{
 
     return(
         <TableContainer className="table_container">
-            <TableBar filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
-            <Table>
+            <TableBar loadingPagination={loadingPagination} filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
+            <Table loadingPagination={loadingPagination}>
                 <TableHeader>
                     {columns?.map((e)=>{
                         return(
@@ -225,7 +229,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     })}
                 {/* </TableMainContent> */}
             </Table>
-            {author === "contas" && <PaginationFeatureTable n_pages={contas_data_n_pages} refetch={contas_refetch}/>}
+            {author === "contas" && <PaginationFeatureTable setLoadingPagination={setLoadingPagination} n_pages={contas_data_n_pages} refetch={contas_refetch}/>}
         </TableContainer>
     )
     

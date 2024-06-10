@@ -44,7 +44,7 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
     }, []);
 
     const refetch = (page:number = 1) => {
-        fetchData(page);
+        return fetchData(page);
     };
 
      return (

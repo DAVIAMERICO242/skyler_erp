@@ -24,7 +24,7 @@ contas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
 
 contas_router.get('/get',async (req:RequestModel,res:Response)=>{
     try{
-        const {page} = req.query;
+        const page = req.query?.page;
         const page_size = 2;
         const response = await getFrotendHistoricoConta(parseInt(page as string),page_size);//page=x,page_size = 1
         const n_pages = await getNumberOfPages(page_size);

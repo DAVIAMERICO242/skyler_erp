@@ -84,6 +84,25 @@ export async function getContas(page:number){
     } 
 }
 
+export async function getAllContas(){
+  try {
+      const response = await fetch(BACKEND_URL + `/contas/get`,{
+          headers:{
+          "Content-type":"application/json",
+          "token":localStorage.getItem('token') as string
+          }
+      });
+      const result = await response.json();
+      return {
+        data:result.data,
+        n_pages:result.n_pages
+      };
+    } catch (error) {
+      console.log('erro')
+    } 
+}
+
+
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

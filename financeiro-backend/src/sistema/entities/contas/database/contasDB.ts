@@ -61,7 +61,8 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`
+                let query = 
+                    `
                     SELECT 
                         historico_contas.id,
                         historico_contas.data, 
@@ -84,8 +85,11 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     ORDER BY historico_contas.data
-                    LIMIT ${page_size} OFFSET ${start_index};
-                    `,
+                    `
+                    if (page) {
+                        query += `LIMIT ${page_size} OFFSET ${start_index};`;
+                    }
+                connection.query(query,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
