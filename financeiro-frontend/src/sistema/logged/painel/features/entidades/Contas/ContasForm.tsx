@@ -111,7 +111,6 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   const UXFiscal = (value:"pagar" | "receber" | undefined)=>{
     console.log('UXFISCAL');
     console.log(value);
-    form.setValue("tipo_fiscal","");
     if(categorias_fiscaisData){
         setCategorias_fiscaisDataFiltered(categorias_fiscaisData?.filter((e)=>e.pagar_receber===value));
         setStorePagarReceberToUI(value);

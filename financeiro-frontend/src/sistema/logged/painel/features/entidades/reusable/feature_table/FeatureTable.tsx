@@ -215,7 +215,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                                     TZtoFriendlyDate(row[column]):row[column]):(
 
                                                         column==='situacao'?( //SITUACAO E UMA COLUNA DA TABELA CONTAS
-                                                            "situacao"
+                                                            row[column]?"resolvido":"não resolvido"
                                                         ):(
                                                             <div style={{fontSize:"9px", color:"gray"}}>
                                                                 Desconhecido
