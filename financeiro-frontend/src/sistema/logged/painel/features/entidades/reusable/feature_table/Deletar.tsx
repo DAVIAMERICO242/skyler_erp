@@ -21,15 +21,21 @@ import {
   } from "@/components/ui/alert-dialog"
 import { singularWord } from "@/sistema/essentials";
 import { DeleteEntity } from "../../BackendHelper/API/fetch";
+import { usePagination } from "./pagination/PaginationContext";
 
 export const Deletar = ({author,identifier_value}:{author:string,identifier_value:string})=>{
+
+     
+
     const { toast } = useToast();
     const [loading,setLoading] = useState<boolean>(false);
 
     const terceiros_refetch = useTerceiros().refetch;
     const lojas_refetch = useLojas().refetch;
     const bancos_refetch = useBancos().refetch;
-    const contas_refetch = useContas().refetch
+    const contas_refetch = useContas().refetch;
+
+    const current_page = usePagination().current_page;// apenas para contas
 
     switch (author){
       case "terceiros":
@@ -52,7 +58,11 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
         DeleteEntity(author,identifier_value).then((d)=>d.json())
           .then((d)=>{
             if(d.success){
-              refetch();
+              if(author==="contas"){
+                refetch(current_page);
+              }else{
+                refetch();
+              }
               toast({
                 title: "Sucesso",
                 className: "success",

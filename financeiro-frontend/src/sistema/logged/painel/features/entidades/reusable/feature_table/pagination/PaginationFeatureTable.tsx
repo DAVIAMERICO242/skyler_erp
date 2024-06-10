@@ -15,6 +15,7 @@ import {
 import styled from 'styled-components';
 import { Loader2 } from 'lucide-react';
 import { useCleanAllFilter } from '../filter/FilterContexts';
+import { usePagination } from './PaginationContext';
 
 const PaginationContainer = styled.div`
     margin-top:30px;
@@ -26,7 +27,10 @@ const PaginationContainer = styled.div`
 export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setLoadingPagination}:{n_pages:number, refetch:any, loadingPagination:boolean,setLoadingPagination:any})=>{
     //O BACKEND CONTROLA O N_PAGES
     const setCleanAll = useCleanAllFilter().setCleanAll
-    const [current_page,setCurrent_page] = useState(1);//
+
+    const {current_page, setCurrent_page} = usePagination();
+
+
     const [isActive, setIsActive] = useState(1);
     const [current_group, setGroup] = useState(1); //um grupo mostra 3 paginas pro usuário, cada grupo tem tamanho 2
     const group_size = 3;//NUMERO DE PAGINAS ANTES DE MUDAR O GRUPO

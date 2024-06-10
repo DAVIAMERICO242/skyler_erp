@@ -46,8 +46,12 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
 import { firstCharUpper } from '@/sistema/essentials';
+import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
+
+
+  const current_page = usePagination().current_page;
 
   const [signalUpdateUIAfterNewTipo,setSignalUpdateUIAfterNewTipo] = useState<number>(-1);
   const [storePagarReceberToUI,setStorePagarReceberToUI] = useState<"pagar" | "receber" | undefined>(undefined);
@@ -160,7 +164,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       .then((d)=>{
         if(d.success){
           setOpen(false);
-          refetchContas();
+          refetchContas(current_page);
           refetch_categorias_fiscais();
           toast({
             title: "Sucesso",
