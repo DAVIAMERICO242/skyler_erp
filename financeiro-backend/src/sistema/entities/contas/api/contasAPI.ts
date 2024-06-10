@@ -1,11 +1,27 @@
 import {Router, Response} from 'express';
-import { RequestModel } from '../../../schemas/this-api/schemas';
-import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta, getNumberOfPages } from '../database/contasDB';
+import { RequestModel, contaToBeResolved } from '../../../schemas/this-api/schemas';
+import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta, getNumberOfPages, resolverConta } from '../database/contasDB';
 import { HistoricoContas } from '../../../schemas/this-api/schemas';
 import { updateHistoricoConta } from '../database/contasDB';
 import { changeHistoricoContas } from '../../../schemas/this-api/schemas';
 
 export const contas_router = Router();
+
+
+contas_router.post('/resolver',async (req:RequestModel,res:Response)=>{
+    const {conta} = req.body;
+    try{
+        const response = await resolverConta(conta as  contaToBeResolved);
+        res.status(200).send({
+            success:true
+        })
+    }catch(error:any){
+        res.status(400).send({
+            success:false,
+            duplicate: error?.duplicate
+        })
+    }
+})
 
 contas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     const {conta} = req.body;

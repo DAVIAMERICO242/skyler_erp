@@ -20,8 +20,12 @@ FormMessage,
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 import {z} from 'zod';
+import { ResolverConta } from "../../../BackendHelper/API/fetch";
+import { useContas } from "../../../Contas/local-contexts/contas-context";
+import { usePagination } from "../pagination/PaginationContext";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Resolver = ({
@@ -33,6 +37,12 @@ export const Resolver = ({
     resolverOpen:any,
     setResolverOpen:any})=>
 {
+    const { toast } = useToast();
+
+    const {refetch} = useContas();
+    const current_page = usePagination().current_page
+    const [loading,setLoading] = useState(false);
+
     const inputSchema = z.object({
         valor: z.coerce.number().max(row['valor'],
             {message:"O valor de resolução ultrapassa o valor exigido"}
@@ -43,6 +53,51 @@ export const Resolver = ({
         });
     
     function onSubmit(value: z.infer<typeof inputSchema>){
+        ResolverConta(row['id'],value.valor,row['valor']).then((d)=>d.json())//row['valor'] é o valor requerido
+        .then((d)=>{
+          if(d.success){
+
+            refetch(current_page);
+
+            toast({
+              title: "Sucesso",
+              className: "success",
+              description: "Ocorreu tudo certo com a operação",
+            })
+            setLoading(false);
+          }else{
+            if(d.duplicate){
+              console.log('duplicata')
+              toast({
+                title: "Duplicata",
+                className: "error",
+                description: "Esse nome ou conta bancária já existe no banco de dados",
+              })
+            }else if(d.foreign_key){
+              toast({
+                title: "GENERIC FOREIGN KEY ERROR",
+                className: "error",
+                description: "Esse erro provavelmente foi gerado porque você tentou excluir uma conta bancária relacionada a uma loja a um historico de contas",
+              })
+            }
+            else{
+              toast({
+                title: "Erro desconhecido",
+                className: "error",
+                description: "Comunique ao desenvolvedor",
+              })
+            }
+            setLoading(false);
+          }
+        })
+        .catch(()=>{
+          toast({
+            title: "Erro desconhecido",
+            className: "error",
+            description: "Comunique ao desenvolvedor",
+          })
+          setLoading(false);
+        })
         console.log("VALOR DE RESOLUÇÃO");
         console.log(value)
         console.log('VALOR REQUISITADO');
@@ -103,7 +158,7 @@ export const Resolver = ({
                         />
                     </Form>
                     <LoadingButton
-                        loading={false}
+                        loading={loading}
                         className="w-[100%]"
                         type="neutral">{"Confirmar"}
                     </LoadingButton>

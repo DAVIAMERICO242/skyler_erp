@@ -4,6 +4,54 @@ import { DBHistoricoContas } from "../../../schemas/this-api/schemas";
 import { dateSQLStandard } from "../../../essentials";
 import { changeHistoricoContas } from "../../../schemas/this-api/schemas";
 import { HistoricoContas } from "../../../schemas/this-api/schemas";
+import { contaToBeResolved } from "../../../schemas/this-api/schemas";
+
+export function resolverConta(conta: contaToBeResolved): Promise<null | DBError> {
+    return new Promise((resolve, reject) => {
+        SQLConnection().then((connection) => {
+            if (connection) {
+                let state;
+                if (conta.value === 0) {
+                    state = null;
+                } else if (conta.value < conta.required_value) {
+                    state = "parcial";
+                } else {
+                    state = "resolvido";
+                }
+
+                const stateQuery = state === null ? "NULL" : `'${state}'`;
+
+                connection.query(
+                    `UPDATE historico_contas SET
+                    situacao=${stateQuery}
+                    WHERE id='${conta.id}'
+                    `,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if (err.sqlMessage?.toUpperCase().includes("DUPLICATE")) {
+                                reject({
+                                    duplicate: true
+                                });
+                            } else {
+                                reject({
+                                    duplicate: false
+                                });
+                            }
+                        } else {
+                            resolve(null);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate: false
+            });
+        });
+    });
+}
+
+
 
 export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise<null|DBError> {
     return new Promise((resolve, reject) => {

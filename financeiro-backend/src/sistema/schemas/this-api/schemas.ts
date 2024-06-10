@@ -74,6 +74,12 @@ export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
     valor_resolucao:number,
     nossa_conta_bancaria:string,
 }
+
+export interface contaToBeResolved{
+    id:number,
+    value:number,
+    required_value:number
+}
 ////
 
 export interface changeTerceiroFrontendFormInput extends TerceiroFrontendFormInput{
