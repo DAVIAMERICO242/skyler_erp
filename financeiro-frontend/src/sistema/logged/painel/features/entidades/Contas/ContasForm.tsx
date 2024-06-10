@@ -2,7 +2,6 @@
 /* eslint-disable no-var */
 import { useEffect, useState } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
-import BACKEND_URL from '@/sistema/backend-urls';
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"

@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import styled from 'styled-components';
 
 export interface LoadingButtonProps {
-  type: "skyler" | "neutral" | "cancel" | "destructive";
+  type: "skyler" | "neutral" | "cancel" | "destructive" | "warning" | "success";
   children: string;
   onClick?: () => void;
   loading: boolean;
@@ -14,6 +14,10 @@ export interface LoadingButtonProps {
 const StyledButton = styled(Button)<{ btnType: string }>`
   background-color: ${(props) => {
     switch (props.btnType) {
+      case "success":
+        return "green";
+      case "warning":
+        return "yellow";
       case "skyler":
         return "var(--skyler-blue)";
       case "cancel":
@@ -28,6 +32,10 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   }};
   color: ${(props) => {
     switch (props.btnType) {
+      case "success":
+        return "white";
+      case "warning":
+        return "black";
       case "skyler":
         return "white";
       case "cancel":
@@ -43,6 +51,10 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   &:hover {
     background-color: ${(props) => {
       switch (props.btnType) {
+        case "green":
+          return "white";
+        case "warning":
+          return "yellow";
         case "skyler":
           return "var(--skyler-blue-hover)";
         case "cancel":

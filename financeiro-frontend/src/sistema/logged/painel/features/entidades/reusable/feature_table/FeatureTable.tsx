@@ -21,6 +21,7 @@ import { isStringDate } from "@/sistema/essentials";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import {  PaginationFeatureTable } from "./pagination/PaginationFeatureTable";
 import { PaginationProvider } from "./pagination/PaginationContext";
+import { Resolver } from "./pagamentos_logic/Resolver";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -141,6 +142,8 @@ const FeatureTableUI = ({author}:{author:string})=>{
     const filteredData = useFilteredData().filteredData;
     const setFilteredData = useFilteredData().setFilteredData;
 
+
+
     useEffect(()=>{
         const filtered = data?.filter((data_row)=>{
             if(dataFilter){
@@ -164,6 +167,11 @@ const FeatureTableUI = ({author}:{author:string})=>{
 
     console.log('FILTERED DATA');
     console.log(filteredData);
+
+
+    const [resolverOpenStates, setResolverOpenStates] = useState(
+        data?.map(() => false)
+      );
 
     return(
         <TableContainer className="table_container">
@@ -202,24 +210,29 @@ const FeatureTableUI = ({author}:{author:string})=>{
                         }else{
                             return true;
                         }
-                    }).map((row)=>{
+                    }).map((row,i)=>{
+                        console.log('ROW');
+                        console.log(row);
+                        console.log("VALOR NECESSARIO");
+                        console.log(row['valor'])
                         return(
-                            <TableRow id={row[identifier]}>
+                            <TableRow id={row[identifier]} key={row[identifier]}>
                                 {columns?.map((column)=>{
                                     return(
                                         <>
-                                            <TableRowValue>
+                                            <TableRowValue key={row[identifier]}>
                                                 {
-                                                    row[column]?(
+                                                    column!=='situacao'?(
                                                     isStringDate(row[column])?
                                                     TZtoFriendlyDate(row[column]):row[column]):(
-
-                                                        column==='situacao'?( //SITUACAO E UMA COLUNA DA TABELA CONTAS
-                                                            row[column]?"resolvido":"não resolvido"
-                                                        ):(
-                                                            <div style={{fontSize:"9px", color:"gray"}}>
-                                                                Desconhecido
-                                                            </div>
+                                                        ( //SITUACAO E UMA COLUNA DA TABELA CONTAS
+                                                            <Resolver row={row} key={row[identifier]} resolverOpen={resolverOpenStates[i]}
+                                                            setResolverOpen={(open) => {
+                                                                setResolverOpenStates((prevStates) => {
+                                                                  prevStates[i] = open;
+                                                                  return [...prevStates];
+                                                                });
+                                                              }}/>
                                                         )
                                                     )
                                                 }
