@@ -75,7 +75,10 @@ export async function getContas(page:number){
           }
       });
       const result = await response.json();
-      return result.data;
+      return {
+        data:result.data,
+        n_pages:result.n_pages
+      };
     } catch (error) {
       console.log('erro')
     } 
