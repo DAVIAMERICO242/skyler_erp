@@ -23,16 +23,6 @@ export const Exportar = ({author}:{author:string})=>{
 
     var {dataFilter} = useTableFilter();
 
-    var filteredDataUINames = [];
-
-    filteredData?.map((e)=>{
-       var current_obj = {};
-       for (let column of Object.keys(e)){
-          current_obj[getUIColumnName(author,column) as string] = e[column]
-       }
-
-       filteredDataUINames.push(current_obj);
-    })
 
     var check_is_a_filter= !areAllValuesEmptyArrays(dataFilter);
 
@@ -56,6 +46,15 @@ export const Exportar = ({author}:{author:string})=>{
     const submit = ()=>{
       setLoading(true);
       if(author!=="contas"){
+        console.log(filteredDataUINames)
+        var filteredDataUINames = [];
+        filteredData?.map((e)=>{//bug aqui hehe
+           var current_obj = {};
+           for (let column of Object.keys(e)){
+              current_obj[getUIColumnName(author,column) as string] = e[column]
+           }
+           filteredDataUINames.push(current_obj);
+        });
         Excel(filteredDataUINames,excel_name);
         setLoading(false);
         toast({
@@ -69,7 +68,7 @@ export const Exportar = ({author}:{author:string})=>{
           d?.data?.map((e)=>{
             var current_obj = {};
             for (let column of Object.keys(e)){
-               current_obj[getUIColumnName(author,column) as string] = e[column]?(isStringDate(e[column])?TZtoFriendlyDate(e[column]):e[column]):("Desconhecido")
+               current_obj[getUIColumnName(author,column) as string] = e[column]?(isStringDate(e[column])?TZtoFriendlyDate(e[column]):e[column]):(( column==='situacao'?"não resolvido":"Desconhecido"))
             }
      
             filteredDataUINames.push(current_obj);
