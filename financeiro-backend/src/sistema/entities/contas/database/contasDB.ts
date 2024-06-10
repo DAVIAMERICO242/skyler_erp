@@ -84,7 +84,7 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
-                    ORDER BY historico_contas.data
+                    ORDER BY historico_contas.data DESC
                     `
                     if (page) {
                         query += `LIMIT ${page_size} OFFSET ${start_index};`;

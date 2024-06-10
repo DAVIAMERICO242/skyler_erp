@@ -33,8 +33,10 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
     const pages_indexes_starting_at_1 = Array.from({ length: n_pages }, (_, i) => i + 1);
 
     const manage_page_change = (page:number)=>{//so mudanças numericas
-        setLoadingPagination(true);
-        setCurrent_page(page)
+        if(page!==current_page){
+            setLoadingPagination(true);
+            setCurrent_page(page);
+        }
     }
 
     const previous_page = ()=>{
