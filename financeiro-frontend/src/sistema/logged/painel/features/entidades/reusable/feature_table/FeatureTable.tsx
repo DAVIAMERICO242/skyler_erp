@@ -173,6 +173,9 @@ const FeatureTableUI = ({author}:{author:string})=>{
         data?.map(() => false)
       );
 
+    useEffect(()=>{
+        setResolverOpenStates(data?.map(() => false))
+    },[data])
     return(
         <TableContainer className="table_container">
             <TableBar loadingPagination={loadingPagination} filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
@@ -226,7 +229,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                                     isStringDate(row[column])?
                                                     TZtoFriendlyDate(row[column]):row[column]):(
                                                         ( //SITUACAO E UMA COLUNA DA TABELA CONTAS
-                                                            <Resolver row={row} key={row[identifier]} resolverOpen={resolverOpenStates[i]}
+                                                            <Resolver row={row} key={row[identifier]} resolverOpen={resolverOpenStates && resolverOpenStates[i]}
                                                             setResolverOpen={(open) => {
                                                                 setResolverOpenStates((prevStates) => {
                                                                   prevStates[i] = open;
