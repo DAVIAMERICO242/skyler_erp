@@ -229,7 +229,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     })}
                 {/* </TableMainContent> */}
             </Table>
-            {author === "contas" && <PaginationFeatureTable setLoadingPagination={setLoadingPagination} n_pages={contas_data_n_pages} refetch={contas_refetch}/>}
+            {author === "contas" && <PaginationFeatureTable loadingPagination={loadingPagination} setLoadingPagination={setLoadingPagination} n_pages={contas_data_n_pages} refetch={contas_refetch}/>}
         </TableContainer>
     )
     

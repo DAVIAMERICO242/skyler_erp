@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useTerceiros } from "../../Terceiros/Terceiros";
 import { useLojas } from "../../Lojas/Lojas";
 import { useBancos } from "../../Bancos/Bancos";
-import { Excel } from "@/sistema/essentials";
+import { Excel, isStringDate } from "@/sistema/essentials";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast";
@@ -22,6 +22,17 @@ export const Exportar = ({author}:{author:string})=>{
     var {filteredData} = useFilteredData();
 
     var {dataFilter} = useTableFilter();
+
+    var filteredDataUINames = [];
+
+    filteredData?.map((e)=>{
+       var current_obj = {};
+       for (let column of Object.keys(e)){
+          current_obj[getUIColumnName(author,column) as string] = e[column]
+       }
+
+       filteredDataUINames.push(current_obj);
+    })
 
     var check_is_a_filter= !areAllValuesEmptyArrays(dataFilter);
 
@@ -45,19 +56,33 @@ export const Exportar = ({author}:{author:string})=>{
     const submit = ()=>{
       setLoading(true);
       if(author!=="contas"){
-        Excel(filteredData,excel_name);
+        Excel(filteredDataUINames,excel_name);
         setLoading(false);
+        toast({
+          title: "Sucesso",
+          className: "success",
+          description: "EXPORTAÇÃO BEM SUCEDIDA",
+        });
       }else{
+        var filteredDataUINames = []
         getAllContas().then((d)=>{
-          Excel(d.data,excel_name);
+          d?.data?.map((e)=>{
+            var current_obj = {};
+            for (let column of Object.keys(e)){
+               current_obj[getUIColumnName(author,column) as string] = e[column]?(isStringDate(e[column])?TZtoFriendlyDate(e[column]):e[column]):("Desconhecido")
+            }
+     
+            filteredDataUINames.push(current_obj);
+         })
+          Excel(filteredDataUINames,excel_name);
           setLoading(false);
+          toast({
+            title: "Sucesso",
+            className: "success",
+            description: "EXPORTAÇÃO BEM SUCEDIDA",
+          });
         })
       }
-      toast({
-        title: "Sucesso",
-        className: "success",
-        description: "EXPORTAÇÃO BEM SUCEDIDA",
-      });
     }
   
     return(
