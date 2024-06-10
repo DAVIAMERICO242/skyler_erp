@@ -19,6 +19,7 @@ import { CleanAllFilterProvider } from "./filter/FilterContexts";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 import { isStringDate } from "@/sistema/essentials";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
+import {  PaginationFeatureTable } from "./PaginationFeatureTable";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -88,7 +89,9 @@ const FeatureTableUI = ({author}:{author:string})=>{
     const lojas_refetch = useLojas().refetch;
     const bancos_data = useBancos().data;
     const bancos_refetch = useBancos().refetch;
+
     const contas_data = useContas().data;
+    const contas_data_n_pages = useContas().n_pages;
     const contas_refetch = useContas().refetch
 
 
@@ -222,6 +225,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                     })}
                 {/* </TableMainContent> */}
             </Table>
+            {author === "contas" && <PaginationFeatureTable n_pages={contas_data_n_pages} refetch={contas_refetch}/>}
         </TableContainer>
     )
     

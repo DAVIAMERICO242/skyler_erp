@@ -31,8 +31,8 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
     const fetchData = async (page:number = 1) => {
             try {
             const response = await getContas(page);
-            setData(response.data);
-            setN_pages(response.n_pages);
+            setData(response?.data);
+            setN_pages(response?.n_pages);
             } catch (error) {
             console.log('erro')
             } 
