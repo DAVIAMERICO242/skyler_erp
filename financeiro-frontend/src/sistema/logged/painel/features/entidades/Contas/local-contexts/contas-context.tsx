@@ -26,9 +26,9 @@ const ContasContext = createContext<ContasContextType>({ data: null,refetch: () 
 export const ContasProvider = ({ children }:{children:ReactNode}) => {
     const [data, setData] = useState<SchemaContasFrontendData[] | null>(null);
 
-    const fetchData = async () => {
+    const fetchData = async (page:number = 1) => {
             try {
-            const response = await getContas();
+            const response = await getContas(page);
             setData(response);
             } catch (error) {
             console.log('erro')
@@ -41,8 +41,8 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
         fetchData();
     }, []);
 
-    const refetch = () => {
-        fetchData();
+    const refetch = (page:number = 1) => {
+        fetchData(page);
     };
 
      return (

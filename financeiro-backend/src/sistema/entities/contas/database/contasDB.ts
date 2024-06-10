@@ -55,7 +55,9 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
     });
 }
 
-export function getFrotendHistoricoConta(): Promise<DBHistoricoContas[]|DBError> {
+export function getFrotendHistoricoConta(page:number, page_size:number): Promise<DBHistoricoContas[]|DBError> {
+    console.log(page)
+    const start_index = (page - 1) * page_size;
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
@@ -81,7 +83,8 @@ export function getFrotendHistoricoConta(): Promise<DBHistoricoContas[]|DBError>
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
-                    ORDER BY historico_contas.data;
+                    ORDER BY historico_contas.data
+                    LIMIT ${page_size} OFFSET ${start_index};
                     `,
                     (err, result) => {
                         connection.end(); // Simply close the connection
@@ -97,6 +100,48 @@ export function getFrotendHistoricoConta(): Promise<DBHistoricoContas[]|DBError>
                             }
                         } else {
                             resolve(result);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    });
+}
+
+
+export function getNumberOfPages(page_size:number): Promise<number|DBError> {
+    return new Promise((resolve, reject) => {
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(`
+                    SELECT COUNT(*) as n_rows
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+                    ORDER BY historico_contas.data
+                    `,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(Math.ceil((result[0]['n_rows'])/page_size));
                         }
                     });
             }

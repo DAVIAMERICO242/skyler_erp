@@ -66,9 +66,9 @@ export async function getCategoriasFiscais(){
       } 
 }
 
-export async function getContas(){
+export async function getContas(page:number){
   try {
-      const response = await fetch(BACKEND_URL + '/contas/get',{
+      const response = await fetch(BACKEND_URL + `/contas/get?page=${page}`,{
           headers:{
           "Content-type":"application/json",
           "token":localStorage.getItem('token') as string

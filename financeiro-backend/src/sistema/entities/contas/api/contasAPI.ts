@@ -1,6 +1,6 @@
 import {Router, Response} from 'express';
 import { RequestModel } from '../../../schemas/this-api/schemas';
-import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta } from '../database/contasDB';
+import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta, getNumberOfPages } from '../database/contasDB';
 import { HistoricoContas } from '../../../schemas/this-api/schemas';
 import { updateHistoricoConta } from '../database/contasDB';
 import { changeHistoricoContas } from '../../../schemas/this-api/schemas';
@@ -24,10 +24,14 @@ contas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
 
 contas_router.get('/get',async (req:RequestModel,res:Response)=>{
     try{
-        const response = await getFrotendHistoricoConta();
+        const {page} = req.query;
+        const page_size = 1;
+        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size);//page=x,page_size = 1
+        const n_pages = await getNumberOfPages(page_size);
         res.status(200).send({
             success:true,
-            data:response
+            data:response,
+            n_pages:n_pages
         })
     }catch(error:any){
         res.status(400).send({
