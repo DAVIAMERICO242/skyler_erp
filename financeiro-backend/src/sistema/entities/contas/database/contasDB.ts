@@ -6,11 +6,11 @@ import { changeHistoricoContas } from "../../../schemas/this-api/schemas";
 import { HistoricoContas } from "../../../schemas/this-api/schemas";
 import { contaToBeResolved } from "../../../schemas/this-api/schemas";
 
-export function resolverConta(conta: contaToBeResolved): Promise<null | DBError> {
+export function resolverConta(conta: contaToBeResolved): Promise<("parcial" |"resolvido" | null ) | DBError> {
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                let state;
+                let state:("parcial" |"resolvido" | null );
                 if (conta.value === 0) {
                     state = null;
                 } else if (conta.value < conta.required_value) {
@@ -39,7 +39,7 @@ export function resolverConta(conta: contaToBeResolved): Promise<null | DBError>
                                 });
                             }
                         } else {
-                            resolve(null);
+                            resolve(state);
                         }
                     });
             }

@@ -13,7 +13,8 @@ contas_router.post('/resolver',async (req:RequestModel,res:Response)=>{
     try{
         const response = await resolverConta(conta as  contaToBeResolved);
         res.status(200).send({
-            success:true
+            success:true,
+            state:response
         })
     }catch(error:any){
         res.status(400).send({

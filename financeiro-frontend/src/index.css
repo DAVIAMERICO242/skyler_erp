@@ -81,7 +81,13 @@
 .success{
   background-color: rgb(57, 232, 42); /* Define a cor de fundo com uma certa transparência */
 	backdrop-filter:blur(5px);
-  color: white;
+  color: rgb(0, 0, 0);
+}
+
+.warning{
+  background-color: rgb(232, 232, 42); /* Define a cor de fundo com uma certa transparência */
+	backdrop-filter:blur(5px);
+  color: rgb(0, 0, 0);
 }
 
 .error{

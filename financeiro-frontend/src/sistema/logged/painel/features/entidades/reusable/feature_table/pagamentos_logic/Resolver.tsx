@@ -56,14 +56,30 @@ export const Resolver = ({
         ResolverConta(row['id'],value.valor,row['valor']).then((d)=>d.json())//row['valor'] é o valor requerido
         .then((d)=>{
           if(d.success){
+            if(d.state==="parcial"){
+                toast({
+                    title: "PARCIAL",
+                    className: "warning",
+                    description: "Essa conta foi resolvida PARCIALMENTE",
+                  })
+            }
+            if(d.state==="resolvido"){
+                toast({
+                    title: "RESOLVIDA",
+                    className: "success",
+                    description: "Essa conta foi resolvida COMPLETAMENTE",
+                  })
+            }
+
+            if(!d.state){
+                toast({
+                    title: "DESRESOLVIDA",
+                    className: "warning",
+                    description: "Essa conta foi DESRESOLVIDA",
+                  })
+            }
 
             refetch(current_page);
-
-            toast({
-              title: "Sucesso",
-              className: "success",
-              description: "Ocorreu tudo certo com a operação",
-            })
             setLoading(false);
           }else{
             if(d.duplicate){

@@ -51,8 +51,8 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   &:hover {
     background-color: ${(props) => {
       switch (props.btnType) {
-        case "green":
-          return "white";
+        case "success":
+          return "green";
         case "warning":
           return "yellow";
         case "skyler":
