@@ -73,6 +73,8 @@ function ContasGetUIName(columnName:string){
     switch(columnName){
         case 'id':
             return 'ID';
+        case 'situacao':
+            return 'Situação';
         case 'data':
             return 'Lançamento';
         case 'vencimento':

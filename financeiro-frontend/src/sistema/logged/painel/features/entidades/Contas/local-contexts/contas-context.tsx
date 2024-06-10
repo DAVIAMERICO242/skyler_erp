@@ -4,6 +4,7 @@ import { getContas } from '../../BackendHelper/API/fetch';
 
 export interface SchemaContasFrontendData {
     pastid?:number;
+    situacao?:string;
     id?:number,
     data?:string,
     vencimento?:string,

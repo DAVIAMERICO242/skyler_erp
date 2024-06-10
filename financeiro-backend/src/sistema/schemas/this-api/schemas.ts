@@ -124,6 +124,7 @@ export interface DBTipoContas{
 
 export interface DBHistoricoContas{
     id:number,
+    situacao:string,
     data:string,
     vencimento:string,
     tipo_fiscal:string,

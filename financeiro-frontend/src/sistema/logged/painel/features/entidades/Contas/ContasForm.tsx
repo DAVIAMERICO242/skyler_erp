@@ -45,6 +45,7 @@ import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
+import { firstCharUpper } from '@/sistema/essentials';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -79,7 +80,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     valor: z.coerce.number().positive({
         message: "O valor deve ser um número positivo",
       }),
-    pagar_receber: z.string().min(5, {
+    pagar_receber: z.string().min(2, {
         message: "Inválido",
       }),
     tipo_fiscal: z.string().min(2, {
@@ -130,14 +131,6 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       const current_conta_data:(SchemaContasFrontendData | undefined) = SchemaContasFrontendData?.filter((e)=>e.id==form.getValues().pastid)[0]
       if(current_conta_data){
         setContaToBeEdited(current_conta_data);
-        form.reset({
-          terceiro:current_conta_data.terceiro,
-          valor:current_conta_data.valor,
-          pagar_receber:current_conta_data.pagar_receber,
-          tipo_fiscal:current_conta_data.conta_tipo,
-          vencimento:new Date(current_conta_data.vencimento)
-        }
-        )
       }
     }
   },[identifier_value,terceirosData])
@@ -149,7 +142,10 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       pagar_receber:contaToBeEdited?.pagar_receber,
       tipo_fiscal:contaToBeEdited?.conta_tipo,
       vencimento:contaToBeEdited?.vencimento?(new Date(contaToBeEdited?.vencimento)):""
-    })
+    });
+    if(contaToBeEdited?.pagar_receber){
+      UXFiscal(contaToBeEdited?.pagar_receber)
+    }
   },[contaToBeEdited])
 
   console.log('DADOS333')

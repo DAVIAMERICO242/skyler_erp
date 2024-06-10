@@ -19,7 +19,8 @@ import { CleanAllFilterProvider } from "./filter/FilterContexts";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 import { isStringDate } from "@/sistema/essentials";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
-import {  PaginationFeatureTable } from "./PaginationFeatureTable";
+import {  PaginationFeatureTable } from "./pagination/PaginationFeatureTable";
+import { PaginationProvider } from "./pagination/PaginationContext";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -72,13 +73,15 @@ const TableRowValue = styled.td`
 export const FeatureTable = ({author}:{author:string})=>{
 
     return(
-        <FilteredDataProvider>
-            <TableFilterProvider>
-                <CleanAllFilterProvider>
-                    <FeatureTableUI author={author}/>
-                </CleanAllFilterProvider>
-            </TableFilterProvider>
-        </FilteredDataProvider>
+        <PaginationProvider>
+            <FilteredDataProvider>
+                <TableFilterProvider>
+                    <CleanAllFilterProvider>
+                        <FeatureTableUI author={author}/>
+                    </CleanAllFilterProvider>
+                </TableFilterProvider>
+            </FilteredDataProvider>
+        </PaginationProvider>
     )
     
 }
@@ -210,9 +213,14 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                                     row[column]?(
                                                     isStringDate(row[column])?
                                                     TZtoFriendlyDate(row[column]):row[column]):(
-                                                        <div style={{fontSize:"9px", color:"gray"}}>
-                                                            Desconhecido
-                                                        </div>
+
+                                                        column==='situacao'?( //SITUACAO E UMA COLUNA DA TABELA CONTAS
+                                                            "situacao"
+                                                        ):(
+                                                            <div style={{fontSize:"9px", color:"gray"}}>
+                                                                Desconhecido
+                                                            </div>
+                                                        )
                                                     )
                                                 }
                                             </TableRowValue>
