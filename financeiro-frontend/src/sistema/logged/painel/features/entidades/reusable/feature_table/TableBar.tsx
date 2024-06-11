@@ -4,6 +4,7 @@ import { LoadingButton } from "@/components/ui/LoadingButton";
 import { CriarEditar } from "./CriarEditar";
 import { Exportar } from "./Exportar";
 import { CleanAll } from "./filter/CleanAll";
+import { FilterContas } from "./filter/contas/FilterContas";
 
 const TableBarContainer = styled.div`
     display:flex;
@@ -38,6 +39,7 @@ export const TableBar = ({author,loadingPagination}:{author:string,loadingPagina
     return(
         <TableBarContainer loadingPagination={loadingPagination} className="table_bar_container">
             <CleanAll/>
+            {author==="contas" && <FilterContas/>}
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
                 <Exportar author={author}/>

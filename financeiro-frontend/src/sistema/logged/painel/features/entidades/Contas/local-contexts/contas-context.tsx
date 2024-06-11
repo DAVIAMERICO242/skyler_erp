@@ -16,6 +16,7 @@ export interface SchemaContasFrontendData {
     data_resolucao?:string,
     valor_resolucao?:number,
     nossa_conta_bancaria?:string,
+    nome_loja:string
 }
 
 export interface SchemaContasFilterObject{

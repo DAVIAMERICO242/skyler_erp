@@ -67,7 +67,7 @@ export const FilterDialog = ({data,column}:{data:{[key:string | number]:any}[],c
     };
   }, [open]);
 
-  return (
+  return (//USADO APENAS PARA FILTROS SEM SER CONTA
     <FilterDialogContainer className="filter_dialog_container" ref={containerRef}>
       <BsFilter onClick={manageOpen} className="filter_icon text-[20px] cursor-pointer" />
       

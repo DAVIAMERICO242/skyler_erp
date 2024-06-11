@@ -10,7 +10,7 @@ import { useBancos } from "../../Bancos/Bancos";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
-import { FilterDialog } from "./filter/FilterDialog";
+import { FilterDialog } from "./filter/FilterDialogNotContas";
 import { useFilteredData, useTableFilter } from "./filter/FilterContexts";
 import { TableFilterProvider } from "./filter/FilterContexts";
 import { FilteredDataProvider } from "./filter/FilterContexts";

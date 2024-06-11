@@ -249,7 +249,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                       <FormMessage />
                       </FormItem>
                   )}
-                  />
+            />
             <FormField
                 control={form.control}  
                 name="valor"
