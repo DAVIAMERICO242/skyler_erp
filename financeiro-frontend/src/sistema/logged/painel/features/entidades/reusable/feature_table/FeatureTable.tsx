@@ -192,7 +192,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                         <div>
                                             {getUIColumnName(author,e)} 
                                         </div>
-                                        <FilterDialog data={data} column={e}/>
+                                        {author!=="contas" && <FilterDialog data={data} column={e}/>}
                                     </div>
                                 </TableHeaderValue>                   
                             </>

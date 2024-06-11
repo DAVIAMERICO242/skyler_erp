@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BACKEND_URL from "@/sistema/backend-urls";
 import { singularWord } from "@/sistema/essentials";
+import { SchemaContasFilterObject } from "../../Contas/local-contexts/contas-context";
 
 export async function getTerceiros(){
     try {
@@ -66,13 +67,17 @@ export async function getCategoriasFiscais(){
       } 
 }
 
-export async function getContas(page:number){
+export async function getContas(page:number, filterObject?:SchemaContasFilterObject){
   try {
       const response = await fetch(BACKEND_URL + `/contas/get?page=${page}`,{
+          method:"POST",
           headers:{
           "Content-type":"application/json",
           "token":localStorage.getItem('token') as string
-          }
+          },
+          body:JSON.stringify({
+            filter:filterObject
+          })
       });
       const result = await response.json();
       return {
@@ -87,6 +92,7 @@ export async function getContas(page:number){
 export async function getAllContas(){
   try {
       const response = await fetch(BACKEND_URL + `/contas/get`,{
+          method:"POST",
           headers:{
           "Content-type":"application/json",
           "token":localStorage.getItem('token') as string

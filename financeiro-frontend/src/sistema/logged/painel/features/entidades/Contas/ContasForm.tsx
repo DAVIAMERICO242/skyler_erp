@@ -46,9 +46,12 @@ import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
 import { firstCharUpper } from '@/sistema/essentials';
 import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
+import { useTableFilter } from '../reusable/feature_table/filter/FilterContexts';
+import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
+  const filtrosObject = useTableFilter().dataFilter;
 
   const current_page = usePagination().current_page;
 
@@ -162,7 +165,11 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       .then((d)=>{
         if(d.success){
           setOpen(false);
-          refetchContas(current_page);
+          if(!areAllValuesEmptyArrays(filtrosObject)){
+            refetchContas(current_page,filtrosObject);
+          }else{
+            refetchContas(current_page);
+          }
           refetch_categorias_fiscais();
           toast({
             title: "Sucesso",

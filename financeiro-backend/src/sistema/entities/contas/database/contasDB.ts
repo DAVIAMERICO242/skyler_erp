@@ -5,6 +5,7 @@ import { dateSQLStandard } from "../../../essentials";
 import { changeHistoricoContas } from "../../../schemas/this-api/schemas";
 import { HistoricoContas } from "../../../schemas/this-api/schemas";
 import { contaToBeResolved } from "../../../schemas/this-api/schemas";
+import { SchemaContasFilterObject } from "../../../schemas/this-api/schemas";
 
 export function resolverConta(conta: contaToBeResolved): Promise<("parcial" |"resolvido" | null ) | DBError> {
     return new Promise((resolve, reject) => {
@@ -106,11 +107,14 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
     });
 }
 
-export function getFrotendHistoricoConta(page:number, page_size:number): Promise<DBHistoricoContas[]|DBError> {
+export async function getFrotendHistoricoConta(
+    page:number,
+    page_size:number,
+    filter?:SchemaContasFilterObject):Promise<{data:DBHistoricoContas[],n_pages:number}|DBError> {
     console.log(page)
     const start_index = (page - 1) * page_size;
-    return new Promise((resolve, reject) => {
-        SQLConnection().then((connection) => {
+    return new Promise(async (resolve, reject) => {
+        SQLConnection().then(async(connection) => {
             if (connection) {
                 let query = 
                     `
@@ -136,12 +140,39 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
-                    ORDER BY historico_contas.id DESC
                     `
-                    if (page) {
-                        query += `LIMIT ${page_size} OFFSET ${start_index};`;
+
+                // var nonNullFilters = [];
+                var SQLWHEREfilter = ``;
+                var queryFilterValues = [];
+                var checkNullSituacao = false;
+                if(filter){
+                    SQLWHEREfilter = SQLWHEREfilter + ' WHERE'
+                    for(let column of Object.keys(filter) as (keyof SchemaContasFilterObject)[]){
+                        if(filter[column]?.length){
+                            if(!(queryFilterValues.length)){
+                                SQLWHEREfilter = SQLWHEREfilter + ` ${column} IN (?)`;
+                                
+                            }else{
+                                SQLWHEREfilter = SQLWHEREfilter + ` AND ${column} IN (?)`;
+                            }
+                            queryFilterValues.push(filter[column]);
+                            
+                        }
                     }
-                connection.query(query,
+                }
+                console.log(queryFilterValues);
+                console.log(SQLWHEREfilter);
+                query += SQLWHEREfilter;
+                // if(checkNullSituacao){
+                //     query += " OR situacao IS NULL";
+                // }
+                query += " ORDER BY historico_contas.id DESC";
+                const n_pages = await getNumberOfPages(query,queryFilterValues,page_size);
+                if (page) {
+                    query += ` LIMIT ${page_size} OFFSET ${start_index};`;
+                }
+                connection.query(query, queryFilterValues,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
@@ -155,11 +186,15 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
                                 })
                             }
                         } else {
-                            resolve(result);
+                            resolve({
+                                data:result,
+                                n_pages:n_pages as number
+                            });
                         }
                     });
             }
         }).catch((err) => {
+            console.log(err);
             reject({
                 duplicate:false
             });
@@ -168,22 +203,15 @@ export function getFrotendHistoricoConta(page:number, page_size:number): Promise
 }
 
 
-export function getNumberOfPages(page_size:number): Promise<number|DBError> {
+export function getNumberOfPages(query:string,values:any,page_size:number): Promise<number|DBError> {
+    let countQuery = query.replace(
+        /SELECT\s+[\s\S]*?\s+FROM\s+/i,
+        'SELECT COUNT(*) AS n_rows FROM '
+    );
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`
-                    SELECT COUNT(*) as n_rows
-                    FROM 
-                        historico_contas
-                    INNER JOIN 
-                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
-                    INNER JOIN 
-                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
-                    ORDER BY historico_contas.data
-                    `,
+                connection.query(countQuery,values,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {

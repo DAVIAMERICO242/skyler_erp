@@ -1,5 +1,5 @@
 import {Router, Response} from 'express';
-import { RequestModel, contaToBeResolved } from '../../../schemas/this-api/schemas';
+import { DBHistoricoContas, RequestModel, contaToBeResolved } from '../../../schemas/this-api/schemas';
 import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta, getNumberOfPages, resolverConta } from '../database/contasDB';
 import { HistoricoContas } from '../../../schemas/this-api/schemas';
 import { updateHistoricoConta } from '../database/contasDB';
@@ -39,16 +39,16 @@ contas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     }
 })
 
-contas_router.get('/get',async (req:RequestModel,res:Response)=>{
+contas_router.post('/get',async (req:RequestModel,res:Response)=>{
     try{
         const page = req.query?.page;
-        const page_size = 2;
-        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size);//page=x,page_size = 1
-        const n_pages = await getNumberOfPages(page_size);
+        const filter = req.body?.filter;
+        const page_size = 3;
+        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size,filter) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
         res.status(200).send({
             success:true,
-            data:response,
-            n_pages:n_pages
+            data:response.data,
+            n_pages:response.n_pages
         })
     }catch(error:any){
         res.status(400).send({
