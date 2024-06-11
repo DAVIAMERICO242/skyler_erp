@@ -78,7 +78,9 @@ export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
 export interface contaToBeResolved{
     id:number,
     value:number,
-    required_value:number
+    required_value:number,
+    data_resolucao:string,
+    contaloja:string
 }
 ////
 

@@ -102,7 +102,7 @@ export async function getAllContas(){
     } 
 }
 
-export async function ResolverConta( id:number, value:number, required:number){
+export async function ResolverConta( id:number, value:number, required:number, data_resolucao:any, contaloja:string){
 
   return fetch(BACKEND_URL+`/contas/resolver`,{
       method:"POST",
@@ -110,7 +110,12 @@ export async function ResolverConta( id:number, value:number, required:number){
         'Content-type':"application/json",
         'token':localStorage.getItem('token') as string,
       },
-      body:JSON.stringify({conta:{id:id,value:value,required_value:required}})
+      body:JSON.stringify({conta:{id:id,
+                                  value:value,
+                                  required_value:required,
+                                  data_resolucao:data_resolucao,
+                                  contaloja:contaloja
+                                 }})
     })
 }
 

@@ -56,7 +56,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
         valor: z.coerce.number().max(row['valor'],
             {message:"O valor de resolução ultrapassa o valor exigido"}
         ),
-        conta: z.string().regex(/^\d{8}$/, {
+        contaloja: z.string().regex(/^\d{8}$/, {
             message: "A conta sem dígito deve ter 8 caracteres numéricos.",
           })
         });
@@ -66,7 +66,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
     
     function onSubmit(value: z.infer<typeof inputSchema>){
         setLoading(true);
-        ResolverConta(row['id'],value.valor,row['valor']).then((d)=>d.json())//row['valor'] é o valor requerido
+        ResolverConta(row['id'],value.valor,row['valor'],value.data_resolucao,value.contaloja).then((d)=>d.json())//row['valor'] é o valor requerido
         .then((d)=>{
           if(d.success){
             setLoading(false);
@@ -198,7 +198,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                     />
                   <FormField
                   control={form.control}
-                  name="conta"
+                  name="contaloja"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
                       <FormLabel>Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
