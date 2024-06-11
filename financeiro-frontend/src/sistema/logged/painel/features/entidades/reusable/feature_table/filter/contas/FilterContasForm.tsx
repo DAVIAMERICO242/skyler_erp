@@ -1,7 +1,4 @@
 /* eslint-disable no-var */
-import { useContas } from "../../../../Contas/local-contexts/contas-context";
-import { useTerceiros } from "../../../../Terceiros/Terceiros";
-import { useLojas } from "../../../../Lojas/Lojas";
 import {
     Form,
     FormControl,
@@ -31,13 +28,24 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"   
-import { Calendar } from "@/components/ui/calendar"
+  import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useContas } from "../../../../Contas/local-contexts/contas-context";
+import { useTerceiros } from "../../../../Terceiros/Terceiros";
+import { useLojas } from "../../../../Lojas/Lojas";
+import { useTableFilter } from "../FilterContexts";
+import { usePagination } from "../../pagination/PaginationContext";
 
 export const FilterContasForm = ()=>{
+
+    const tableFilter = useTableFilter().dataFilter;
+    const setTableFilter = useTableFilter().setdataFilter;
+
+    const current_page = usePagination().current_page;
+    const setCurrent_page = usePagination().setCurrent_page;
 
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
@@ -74,12 +82,10 @@ export const FilterContasForm = ()=>{
       });
     
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){
-        console.log('FILTRO CONTAS');
-        console.log(values)
-        console.log('a');
+        console.log('VAI SER REFATORADO')
     }
 
-    return(
+    return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} >
                <div className="w-1/2 flex gap-10 flex-col justify-center p-10">

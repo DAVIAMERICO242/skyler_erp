@@ -30,9 +30,7 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
     // const setCleanAll = useCleanAllFilter().setCleanAll
 
     const {current_page, setCurrent_page} = usePagination();
-    const filtrosObject = useTableFilter().dataFilter;
-    console.log('FILTROS OBJECT INSIDE PAGINATION');
-    console.log(filtrosObject);
+
 
     const [isActive, setIsActive] = useState(1);
     const [current_group, setGroup] = useState(1); //um grupo mostra 3 paginas pro usuário, cada grupo tem tamanho 2
@@ -94,22 +92,15 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
     }
 
     useEffect(()=>{//aqui que os dados mudam
-        console.log('FILTRO OBJECT TRIGOU O USEFFECT')
-        if(!areAllValuesEmptyArrays(filtrosObject)){///acaba aqui
-            refetch(1,filtrosObject)?.then(()=>{//cada filtro de contas voltar pra pagina 1
-                console.log('pagina carregada')
-                setLoadingPagination(false);
-                // setCleanAll(prev=>-1*prev);
-            });
-        }else{
-            refetch(current_page)?.then(()=>{
-                console.log('pagina carregada')
-                setLoadingPagination(false);
-                // setCleanAll(prev=>-1*prev);
-            });
-        }
-        setIsActive(current_page)
-    },[current_page,filtrosObject])
+
+        refetch(current_page)?.then(()=>{
+            console.log('pagina carregada')
+            setLoadingPagination(false);
+            // setCleanAll(prev=>-1*prev);
+        });
+        setIsActive(current_page);
+
+    },[current_page])
 
     return(
         <PaginationContainer className="pagination_container" loadingPagination={loadingPagination}>

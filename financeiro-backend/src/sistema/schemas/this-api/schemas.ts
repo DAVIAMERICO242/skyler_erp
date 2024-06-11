@@ -77,19 +77,14 @@ export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
 
 
 export interface SchemaContasFilterObject{
-    categoria_conta:string[],
-    conta_tipo: string[],
-    data:string[],
-    data_resolucao:string[],
-    id:number[],
-    nome_loja:string[],
-    situacao:string[],
-    vencimento:string[],
-    pagar_receber:string[],
-    terceiro:string[],
-    valor:number[],
-    valor_resolucao:number[],
-    nossa_conta_bancaria:string[],
+    situacao?:string[],
+    pagar_receber?:string[],
+    terceiro?:string[],
+    nome_loja?:string[],
+    data?:string[],
+    vencimento_inicio?:string[],
+    vencimento_fim?:string[],
+    data_resolucao?:string[]
 }
 
 export interface contaToBeResolved{

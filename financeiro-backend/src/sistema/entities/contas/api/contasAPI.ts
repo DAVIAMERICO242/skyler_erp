@@ -43,8 +43,8 @@ contas_router.post('/get',async (req:RequestModel,res:Response)=>{
     try{
         const page = req.query?.page;
         const filter = req.body?.filter;
-        const page_size = 3;
-        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size,filter) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
+        const page_size = 2;
+        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
         res.status(200).send({
             success:true,
             data:response.data,

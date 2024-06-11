@@ -110,7 +110,7 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
 export async function getFrotendHistoricoConta(
     page:number,
     page_size:number,
-    filter?:SchemaContasFilterObject):Promise<{data:DBHistoricoContas[],n_pages:number}|DBError> {
+    ):Promise<{data:DBHistoricoContas[],n_pages:number}|DBError> {
     console.log(page)
     const start_index = (page - 1) * page_size;
     return new Promise(async (resolve, reject) => {
@@ -140,39 +140,13 @@ export async function getFrotendHistoricoConta(
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+                    ORDER BY historico_contas.id DESC
+                    LIMIT ${page_size} OFFSET ${start_index};
                     `
-
                 // var nonNullFilters = [];
-                var SQLWHEREfilter = ``;
-                var queryFilterValues = [];
-                var checkNullSituacao = false;
-                if(filter){
-                    SQLWHEREfilter = SQLWHEREfilter + ' WHERE'
-                    for(let column of Object.keys(filter) as (keyof SchemaContasFilterObject)[]){
-                        if(filter[column]?.length){
-                            if(!(queryFilterValues.length)){
-                                SQLWHEREfilter = SQLWHEREfilter + ` ${column} IN (?)`;
-                                
-                            }else{
-                                SQLWHEREfilter = SQLWHEREfilter + ` AND ${column} IN (?)`;
-                            }
-                            queryFilterValues.push(filter[column]);
-                            
-                        }
-                    }
-                }
-                console.log(queryFilterValues);
-                console.log(SQLWHEREfilter);
-                query += SQLWHEREfilter;
-                // if(checkNullSituacao){
-                //     query += " OR situacao IS NULL";
-                // }
-                query += " ORDER BY historico_contas.id DESC";
-                const n_pages = await getNumberOfPages(query,queryFilterValues,page_size);
-                if (page) {
-                    query += ` LIMIT ${page_size} OFFSET ${start_index};`;
-                }
-                connection.query(query, queryFilterValues,
+
+                const n_pages = await getNumberOfPages(page_size);
+                connection.query(query,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
@@ -203,15 +177,23 @@ export async function getFrotendHistoricoConta(
 }
 
 
-export function getNumberOfPages(query:string,values:any,page_size:number): Promise<number|DBError> {
-    let countQuery = query.replace(
-        /SELECT\s+[\s\S]*?\s+FROM\s+/i,
-        'SELECT COUNT(*) AS n_rows FROM '
-    );
+export function getNumberOfPages(page_size:number): Promise<number|DBError> {
+    let countQuery = `
+                    SELECT COUNT(*) AS n_rows
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+                    ORDER BY historico_contas.id DESC
+                    `
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(countQuery,values,
+                connection.query(countQuery,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
