@@ -4,7 +4,7 @@
 import styled from "styled-components"
 import { TableBar } from "./TableBar";
 import { useEffect, useState } from "react";
-import { useLojas } from "../../Lojas/Lojas";
+import { LojasProvider, useLojas } from "../../Lojas/Lojas";
 import { useTerceiros } from "../../Terceiros/Terceiros";
 import { useBancos } from "../../Bancos/Bancos";
 import { useContas } from "../../Contas/local-contexts/contas-context";
@@ -22,6 +22,7 @@ import { TZtoFriendlyDate } from "@/sistema/essentials";
 import {  PaginationFeatureTable } from "./pagination/PaginationFeatureTable";
 import { PaginationProvider } from "./pagination/PaginationContext";
 import { Resolver } from "./pagamentos_logic/Resolver";
+import { BancosProvider } from "../../Bancos/Bancos";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -78,7 +79,9 @@ export const FeatureTable = ({author}:{author:string})=>{
             <FilteredDataProvider>
                 <TableFilterProvider>
                     <CleanAllFilterProvider>
-                        <FeatureTableUI author={author}/>
+                        <LojasProvider>
+                            <FeatureTableUI author={author}/>
+                        </LojasProvider>
                     </CleanAllFilterProvider>
                 </TableFilterProvider>
             </FilteredDataProvider>
