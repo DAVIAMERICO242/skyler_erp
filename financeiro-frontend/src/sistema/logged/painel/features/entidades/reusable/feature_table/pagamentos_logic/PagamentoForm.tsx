@@ -17,7 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useContas } from "../../../Contas/local-contexts/contas-context";
 import { usePagination } from "../pagination/PaginationContext";
 import {z} from 'zod';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ResolverConta } from "../../../BackendHelper/API/fetch";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -42,7 +42,12 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
     
     const dataLojas = useLojas().data;
 
-    const contas = [... new Set(dataLojas?.map((e)=>e.conta))]
+    const contas = [... new Set(dataLojas?.map((e)=>e.conta))];
+
+    const contasDataForThisId = useContas().data?.filter((e)=>e.id===row['id'])[0];
+
+    console.log('CONTAS DATA FOR THIS ID');
+    console.log(contasDataForThisId)
 
     const { toast } = useToast();
     const {refetch} = useContas();
@@ -63,6 +68,16 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
     var form = useForm<z.infer<typeof inputSchema>>({
             resolver: zodResolver(inputSchema),
         });
+
+    useEffect(()=>{
+      if(contasDataForThisId){
+        form.reset({
+          data_resolucao: contasDataForThisId?.data_resolucao?(new Date(contasDataForThisId?.data_resolucao)):"",
+          valor: contasDataForThisId?.valor_resolucao,
+          contaloja: contasDataForThisId?.nossa_conta_bancaria,
+        });
+      }
+    },[contasDataForThisId])
     
     function onSubmit(value: z.infer<typeof inputSchema>){
         setLoading(true);
@@ -205,7 +220,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={"Escolher"}/>
+                                <SelectValue placeholder={contasDataForThisId?.nossa_conta_bancaria || "Escolher"}/>
                             </SelectTrigger>
                             <SelectContent {...field }>
                                 {contas?.map((e)=>{
