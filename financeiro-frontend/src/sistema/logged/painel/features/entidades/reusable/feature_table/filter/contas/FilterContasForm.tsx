@@ -88,7 +88,7 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
                     setCurrent_page(1);
                 }else{
                     setLoading(false);
-                    alert('Nenhum filtro encontrado')
+                    alert('Nenhum dado encontrado para esse filtro')
                 }
             }).catch((err)=>{
                 setLoading(false);

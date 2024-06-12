@@ -35,8 +35,13 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
     const fetchData = async (page:number = 1, filter?:SchemaContasFilterObject) => {//vai ter filtro
             try {
                 const response = await getContas(page,filter);
-                setData(response?.data);
-                setN_pages(response?.n_pages);
+                if(response?.data?.length && filter){//se tiver filtrado, so vai mudar os dados atuais se foi achado filtro
+                    setData(response?.data);
+                    setN_pages(response?.n_pages);
+                }else if(!filter){// se nao tiver filtrado vai atualizar os dados de qualquer forma, serve pra UX de quando nao tem dados
+                    setData(response?.data);
+                    setN_pages(response?.n_pages);      
+                }
                 return response;
             } catch (error) {
                 console.log('erro')

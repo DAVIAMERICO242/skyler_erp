@@ -1,6 +1,6 @@
 import {Router, Response} from 'express';
 import { DBHistoricoContas, RequestModel, contaToBeResolved } from '../../../schemas/this-api/schemas';
-import { cadastroHistoricoConta, deleteHistoricoConta, getFrotendHistoricoConta, getNumberOfPages, resolverConta } from '../database/contasDB';
+import { cadastroHistoricoConta, deleteHistoricoConta, getFilteredFrotendHistoricoConta, getFrotendHistoricoConta, getNumberOfPages, resolverConta } from '../database/contasDB';
 import { HistoricoContas } from '../../../schemas/this-api/schemas';
 import { updateHistoricoConta } from '../database/contasDB';
 import { changeHistoricoContas } from '../../../schemas/this-api/schemas';
@@ -44,7 +44,15 @@ contas_router.post('/get',async (req:RequestModel,res:Response)=>{
         const page = req.query?.page;
         const filter = req.body?.filter;
         const page_size = 2;
-        const response = await getFrotendHistoricoConta(parseInt(page as string),page_size) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
+
+        let response;
+
+        if(filter){
+            response = await getFilteredFrotendHistoricoConta(filter, parseInt(page as string),page_size) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
+        }else{
+            response = await getFrotendHistoricoConta(parseInt(page as string),page_size) as {data:DBHistoricoContas[],n_pages:number};//page=x,page_size = 1
+        }
+        
         res.status(200).send({
             success:true,
             data:response.data,

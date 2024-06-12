@@ -20,3 +20,13 @@ export function dateSQLStandard(date:Date){
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+export function isStringDate(value:string | undefined){
+
+  if (typeof value !== "string"){
+      return false;
+  }else{
+      const regex = /^\d{4}-\d{2}-\d{2}/;
+      return !!regex.test(value)
+  }
+}

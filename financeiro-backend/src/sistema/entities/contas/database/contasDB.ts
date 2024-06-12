@@ -1,7 +1,7 @@
 import { SQLConnection } from "../../../connect-sql";
 import { DBError } from "../../../schemas/this-api/schemas";
 import { DBHistoricoContas } from "../../../schemas/this-api/schemas";
-import { dateSQLStandard } from "../../../essentials";
+import { dateSQLStandard, isStringDate } from "../../../essentials";
 import { changeHistoricoContas } from "../../../schemas/this-api/schemas";
 import { HistoricoContas } from "../../../schemas/this-api/schemas";
 import { contaToBeResolved } from "../../../schemas/this-api/schemas";
@@ -176,7 +176,6 @@ export async function getFrotendHistoricoConta(
     });
 }
 
-
 export function getNumberOfPages(page_size:number): Promise<number|DBError> {
     let countQuery = `
                     SELECT COUNT(*) AS n_rows
@@ -218,6 +217,132 @@ export function getNumberOfPages(page_size:number): Promise<number|DBError> {
         });
     });
 }
+
+export async function getFilteredFrotendHistoricoConta(
+    filter : SchemaContasFilterObject,
+    page:number,
+    page_size:number,
+    ):Promise<{data:DBHistoricoContas[],n_pages:number}|DBError> {
+    console.log(page)
+    const start_index = (page - 1) * page_size;
+    return new Promise(async (resolve, reject) => {
+        SQLConnection().then(async(connection) => {
+            if (connection) {
+                let query = 
+                    `
+                    SELECT 
+                        historico_contas.id,
+                        historico_contas.situacao,
+                        historico_contas.data, 
+                        historico_contas.vencimento, 
+                        historico_contas.terceiro, 
+                        tipo_contas.categoria_conta,
+                        historico_contas.conta_tipo, 
+                        categoria_contas.pagar_receber, 
+                        historico_contas.valor, 
+                        historico_contas.data_resolucao, 
+                        historico_contas.valor_resolucao, 
+                        historico_contas.nossa_conta_bancaria, 
+                        lojas.nome as nome_loja
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+                    `
+                var filtersQuery = ``;
+                var check_first_if = true;
+                for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
+                    if (filter[key]) {
+                        if(key!=="nome_loja" && !(key.includes("vencimento"))){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]}'`
+                                check_first_if = false;
+                            }else{
+                                filtersQuery = filtersQuery + ` AND ${key}='${filter[key]}'`
+                            }
+                        }else if(key==="nome_loja"){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE lojas.nome='${filter[key]}'`
+                                check_first_if = false;
+                            }else{
+                                filtersQuery = filtersQuery + ` AND lojas.nome='${filter[key]}'`
+                            }
+                        }
+                    }
+                }
+                query+=filtersQuery;
+                const n_pages = await getFilteredNumberOfPages(query,page_size);//nao contar as paginas antes do limit e offset ser aplicado
+                let final_part = ` ORDER BY historico_contas.id DESC LIMIT ${page_size} OFFSET ${start_index};`
+                query+=final_part;
+                // var nonNullFilters = [];
+                connection.query(query,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve({
+                                data:result,
+                                n_pages:n_pages as number
+                            });
+                        }
+                    });
+            }
+        }).catch((err) => {
+            console.log(err);
+            reject({
+                duplicate:false
+            });
+        });
+    });
+}
+
+export function getFilteredNumberOfPages(query:string,page_size:number): Promise<number|DBError> {
+
+
+    let countQuery = query.replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) AS n_rows FROM');
+
+    return new Promise((resolve, reject) => {
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(countQuery,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(Math.ceil((result[0]['n_rows'])/page_size));
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    });
+}
+
 
 
 export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null|DBError>{

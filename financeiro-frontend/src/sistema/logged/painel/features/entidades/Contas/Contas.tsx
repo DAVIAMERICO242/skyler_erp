@@ -25,7 +25,7 @@ export const Contas = ()=>{
 
 export const ContasUI = ()=>{
     const [loading,setLoading] = useState(true);
-    const [foundData,setFoundData] = useState(false);
+    const [foundData,setFoundData] = useState(false);//se existe algum dado nao filtrado
 
     const thisContextDataPart1 = useCategoriasFiscais().data;
     const thisContextDataPart2 = useContas().data;
@@ -49,7 +49,8 @@ export const ContasUI = ()=>{
           setFoundData(false);
         }
       }
-    },[thisContextDataPart1,thisContextDataPart2])
+
+    },[thisContextDataPart1,thisContextDataPart2]);
     
     return(
         <>
