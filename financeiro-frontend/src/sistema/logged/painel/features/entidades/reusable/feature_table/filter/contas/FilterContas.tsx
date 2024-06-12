@@ -21,6 +21,7 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useTerceiros } from "../../../../Terceiros/Terceiros"
 import { useLojas } from "../../../../Lojas/Lojas"
+import { SchemaContasFilterObject } from "./ContextFilterContas"
 
 export const FilterContas = ()=>{
     const terceirosData = useTerceiros().data;

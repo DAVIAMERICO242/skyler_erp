@@ -63,10 +63,23 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
 
 
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
-        console.log('VAI SER REFATORADO')
-        console.log(values)
-
+        console.log('VAI SER REFATORADO');
+        console.log(values);
+        setFilterContas({...values,
+            situacao:(values['situacao']==="Não Resolvido")?null:values['situacao'],
+            data:(values['data']?.toISOString()),
+            data_resolucao: (values['data_resolucao']?.toISOString()),
+            vencimento_inicio: (values['vencimento_inicio']?.toISOString()),
+            vencimento_fim: (values['vencimento_fim']?.toISOString()),
+        })
     }
+
+    useEffect(()=>{
+        if(filterContas){
+            console.log('FILTER CONTAS')
+            console.log(filterContas)
+        }
+    },[filterContas])
 
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
          <Form {...form}>
