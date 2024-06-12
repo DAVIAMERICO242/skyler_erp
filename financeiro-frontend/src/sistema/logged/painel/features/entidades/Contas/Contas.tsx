@@ -6,14 +6,17 @@ import { LoadingFeature } from '../reusable/LoadingFeature';
 import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { useEffect, useState } from 'react';
+import { LojasProvider } from '../Lojas/Lojas';
 
 export const Contas = ()=>{
     return(
             <CategoriasFiscaisProvider>
                 <ContasProvider>
                     <TerceirosProvider>
+                      <LojasProvider>
                         <FeatureTitle>Contas</FeatureTitle>
                         <ContasUI/>
+                      </LojasProvider>
                     </TerceirosProvider>
                 </ContasProvider>
             </CategoriasFiscaisProvider>

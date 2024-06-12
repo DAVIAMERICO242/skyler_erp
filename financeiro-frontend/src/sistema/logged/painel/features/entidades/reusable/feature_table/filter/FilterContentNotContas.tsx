@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useTableFilter } from "./FilterContexts";
-import { useCleanAllFilter } from "./FilterContexts";
+import { useTableFilter } from "./FilterContextsNotContas";
+import { useCleanAllFilter } from "./FilterContextsNotContas";
 import { TZtoFriendlyDate, isStringDate} from "@/sistema/essentials";
 
 const FilterContentContainer = styled.div`

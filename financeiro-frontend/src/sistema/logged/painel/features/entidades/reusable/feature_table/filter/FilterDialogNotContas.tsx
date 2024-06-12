@@ -2,7 +2,7 @@ import { BsFilter } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Input } from "@/components/ui/input";
-import { FilterContent } from "./FilterContent";
+import { FilterContent } from "./FilterContentNotContas";
 
 const FilterDialogContainer = styled.div`
   position: relative;

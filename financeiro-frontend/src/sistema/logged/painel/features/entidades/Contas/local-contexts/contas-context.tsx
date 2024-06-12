@@ -19,16 +19,6 @@ export interface SchemaContasFrontendData {
     nome_loja:string
 }
 
-export interface SchemaContasFilterObject{
-    situacao?:string,
-    pagar_receber?:string,
-    terceiro?:string,
-    nome_loja?:string,
-    data?:string,
-    vencimento_inicio?:string,
-    vencimento_fim?:string,
-    data_resolucao?:string
-}
 
 interface ContasContextType {
     data: SchemaContasFrontendData[] | null;
@@ -51,7 +41,7 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
             } 
     };
 
-     useEffect(() => {
+    useEffect(() => {
         console.log('REFETCHADO')
         fetchData();
     }, []);

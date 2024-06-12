@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 import styled from "styled-components";
 import { FaFilterCircleXmark } from "react-icons/fa6";
-import { useCleanAllFilter, useTableFilter } from "./FilterContexts";
+import { useCleanAllFilter, useTableFilter } from "./FilterContextsNotContas";
 import { areAllValuesEmptyArrays } from "@/sistema/essentials";
 
 const CleanAllContainer = styled.div`

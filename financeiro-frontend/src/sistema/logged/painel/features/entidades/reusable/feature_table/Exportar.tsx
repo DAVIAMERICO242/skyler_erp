@@ -9,8 +9,8 @@ import { Excel, isStringDate } from "@/sistema/essentials";
 import { useContas } from "../../Contas/local-contexts/contas-context";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import { useToast } from "@/components/ui/use-toast";
-import { useFilteredData } from "./filter/FilterContexts";
-import { useTableFilter } from "./filter/FilterContexts";
+import { useFilteredData } from "./filter/FilterContextsNotContas";
+import { useTableFilter } from "./filter/FilterContextsNotContas";
 import { areAllValuesEmptyArrays } from "@/sistema/essentials";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 import { getAllContas } from "../../BackendHelper/API/fetch";
@@ -19,7 +19,7 @@ import { OrbitIcon } from "lucide-react";
 export const Exportar = ({author}:{author:string})=>{
     const { toast } = useToast()
     const [loading,setLoading] = useState<boolean>(false);
-    var {filteredData} = useFilteredData();
+    var {FilteredDataNotContas} = useFilteredData();
 
     var {dataFilter} = useTableFilter();
 
@@ -48,7 +48,7 @@ export const Exportar = ({author}:{author:string})=>{
       if(author!=="contas"){
         console.log(filteredDataUINames)
         var filteredDataUINames = [];
-        filteredData?.map((e)=>{//bug aqui hehe
+        FilteredDataNotContas?.map((e)=>{//bug aqui hehe
            var current_obj = {};
            for (let column of Object.keys(e)){
               current_obj[getUIColumnName(author,column) as string] = e[column]

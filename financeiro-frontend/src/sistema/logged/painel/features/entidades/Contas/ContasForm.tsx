@@ -46,7 +46,7 @@ import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
 import { firstCharUpper } from '@/sistema/essentials';
 import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
-import { useTableFilter } from '../reusable/feature_table/filter/FilterContexts';
+import { useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContas';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{

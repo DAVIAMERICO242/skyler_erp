@@ -14,7 +14,7 @@ import {
 
 import styled from 'styled-components';
 import { Loader2 } from 'lucide-react';
-import { useCleanAllFilter, useFilteredData, useTableFilter } from '../filter/FilterContexts';
+import { useCleanAllFilter, useFilteredData, useTableFilter } from '../filter/FilterContextsNotContas';
 import { usePagination } from './PaginationContext';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 

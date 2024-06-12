@@ -32,20 +32,20 @@ export const useTableFilter = ()=>{
 
 ///contexto que abriga os dados filtrados
 interface FilteredDataContextType {
-    filteredData: { [key: number | string]: any }[];
+    FilteredDataNotContas: { [key: number | string]: any }[];
     setFilteredData: Dispatch<SetStateAction<{ [key: number | string]: any }[]>>;
 }
 
 const filteredDataContext = createContext<FilteredDataContextType>({
-    filteredData: [],
+    FilteredDataNotContas: [],
     setFilteredData: () => {}
 });
 
-export const FilteredDataProvider = ({ children }: { children: ReactNode }) => {
-    const [filteredData, setFilteredData] = useState<{ [key: number | string]: any }[]>([]); // Abstração que ajuda a filtrar os dados
+export const FilteredDataNotContasProvider = ({ children }: { children: ReactNode }) => {
+    const [FilteredDataNotContas, setFilteredData] = useState<{ [key: number | string]: any }[]>([]); // Abstração que ajuda a filtrar os dados
 
     return (
-        <filteredDataContext.Provider value={{ filteredData, setFilteredData }}>
+        <filteredDataContext.Provider value={{ FilteredDataNotContas, setFilteredData }}>
             {children}
         </filteredDataContext.Provider>
     );

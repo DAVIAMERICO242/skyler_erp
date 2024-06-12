@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils";
 import { useContas } from "../../../../Contas/local-contexts/contas-context";
 import { useTerceiros } from "../../../../Terceiros/Terceiros";
 import { useLojas } from "../../../../Lojas/Lojas";
-import { useTableFilter } from "../FilterContexts";
+import { useTableFilter } from "../FilterContextsNotContas";
 import { usePagination } from "../../pagination/PaginationContext";
 
 export const FilterContasForm = ()=>{

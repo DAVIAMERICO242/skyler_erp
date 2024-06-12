@@ -11,11 +11,11 @@ import { useContas } from "../../Contas/local-contexts/contas-context";
 import { CriarEditar } from "./CriarEditar";
 import { Deletar } from "./Deletar";
 import { FilterDialog } from "./filter/FilterDialogNotContas";
-import { useFilteredData, useTableFilter } from "./filter/FilterContexts";
-import { TableFilterProvider } from "./filter/FilterContexts";
-import { FilteredDataProvider } from "./filter/FilterContexts";
+import { useFilteredData, useTableFilter } from "./filter/FilterContextsNotContas";
+import { TableFilterProvider } from "./filter/FilterContextsNotContas";
+import { FilteredDataNotContasProvider } from "./filter/FilterContextsNotContas";
 import { FaLessThanEqual } from "react-icons/fa";
-import { CleanAllFilterProvider } from "./filter/FilterContexts";
+import { CleanAllFilterProvider } from "./filter/FilterContextsNotContas";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 import { isStringDate } from "@/sistema/essentials";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
@@ -23,6 +23,7 @@ import {  PaginationFeatureTable } from "./pagination/PaginationFeatureTable";
 import { PaginationProvider } from "./pagination/PaginationContext";
 import { Resolver } from "./pagamentos_logic/Resolver";
 import { BancosProvider } from "../../Bancos/Bancos";
+import { FilterContasProvider } from "./filter/contas/ContextFilterContas";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -76,15 +77,15 @@ export const FeatureTable = ({author}:{author:string})=>{
 
     return(
         <PaginationProvider>
-            <FilteredDataProvider>
-                <TableFilterProvider>
-                    <CleanAllFilterProvider>
-                        <LojasProvider>
-                            <FeatureTableUI author={author}/>
-                        </LojasProvider>
-                    </CleanAllFilterProvider>
-                </TableFilterProvider>
-            </FilteredDataProvider>
+            <FilteredDataNotContasProvider>
+                <FilterContasProvider>
+                    <TableFilterProvider>
+                        <CleanAllFilterProvider>
+                                <FeatureTableUI author={author}/>
+                        </CleanAllFilterProvider>
+                    </TableFilterProvider>
+                </FilterContasProvider>
+            </FilteredDataNotContasProvider>
         </PaginationProvider>
     )
     
@@ -142,7 +143,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
       }
 
     const dataFilter = useTableFilter().dataFilter;
-    const filteredData = useFilteredData().filteredData;
+    const FilteredDataNotContas = useFilteredData().FilteredDataNotContas;
     const setFilteredData = useFilteredData().setFilteredData;
 
 
@@ -169,7 +170,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
 
 
     console.log('FILTERED DATA');
-    console.log(filteredData);
+    console.log(FilteredDataNotContas);
 
 
     const [resolverOpenStates, setResolverOpenStates] = useState(

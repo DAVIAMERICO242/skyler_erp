@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { CriarEditar } from "./CriarEditar";
 import { Exportar } from "./Exportar";
-import { CleanAll } from "./filter/CleanAll";
+import { CleanAll } from "./filter/CleanAllIncludeContas";
 import { FilterContas } from "./filter/contas/FilterContas";
 
 const TableBarContainer = styled.div`
