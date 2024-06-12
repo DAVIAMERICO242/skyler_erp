@@ -122,10 +122,12 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
          * Alert if clicked on outside of element
          */
         function handleClickOutside(event) {
-        if (drawerRef.current && !drawerRef.current.contains(event.target) && (!(event.target.getAttribute("role") === "option") && !(event.target.tagName === "BUTTON") && !(event.target.tagName === "SVG") && !(event.target.id.includes("radix")))) {
-            console.log(event.target)
-            setOpen(false);
-        }
+            if (drawerRef.current && event.target.matches('.fixed')) {
+                console.log(event.target)
+                setOpen(false);
+            }else{
+                console.log(event.target)
+            }
         }
         // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
