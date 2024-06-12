@@ -107,6 +107,7 @@ export const FilterContas = ()=>{
         console.log('CLEAN SIGNAL TRIGADO')
         setCurrent_page(1);
         setFilterContas(null);
+        form.reset();
     },[cleanSignal]);
 
     useEffect(() => {
