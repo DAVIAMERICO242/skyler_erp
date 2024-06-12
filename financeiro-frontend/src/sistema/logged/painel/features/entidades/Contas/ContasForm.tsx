@@ -45,7 +45,7 @@ import { NovoTipoFiscalDialog } from './NovoTipoFiscalDialog';
 import { DialogTrigger } from "@/components/ui/dialog";
 import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
-import { firstCharUpper } from '@/sistema/essentials';
+import { areAllValuesUndefined, firstCharUpper } from '@/sistema/essentials';
 import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
 import { useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContasExceptClean';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
@@ -206,7 +206,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
           setLoading(false);
         }
       })
-      .catch(()=>{
+      .catch((error)=>{
         toast({
           title: "Erro desconhecido",
           className: "error",
