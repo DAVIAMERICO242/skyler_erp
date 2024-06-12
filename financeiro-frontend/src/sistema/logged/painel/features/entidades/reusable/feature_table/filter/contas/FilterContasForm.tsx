@@ -42,7 +42,7 @@ import { usePagination } from "../../pagination/PaginationContext";
 import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import { useFilterContas } from "./ContextFilterContas";
-import { firstCharUpper } from "@/sistema/essentials";
+import { areAllValuesUndefined, firstCharUpper } from "@/sistema/essentials";
 
 export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormSchema}:
     {form:any,terceirosData:(SchemaTerceirosData[]|null),lojasData:(SchemaLojasData[]|null),filterContasFormSchema:any})=>{
@@ -52,8 +52,11 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
             console.log('desmontado form')
         }
     }
-    ,[])
+    ,[]);
 
+    const [loading,setLoading] = useState(false);
+
+    const {refetch} = useContas();
 
     const filterContas = useFilterContas().filterContas;
     const setFilterContas  = useFilterContas().setFilterContas;
@@ -75,9 +78,22 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
     }
 
     useEffect(()=>{
-        if(filterContas){
+        if(filterContas && !areAllValuesUndefined(filterContas)){
             console.log('FILTER CONTAS')
-            console.log(filterContas)
+            console.log(filterContas);
+            setLoading(true);
+            refetch(1,filterContas).then((d)=>{//parece ambiguo devido ao useEffect de PaginationFeatureTable, mas serve pra UI do usuário
+                if(d?.data?.length){
+                    setLoading(false);
+                    setCurrent_page(1);
+                }else{
+                    setLoading(false);
+                    alert('Nenhum filtro encontrado')
+                }
+            }).catch((err)=>{
+                setLoading(false);
+                alert('algum erro')
+            });
         }
     },[filterContas])
 
@@ -350,7 +366,7 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
                         />
                     </div>
                     <LoadingButton
-                        loading={false}
+                        loading={loading}
                         className="w-[100%] p-0"
                         type="skyler">{"Aplicar filtro"}
                     </LoadingButton>

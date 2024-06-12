@@ -2,6 +2,7 @@
 import BACKEND_URL from '@/sistema/backend-urls';
 import { createContext, ReactNode, useState, useEffect, useContext } from 'react';
 import { getContas } from '../../BackendHelper/API/fetch';
+import { SchemaContasFilterObject } from '../../reusable/feature_table/filter/contas/ContextFilterContas';
 
 export interface SchemaContasFrontendData {
     pastid?:number;
@@ -31,11 +32,12 @@ const ContasContext = createContext<ContasContextType>({ data: null,refetch: () 
 export const ContasProvider = ({ children }:{children:ReactNode}) => {
     const [data, setData] = useState<SchemaContasFrontendData[] | null>(null);
     const [n_pages,setN_pages] = useState<number>(0);
-    const fetchData = async (page:number = 1) => {//vai ter filtro
+    const fetchData = async (page:number = 1, filter?:SchemaContasFilterObject) => {//vai ter filtro
             try {
-                const response = await getContas(page);
+                const response = await getContas(page,filter);
                 setData(response?.data);
                 setN_pages(response?.n_pages);
+                return response;
             } catch (error) {
                 console.log('erro')
             } 
@@ -46,8 +48,8 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
         fetchData();
     }, []);
 
-    const refetch = (page:number = 1) => {
-        return fetchData(page);
+    const refetch = (page:number = 1, filter?:SchemaContasFilterObject) => {
+        return fetchData(page,filter);
     };
 
      return (

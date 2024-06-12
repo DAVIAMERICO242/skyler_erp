@@ -106,3 +106,10 @@ export function areAllValuesEmptyArrays(obj: { [key: string]: any[] }): boolean 
     return Object.values(obj).every(value => Array.isArray(value) && value.length === 0);
 }
 
+export function areAllValuesUndefined(obj: ({ [key: string | number]: any[] }|null)): boolean {
+    if(obj===null){
+        return false;
+    }
+    return Object.values(obj).every(value => value === undefined);
+}
+

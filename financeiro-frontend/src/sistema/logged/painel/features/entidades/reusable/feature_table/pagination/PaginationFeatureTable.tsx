@@ -16,7 +16,8 @@ import styled from 'styled-components';
 import { Loader2 } from 'lucide-react';
 import { useCleanAllFilter, useFilteredData, useTableFilter } from '../filter/FilterContextsNotContas';
 import { usePagination } from './PaginationContext';
-import { areAllValuesEmptyArrays } from '@/sistema/essentials';
+import { areAllValuesEmptyArrays, areAllValuesUndefined } from '@/sistema/essentials';
+import { useFilterContas } from '../filter/contas/ContextFilterContas';
 
 const PaginationContainer = styled.div`
     margin-top:30px;
@@ -31,10 +32,11 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
 
     const {current_page, setCurrent_page} = usePagination();
 
-
     const [isActive, setIsActive] = useState(1);
     const [current_group, setGroup] = useState(1); //um grupo mostra 3 paginas pro usuário, cada grupo tem tamanho 2
     const group_size = 3;//NUMERO DE PAGINAS ANTES DE MUDAR O GRUPO
+
+    const filterContas = useFilterContas().filterContas;
 
     const pages_indexes_starting_at_1 = Array.from({ length: n_pages }, (_, i) => i + 1);
 
@@ -92,12 +94,19 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
     }
 
     useEffect(()=>{//aqui que os dados mudam
-
-        refetch(current_page)?.then(()=>{
-            console.log('pagina carregada')
-            setLoadingPagination(false);
-            // setCleanAll(prev=>-1*prev);
-        });
+        if(filterContas && !areAllValuesUndefined(filterContas)){
+            refetch(current_page, filterContas)?.then(()=>{
+                console.log('pagina carregada')
+                setLoadingPagination(false);
+                // setCleanAll(prev=>-1*prev);
+            });
+        }else{
+            refetch(current_page)?.then(()=>{
+                console.log('pagina carregada')
+                setLoadingPagination(false);
+                // setCleanAll(prev=>-1*prev);
+            });
+        }
         setIsActive(current_page);
 
     },[current_page])

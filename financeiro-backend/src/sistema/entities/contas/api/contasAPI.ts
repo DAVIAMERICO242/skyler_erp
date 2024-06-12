@@ -40,7 +40,7 @@ contas_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
 })
 
 contas_router.post('/get',async (req:RequestModel,res:Response)=>{
-    try{
+    try{    
         const page = req.query?.page;
         const filter = req.body?.filter;
         const page_size = 2;
