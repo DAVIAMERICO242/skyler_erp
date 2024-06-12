@@ -19,13 +19,14 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
-import { singularWord } from "@/sistema/essentials";
+import { areAllValuesUndefined, singularWord } from "@/sistema/essentials";
 import { DeleteEntity } from "../../BackendHelper/API/fetch";
 import { usePagination } from "./pagination/PaginationContext";
+import { useFilterContas } from "./filter/contas/ContextFilterContas";
 
 export const Deletar = ({author,identifier_value}:{author:string,identifier_value:string})=>{
 
-     
+    const filterContas = useFilterContas().filterContas;
 
     const { toast } = useToast();
     const [loading,setLoading] = useState<boolean>(false);
@@ -59,7 +60,11 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
           .then((d)=>{
             if(d.success){
               if(author==="contas"){
-                refetch(current_page);
+                if(filterContas && !areAllValuesUndefined(filterContas)){
+                  refetch(current_page,filterContas);
+                }else{
+                  refetch(current_page);
+                }
               }else{
                 refetch();
               }

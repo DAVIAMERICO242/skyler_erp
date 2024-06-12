@@ -156,6 +156,8 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   console.log('DADOS333')
 
   const [loading,setLoading] = useState<boolean>(false);
+  console.log('teste debuger')
+  console.log('teste debuger2')
 
   function onSubmit(values: z.infer<typeof contasSchema>) {
 
