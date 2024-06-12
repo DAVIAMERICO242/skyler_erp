@@ -37,7 +37,7 @@ import { cn } from "@/lib/utils";
 import { useContas } from "../../../../Contas/local-contexts/contas-context";
 import { useTerceiros } from "../../../../Terceiros/Terceiros";
 import { useLojas } from "../../../../Lojas/Lojas";
-import { useTableFilter } from "../FilterContextsNotContas";
+import { useTableFilter } from "../FilterContextsNotContasExceptClean";
 import { usePagination } from "../../pagination/PaginationContext";
 import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";

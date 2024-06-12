@@ -1,8 +1,9 @@
 /* eslint-disable no-var */
 import styled from "styled-components";
 import { FaFilterCircleXmark } from "react-icons/fa6";
-import { useCleanAllFilter, useTableFilter } from "./FilterContextsNotContas";
-import { areAllValuesEmptyArrays } from "@/sistema/essentials";
+import { useCleanAllFilter, useTableFilter } from "./FilterContextsNotContasExceptClean";
+import { areAllValuesEmptyArrays, areAllValuesUndefined } from "@/sistema/essentials";
+import { useFilterContas } from "./contas/ContextFilterContas";
 
 const CleanAllContainer = styled.div`
       display:flex;
@@ -26,7 +27,10 @@ export const CleanAll = ()=>{
     
     var {dataFilter} = useTableFilter();
 
-    var check_is_filtered= !areAllValuesEmptyArrays(dataFilter);
+    const filterContas = useFilterContas().filterContas;
+
+    var check_is_filtered= (!areAllValuesEmptyArrays(dataFilter) || (filterContas && !areAllValuesUndefined(filterContas)));
+
 
     const cleanAllState = useCleanAllFilter().cleanAll
     const setCleanAll = useCleanAllFilter().setCleanAll

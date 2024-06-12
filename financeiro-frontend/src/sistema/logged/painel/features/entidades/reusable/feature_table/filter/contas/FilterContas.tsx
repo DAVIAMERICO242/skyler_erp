@@ -28,8 +28,11 @@ import { usePagination } from "../../pagination/PaginationContext"
 import { areAllValuesUndefined } from "@/sistema/essentials"
 import { useClickOutside } from '@mantine/hooks';
 import { useRef } from "react"
+import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
 
 export const FilterContas = ()=>{
+    const cleanSignal = useCleanAllFilter().cleanAll
+
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
     
@@ -93,18 +96,25 @@ export const FilterContas = ()=>{
                 setLoading(false);
                 alert('Algum erro ocorreu')
             });
+        }else{
+            refetch(1);
         }
     },[filterContas]);
 
     const drawerRef = React.useRef();
 
+    useEffect(()=>{
+        console.log('CLEAN SIGNAL TRIGADO')
+        setCurrent_page(1);
+        setFilterContas(null);
+    },[cleanSignal]);
 
     useEffect(() => {
         /**
          * Alert if clicked on outside of element
          */
         function handleClickOutside(event) {
-        if (drawerRef.current && !drawerRef.current.contains(event.target) && (!(event.target.getAttribute("role") === "option") && !(event.target.tagName === "BUTTON") && !(event.target.id.includes("radix")))) {
+        if (drawerRef.current && !drawerRef.current.contains(event.target) && (!(event.target.getAttribute("role") === "option") && !(event.target.tagName === "BUTTON") && !(event.target.tagName === "SVG") && !(event.target.id.includes("radix")))) {
             console.log(event.target)
             setOpen(false);
         }
