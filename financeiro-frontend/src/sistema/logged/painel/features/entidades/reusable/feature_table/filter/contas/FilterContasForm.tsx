@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-var */
 import {
     Form,
@@ -38,51 +39,33 @@ import { useTerceiros } from "../../../../Terceiros/Terceiros";
 import { useLojas } from "../../../../Lojas/Lojas";
 import { useTableFilter } from "../FilterContextsNotContas";
 import { usePagination } from "../../pagination/PaginationContext";
+import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
+import { SchemaLojasData } from "../../../../Lojas/Lojas";
+import { useFilterContas } from "./ContextFilterContas";
+import { firstCharUpper } from "@/sistema/essentials";
 
-export const FilterContasForm = ()=>{
+export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormSchema}:
+    {form:any,terceirosData:(SchemaTerceirosData[]|null),lojasData:(SchemaLojasData[]|null),filterContasFormSchema:any})=>{
 
-    const tableFilter = useTableFilter().dataFilter;
-    const setTableFilter = useTableFilter().setdataFilter;
+    useEffect(()=>{
+        return ()=>{
+            console.log('desmontado form')
+        }
+    }
+    ,[])
+
+
+    const filterContas = useFilterContas().filterContas;
+    const setFilterContas  = useFilterContas().setFilterContas;
 
     const current_page = usePagination().current_page;
     const setCurrent_page = usePagination().setCurrent_page;
 
-    const terceirosData = useTerceiros().data;
-    const lojasData = useLojas().data;
 
-    const filterContasFormSchema = z.object({
-        situacao: z.string().min(2, {
-            message: "Nao precisa",
-          }).optional(),
-        pagar_receber: z.string().min(2, {
-            message: "Nao precisa",
-          }).optional(),
-        terceiro: z.string().min(2, {
-            message: "O nome do terceiro deve ter no mínimo 2 caracteres",
-          }).optional(),
-        nome_loja: z.string().min(2, {
-            message: "O nome da loja deve ter no mínimo 2 caracteres",
-          }).optional(),
-        data: z.date().refine((date) => date instanceof Date, {
-            message: "A data de vencimento deve ser válida",
-        }).optional(),
-        vencimento_inicio: z.date().refine((date) => date instanceof Date, {
-            message: "A data de vencimento deve ser válida",
-        }).optional(),
-        vencimento_fim: z.date().refine((date) => date instanceof Date, {
-            message: "A data de vencimento deve ser válida",
-        }).optional(),
-        data_resolucao: z.date().refine((date) => date instanceof Date, {
-            message: "A data de vencimento deve ser válida",
-        }).optional(),
-      });
-
-    var form = useForm<z.infer<typeof filterContasFormSchema>>({
-        resolver: zodResolver(filterContasFormSchema),
-      });
-    
-    function onSubmit(values: z.infer<typeof filterContasFormSchema>){
+    function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
         console.log('VAI SER REFATORADO')
+        console.log(values)
+
     }
 
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
@@ -99,12 +82,13 @@ export const FilterContasForm = ()=>{
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={"Escolher"}/>
+                                            <SelectValue placeholder={
+                                                firstCharUpper(form.getValues('situacao')) || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             <SelectItem value="resolvido">Resolvido</SelectItem>
                                             <SelectItem value="parcial">Parcial</SelectItem>
-                                            <SelectItem value={null}>Não resolvido</SelectItem>
+                                            <SelectItem value={"Não Resolvido"}>Não resolvido</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -121,7 +105,7 @@ export const FilterContasForm = ()=>{
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={"Escolher"}/>
+                                            <SelectValue placeholder={firstCharUpper(form.getValues('pagar_receber')) || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             <SelectItem value="pagar">Pagar</SelectItem>
@@ -142,7 +126,7 @@ export const FilterContasForm = ()=>{
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={"Escolher"}/>
+                                            <SelectValue placeholder={form.getValues('terceiro') || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             {terceirosData?.map((e)=>{
@@ -166,7 +150,7 @@ export const FilterContasForm = ()=>{
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={"Escolher"}/>
+                                            <SelectValue placeholder={form.getValues('nome_loja') || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             {lojasData?.map((e)=>{

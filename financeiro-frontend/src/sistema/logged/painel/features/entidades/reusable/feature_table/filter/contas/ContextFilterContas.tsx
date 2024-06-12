@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { createContext, ReactNode, useState, SetStateAction, Dispatch } from 'react';
+import { createContext, ReactNode, useState, SetStateAction, Dispatch, useContext } from 'react';
 
 export interface SchemaContasFilterObject{
     situacao?:string,
@@ -27,4 +27,8 @@ export const FilterContasProvider = ({ children }:{children:ReactNode}) => {
             {children}
         </FilterContasContext.Provider>
     )
+}
+
+export const useFilterContas = () => {
+    return useContext(FilterContasContext);
 }

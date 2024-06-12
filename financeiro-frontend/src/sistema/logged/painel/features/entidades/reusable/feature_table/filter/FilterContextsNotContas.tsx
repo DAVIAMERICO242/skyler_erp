@@ -76,6 +76,6 @@ export const CleanAllFilterProvider = ({ children }: { children: ReactNode })=>{
     );
 }
 
-export const useCleanAllFilter = () => {
+export const useCleanAllFilter = () => {//INCLUI CONTAS
     return useContext(CleanAllFilterContext);
 };
