@@ -2,6 +2,7 @@ import { TZtoFriendlyDate, areAllValuesUndefined, isStringDate } from "@/sistema
 import { useFilterContas } from "./ContextFilterContas";
 import styled from "styled-components";
 import { getUIColumnName } from "../../../../BackendHelper/formatBackendData/getUIColumnName";
+import { TiDeleteOutline } from "react-icons/ti";
 
 /* eslint-disable no-var */
 
@@ -19,6 +20,11 @@ const FilterList = styled.div`
     gap:3px;
 `
 const Filter = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    user-select:none;
     font-size:12px;
     padding:1px 3px;
     border-radius:50px;
@@ -33,25 +39,37 @@ export const ContasAppliedFiltersUI = ()=>{
 
     var check_is_filtered= ((filterContas && !areAllValuesUndefined(filterContas)));
 
-    return (
-        <ContainerContasAppliedFiltersUI>
-            <div className="text-sm mb-1">Filtros selecionados</div>
-            <FilterList>
-                {filterContas && 
-                    Object.keys(filterContas).map((e)=>{
-                        if(filterContas[e]){
-                            return(
-                                <Filter>
-                                    {getUIColumnName("contas",e)}: 
-                                    {isStringDate(filterContas[e])?
-                                     (" " + TZtoFriendlyDate(filterContas[e])):(" " + filterContas[e])
-                                    }
-                                </Filter>
-                            )
-                        }
-                    })
-                }
-            </FilterList>
-        </ContainerContasAppliedFiltersUI>
-    )
+    const manager_particular_clean = (key)=>{
+        setFilterContas({
+            ...filterContas,
+            [key]:undefined
+        })
+    }
+
+    if(check_is_filtered){
+        return (
+            <ContainerContasAppliedFiltersUI>
+                <div className="text-sm mb-1">Filtros selecionados</div>
+                <FilterList>
+                    {filterContas && 
+                        Object.keys(filterContas).map((e)=>{
+                            if(filterContas[e]){
+                                return(
+                                    <Filter>
+                                        {getUIColumnName("contas",e)}: 
+                                        {isStringDate(filterContas[e])?
+                                         (" " + TZtoFriendlyDate(filterContas[e])):(" " + filterContas[e])
+                                        }
+                                        <TiDeleteOutline onClick={()=>manager_particular_clean(e)} className="text-xl cursor-pointer text-red-600"/>
+                                    </Filter>
+                                )
+                            }
+                        })
+                    }
+                </FilterList>
+            </ContainerContasAppliedFiltersUI>
+        )
+    }else{
+        return null;
+    }
 }
