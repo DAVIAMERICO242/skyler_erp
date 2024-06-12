@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-var */
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
@@ -17,16 +18,28 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import {z} from 'zod';
 import { FilterContasForm } from "./FilterContasForm";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTerceiros } from "../../../../Terceiros/Terceiros"
 import { useLojas } from "../../../../Lojas/Lojas"
-import { SchemaContasFilterObject } from "./ContextFilterContas"
+import { SchemaContasFilterObject, useFilterContas } from "./ContextFilterContas"
+import { useContas } from "../../../../Contas/local-contexts/contas-context"
+import { usePagination } from "../../pagination/PaginationContext"
+import { areAllValuesUndefined } from "@/sistema/essentials"
 
 export const FilterContas = ()=>{
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
+    
+    const [loading,setLoading] = useState(false);
 
+    const {refetch} = useContas();
+
+    const filterContas = useFilterContas().filterContas;
+    const setFilterContas  = useFilterContas().setFilterContas;
+
+    const current_page = usePagination().current_page;
+    const setCurrent_page = usePagination().setCurrent_page;
     
     const filterContasFormSchema = z.object({
         situacao: z.string().min(2, {
@@ -58,13 +71,26 @@ export const FilterContas = ()=>{
     var form = useForm<z.infer<typeof filterContasFormSchema>>({
         resolver: zodResolver(filterContasFormSchema),
       });
-      
+
     useEffect(()=>{
-        return ()=>{
-            console.log('desmontado')
+        if(filterContas && !areAllValuesUndefined(filterContas)){
+            console.log('FILTER CONTAS')
+            console.log(filterContas);
+            setLoading(true);
+            refetch(1,filterContas).then((d)=>{//parece ambiguo devido ao useEffect de PaginationFeatureTable, mas serve pra UI do usuário
+                if(d?.data?.length){
+                    setLoading(false);
+                    setCurrent_page(1);
+                }else{
+                    setLoading(false);
+                    alert('Nenhum dado encontrado para esse filtro')
+                }
+            }).catch((err)=>{
+                setLoading(false);
+                alert('algum erro')
+            });
         }
-    }
-    ,[])
+    },[filterContas])
 
     return(
         <Drawer>
@@ -76,7 +102,7 @@ export const FilterContas = ()=>{
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
                 </DrawerHeader>
-                <FilterContasForm form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
+                <FilterContasForm setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
         </Drawer>
     )

@@ -42,10 +42,16 @@ import { usePagination } from "../../pagination/PaginationContext";
 import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import { useFilterContas } from "./ContextFilterContas";
-import { areAllValuesUndefined, firstCharUpper } from "@/sistema/essentials";
+import {firstCharUpper } from "@/sistema/essentials";
 
-export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormSchema}:
-    {form:any,terceirosData:(SchemaTerceirosData[]|null),lojasData:(SchemaLojasData[]|null),filterContasFormSchema:any})=>{
+export const FilterContasForm = ({setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
+    {
+    setFilterContas:any,
+    loading:boolean,
+    form:any,
+    terceirosData:(SchemaTerceirosData[]|null),
+    lojasData:(SchemaLojasData[]|null),
+    filterContasFormSchema:any})=>{
 
     useEffect(()=>{
         return ()=>{
@@ -53,17 +59,6 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
         }
     }
     ,[]);
-
-    const [loading,setLoading] = useState(false);
-
-    const {refetch} = useContas();
-
-    const filterContas = useFilterContas().filterContas;
-    const setFilterContas  = useFilterContas().setFilterContas;
-
-    const current_page = usePagination().current_page;
-    const setCurrent_page = usePagination().setCurrent_page;
-
 
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
         console.log('VAI SER REFATORADO');
@@ -76,26 +71,6 @@ export const FilterContasForm = ({form,terceirosData,lojasData,filterContasFormS
             vencimento_fim: (values['vencimento_fim']?.toISOString()),
         })
     }
-
-    useEffect(()=>{
-        if(filterContas && !areAllValuesUndefined(filterContas)){
-            console.log('FILTER CONTAS')
-            console.log(filterContas);
-            setLoading(true);
-            refetch(1,filterContas).then((d)=>{//parece ambiguo devido ao useEffect de PaginationFeatureTable, mas serve pra UI do usuário
-                if(d?.data?.length){
-                    setLoading(false);
-                    setCurrent_page(1);
-                }else{
-                    setLoading(false);
-                    alert('Nenhum dado encontrado para esse filtro')
-                }
-            }).catch((err)=>{
-                setLoading(false);
-                alert('algum erro')
-            });
-        }
-    },[filterContas])
 
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
          <Form {...form}>
