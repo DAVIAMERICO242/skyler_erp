@@ -37,9 +37,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { areAllValuesUndefined } from "@/sistema/essentials";
+import { useFilterContas } from "../filter/contas/ContextFilterContas";
 
 export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:any})=>{
-    
+
+    const filterContas = useFilterContas().filterContas;
+
     const dataLojas = useLojas().data;
 
     const contas = [... new Set(dataLojas?.map((e)=>e.conta))];
@@ -108,8 +112,11 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                     description: "Essa conta foi DESRESOLVIDA",
                   })
             }
-
-            refetch(current_page);
+            if(filterContas && !areAllValuesUndefined(filterContas)){
+              refetch(current_page,filterContas);
+            }else{
+              refetch(current_page);
+            }
           }else{
             setLoading(false);
             setResolverOpen(false);

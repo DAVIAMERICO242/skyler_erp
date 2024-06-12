@@ -47,11 +47,14 @@ import { EditFieldAlert } from '../reusable/EditFieldAlert';
 import { criarEditarContas } from '../BackendHelper/API/fetch';
 import { areAllValuesUndefined, firstCharUpper } from '@/sistema/essentials';
 import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
-import { useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContasExceptClean';
+import { useCleanAllFilter, useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContasExceptClean';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 import { useFilterContas } from '../reusable/feature_table/filter/contas/ContextFilterContas';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
+
+  const cleanAll = useCleanAllFilter().cleanAll
+  const setCleanAll = useCleanAllFilter().setCleanAll
 
   const filterContas = useFilterContas().filterContas;
 
@@ -176,6 +179,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     criarEditarContas(edit,values).then((d)=>d.json())
       .then((d)=>{
         if(d.success){
+          if(!edit){
+            setCleanAll((prev)=>-1*prev);
+          }
           setOpen(false);
           if(filterContas && !areAllValuesUndefined(filterContas)){
             refetchContas(current_page,filterContas);
