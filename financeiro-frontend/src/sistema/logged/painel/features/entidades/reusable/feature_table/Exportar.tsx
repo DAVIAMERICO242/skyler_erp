@@ -15,6 +15,7 @@ import { areAllValuesEmptyArrays } from "@/sistema/essentials";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
 import { getAllContas } from "../../BackendHelper/API/fetch";
 import { OrbitIcon } from "lucide-react";
+import { useFilterContas } from "./filter/contas/ContextFilterContas";
 
 export const Exportar = ({author}:{author:string})=>{
     const { toast } = useToast()
@@ -22,7 +23,6 @@ export const Exportar = ({author}:{author:string})=>{
     var {FilteredDataNotContas} = useFilteredData();
 
     var {dataFilter} = useTableFilter();
-
 
     var check_is_a_filter= !areAllValuesEmptyArrays(dataFilter);
 
@@ -40,8 +40,9 @@ export const Exportar = ({author}:{author:string})=>{
         var excel_name = "bancos_cadastrados.xlsx"
         break;
       case "contas":
-          var excel_name = "historico_pagar_receber.xlsx"
-          break;
+        var filter = useFilterContas().filterContas;
+        var excel_name = "historico_pagar_receber.xlsx"
+        break;
     }
     const submit = ()=>{
       setLoading(true);
@@ -64,7 +65,8 @@ export const Exportar = ({author}:{author:string})=>{
         });
       }else{
         var filteredDataUINames = []
-        getAllContas().then((d)=>{
+        getAllContas(filter).then((d)=>d.json()).then((d)=>
+          {
           d?.data?.map((e)=>{
             var current_obj = {};
             for (let column of Object.keys(e)){
@@ -80,7 +82,8 @@ export const Exportar = ({author}:{author:string})=>{
             className: "success",
             description: "EXPORTAÇÃO BEM SUCEDIDA",
           });
-        })
+        }
+        )  
       }
     }
   

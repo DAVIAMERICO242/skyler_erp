@@ -89,23 +89,17 @@ export async function getContas(page:number, filter?:SchemaContasFilterObject){
     } 
 }
 
-export async function getAllContas(){
-  try {
-      const response = await fetch(BACKEND_URL + `/contas/get`,{
+export async function getAllContas(filter?:SchemaContasFilterObject){
+      return fetch(BACKEND_URL + `/contas/get`,{
           method:"POST",
           headers:{
           "Content-type":"application/json",
           "token":localStorage.getItem('token') as string
-          }
+          },
+          body:JSON.stringify({
+            filter:filter
+          })
       });
-      const result = await response.json();
-      return {
-        data:result.data,
-        n_pages:result.n_pages
-      };
-    } catch (error) {
-      console.log('erro')
-    } 
 }
 
 export async function ResolverConta( id:number, value:number, required:number, data_resolucao:any, contaloja:string){
