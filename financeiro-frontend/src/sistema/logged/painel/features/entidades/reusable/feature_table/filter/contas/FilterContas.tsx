@@ -31,6 +31,9 @@ import { useRef } from "react"
 import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
 
 export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=>{
+    //logica para limpar o estado do filtro atual se a requisição nao retornar nenhum dado ou falhar
+    const [filterContasBeforeSubmit, setFilterContasBeforeSubmit] = useState<SchemaContasFilterObject>(null);
+
     const cleanSignal = useCleanAllFilter().cleanAll
 
     const terceirosData = useTerceiros().data;
@@ -91,11 +94,13 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                     setLoading(false);
                     setCurrent_page(1);
                 }else{
+                    setFilterContas(filterContasBeforeSubmit)
                     setLoadingPagination(false);
                     setLoading(false);
                     alert('Nenhum dado encontrado para esse filtro')
                 }
             }).catch((err)=>{
+                setFilterContas(filterContasBeforeSubmit)
                 setLoadingPagination(false);
                 setLoading(false);
                 alert('Algum erro ocorreu')
@@ -148,7 +153,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
                 </DrawerHeader>
-                <FilterContasForm setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
+                <FilterContasForm filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
         </Drawer>
     )

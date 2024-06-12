@@ -44,8 +44,10 @@ import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import { useFilterContas } from "./ContextFilterContas";
 import {firstCharUpper } from "@/sistema/essentials";
 
-export const FilterContasForm = ({setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
+export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
     {
+    setFilterContasBeforeSubmit:any,
+    filterContas:any,
     setFilterContas:any,
     loading:boolean,
     form:any,
@@ -63,6 +65,7 @@ export const FilterContasForm = ({setFilterContas,loading,form,terceirosData,loj
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
         console.log('VAI SER REFATORADO');
         console.log(values);
+        setFilterContasBeforeSubmit(filterContas);
         setFilterContas({...values,
             situacao:(values['situacao']==="Não Resolvido")?null:values['situacao'],
             data:(values['data']?.toISOString()),

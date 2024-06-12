@@ -8,6 +8,7 @@ import { useFilterContas } from "./contas/ContextFilterContas";
 const CleanAllContainer = styled.div`
       display:flex;
       width:200px;
+      height:50px;
       align-items:center;
       user-select:none;
       justify-content:center;

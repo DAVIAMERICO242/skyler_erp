@@ -5,6 +5,8 @@ import { CriarEditar } from "./CriarEditar";
 import { Exportar } from "./Exportar";
 import { FilterContas } from "./filter/contas/FilterContas";
 import { CleanAll } from "./filter/CleanAllIncludeContas";
+import { ContasAppliedFiltersUI } from "./filter/contas/ContasAppliedFiltersUI";
+
 
 const TableBarContainer = styled.div`
     display:flex;
@@ -35,7 +37,12 @@ const TableBarContainer = styled.div`
 export const TableBar = ({author,loadingPagination,setLoadingPagination}:{author:string,loadingPagination:any,setLoadingPagination:any})=>{
     return(
         <TableBarContainer loadingPagination={loadingPagination} className="table_bar_container">
-            <CleanAll/>
+            
+            <div className="flex gap-10 items-center">
+                <CleanAll/>
+                {author==="contas" && <ContasAppliedFiltersUI/>}
+            </div>
+
             {author==="contas" && <FilterContas setLoadingPagination={setLoadingPagination}/>}
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
