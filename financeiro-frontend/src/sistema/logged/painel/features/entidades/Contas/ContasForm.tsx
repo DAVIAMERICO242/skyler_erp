@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-var */
 import { useEffect, useState } from 'react';
@@ -48,10 +49,11 @@ import { firstCharUpper } from '@/sistema/essentials';
 import { usePagination } from '../reusable/feature_table/pagination/PaginationContext';
 import { useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContasExceptClean';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
+import { useFilterContas } from '../reusable/feature_table/filter/contas/ContextFilterContas';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
-  const filtrosObject = useTableFilter().dataFilter;
+  const filterContas = useFilterContas().filterContas;
 
   const current_page = usePagination().current_page;
 
@@ -75,8 +77,6 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
         setCategoriasPura([...new Set(categorias_fiscaisDataFiltered.map((e)=>e.categoria_conta as string))]);
       }
   },[categorias_fiscaisDataFiltered]);
-
-
 
   const contasSchema = z.object({
     pastid: z.coerce.number().optional(),
@@ -158,6 +158,16 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   const [loading,setLoading] = useState<boolean>(false);
 
   function onSubmit(values: z.infer<typeof contasSchema>) {
+
+    console.log('CATEGORIAS FISCAIS DATA')
+    console.log(categorias_fiscaisData);
+    var validate_tipo = categorias_fiscaisData?.filter((e)=>e.pagar_receber===form.getValues("pagar_receber")).map((e)=>e.nome_conta)
+    console.log('VALIDATE TIPO FISCAL');
+    console.log(validate_tipo)
+    if(!(validate_tipo?.includes(form.getValues("tipo_fiscal")))){
+      alert('Tipo fiscal inválido para esse tipo de conta');
+      return;
+    }
     console.log('eiei');
     console.log(values);
     setLoading(true);
@@ -165,9 +175,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       .then((d)=>{
         if(d.success){
           setOpen(false);
-          if(!areAllValuesEmptyArrays(filtrosObject)){
-            refetchContas(current_page,filtrosObject);
-          }else{
+          if(filterContas && !areAllValuesUndefined(filterContas)){
+            refetchContas(current_page,filterContas);
+          }else{  
             refetchContas(current_page);
           }
           refetch_categorias_fiscais();
