@@ -26,11 +26,14 @@ import { SchemaContasFilterObject, useFilterContas } from "./ContextFilterContas
 import { useContas } from "../../../../Contas/local-contexts/contas-context"
 import { usePagination } from "../../pagination/PaginationContext"
 import { areAllValuesUndefined } from "@/sistema/essentials"
+import { useClickOutside } from '@mantine/hooks';
+import { useRef } from "react"
 
 export const FilterContas = ()=>{
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
     
+    const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(false);
 
     const {refetch} = useContas();
@@ -79,6 +82,7 @@ export const FilterContas = ()=>{
             setLoading(true);
             refetch(1,filterContas).then((d)=>{//parece ambiguo devido ao useEffect de PaginationFeatureTable, mas serve pra UI do usuário
                 if(d?.data?.length){
+                    setOpen(false);
                     setLoading(false);
                     setCurrent_page(1);
                 }else{
@@ -87,17 +91,39 @@ export const FilterContas = ()=>{
                 }
             }).catch((err)=>{
                 setLoading(false);
-                alert('algum erro')
+                alert('Algum erro ocorreu')
             });
         }
-    },[filterContas])
+    },[filterContas]);
+
+    const drawerRef = React.useRef();
+
+
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        function handleClickOutside(event) {
+        if (drawerRef.current && !drawerRef.current.contains(event.target) && (!(event.target.getAttribute("role") === "option") && !(event.target.tagName === "BUTTON") && !(event.target.id.includes("radix")))) {
+            console.log(event.target)
+            setOpen(false);
+        }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [drawerRef]);
+      
 
     return(
-        <Drawer>
+        <Drawer open={open} >
             <DrawerTrigger asChild>
-                <Button variant="outline">Filtrar essa tabela</Button>
+                <Button variant="outline" onClick={()=>setOpen((prev)=>!prev)}>Filtrar essa tabela</Button>
             </DrawerTrigger>
-            <DrawerContent>
+            <DrawerContent ref={drawerRef}>
                 <DrawerHeader className="ml-7">
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
