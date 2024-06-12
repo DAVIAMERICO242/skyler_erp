@@ -255,9 +255,10 @@ export async function getFilteredFrotendHistoricoConta(
                     `
                 var filtersQuery = ``;
                 var check_first_if = true;
+                var check_first_run_vencimento = true;
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key]) {
-                        if(key!=="nome_loja" && !(key.includes("vencimento"))){
+                        if(key!=="nome_loja" && !isStringDate(filter[key])){
                             if(check_first_if){
                                 filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]}'`
                                 check_first_if = false;
@@ -271,9 +272,53 @@ export async function getFilteredFrotendHistoricoConta(
                             }else{
                                 filtersQuery = filtersQuery + ` AND lojas.nome='${filter[key]}'`
                             }
+                        }else if(isStringDate(filter[key])){
+                            if(!(key.includes('vencimento'))){
+                                if(check_first_if){
+                                    filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
+                                    check_first_if = false;
+                                }else{
+                                    filtersQuery = filtersQuery + ` AND ${key}='${filter[key]?.slice(0,10)}'`
+                                }
+                            }else if(check_first_run_vencimento){
+                                if(check_first_if){
+                                    if(!filter['vencimento_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE vencimento='${filter['vencimento_inicio']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }
+                                    else if(!filter['vencimento_inicio']){
+                                        filtersQuery = filtersQuery + ` WHERE vencimento='${filter['vencimento_fim']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }else if(filter['vencimento_inicio'] && filter['vencimento_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE vencimento>='${filter['vencimento_inicio']?.slice(0,10)}' AND vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
+                                        check_first_if = false;
+                                    }
+                                }else{
+                                    if(!filter['vencimento_fim']){
+                                        filtersQuery = filtersQuery + ` AND vencimento='${filter['vencimento_inicio']?.slice(0,10)}'`
+                                    }
+                                    else if(!filter['vencimento_inicio']){
+                                        filtersQuery = filtersQuery + ` AND vencimento='${filter['vencimento_fim']?.slice(0,10)}'`
+                                    }else if(filter['vencimento_inicio'] && filter['vencimento_fim']){
+                                        filtersQuery = filtersQuery + ` AND vencimento>='${filter['vencimento_inicio']?.slice(0,10)}' AND vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
+                                    }
+                                }
+                                check_first_run_vencimento = false;
+                            }
                         }
+                    }else if (filter.hasOwnProperty('situacao')){
+                        if(filter['situacao']===null){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE situacao is NULL`;
+                                check_first_if=false;
+                            }else{
+                                filtersQuery = filtersQuery + ` AND situacao is NULL`
+                            }
+                        }
+
                     }
                 }
+
                 query+=filtersQuery;
                 const n_pages = await getFilteredNumberOfPages(query,page_size);//nao contar as paginas antes do limit e offset ser aplicado
                 let final_part = ` ORDER BY historico_contas.id DESC LIMIT ${page_size} OFFSET ${start_index};`
