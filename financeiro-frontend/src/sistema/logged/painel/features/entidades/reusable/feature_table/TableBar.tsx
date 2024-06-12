@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { CriarEditar } from "./CriarEditar";
 import { Exportar } from "./Exportar";
-import { CleanAll } from "./filter/CleanAllIncludeContas";
 import { FilterContas } from "./filter/contas/FilterContas";
+import { CleanAll } from "./filter/CleanAllIncludeContas";
 
 const TableBarContainer = styled.div`
     display:flex;
@@ -32,14 +32,11 @@ const TableBarContainer = styled.div`
     }
 `
 
-
-export const TableBar = ({author,loadingPagination}:{author:string,loadingPagination:any})=>{
-
-
+export const TableBar = ({author,loadingPagination,setLoadingPagination}:{author:string,loadingPagination:any,setLoadingPagination:any})=>{
     return(
         <TableBarContainer loadingPagination={loadingPagination} className="table_bar_container">
             <CleanAll/>
-            {author==="contas" && <FilterContas/>}
+            {author==="contas" && <FilterContas setLoadingPagination={setLoadingPagination}/>}
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
                 <Exportar author={author}/>

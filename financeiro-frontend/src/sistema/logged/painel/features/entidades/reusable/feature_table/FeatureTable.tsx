@@ -182,7 +182,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
     },[data])
     return(
         <TableContainer className="table_container">
-            <TableBar loadingPagination={loadingPagination} filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
+            <TableBar setLoadingPagination = {setLoadingPagination} loadingPagination={loadingPagination} filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
             <Table loadingPagination={loadingPagination}>
                 <TableHeader>
                     {columns?.map((e)=>{

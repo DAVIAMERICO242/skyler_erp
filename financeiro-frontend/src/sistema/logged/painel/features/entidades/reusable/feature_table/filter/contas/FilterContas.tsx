@@ -30,7 +30,7 @@ import { useClickOutside } from '@mantine/hooks';
 import { useRef } from "react"
 import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
 
-export const FilterContas = ()=>{
+export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=>{
     const cleanSignal = useCleanAllFilter().cleanAll
 
     const terceirosData = useTerceiros().data;
@@ -83,21 +83,28 @@ export const FilterContas = ()=>{
             console.log('FILTER CONTAS')
             console.log(filterContas);
             setLoading(true);
+            setLoadingPagination(true);
             refetch(1,filterContas).then((d)=>{//parece ambiguo devido ao useEffect de PaginationFeatureTable, mas serve pra UI do usuário
                 if(d?.data?.length){
                     setOpen(false);
+                    setLoadingPagination(false);
                     setLoading(false);
                     setCurrent_page(1);
                 }else{
+                    setLoadingPagination(false);
                     setLoading(false);
                     alert('Nenhum dado encontrado para esse filtro')
                 }
             }).catch((err)=>{
+                setLoadingPagination(false);
                 setLoading(false);
                 alert('Algum erro ocorreu')
             });
         }else{
-            refetch(1);
+            setLoadingPagination(true);
+            refetch(1).then(()=>{
+                setLoadingPagination(false);
+            });
         }
     },[filterContas]);
 
