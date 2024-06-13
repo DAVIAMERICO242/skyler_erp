@@ -18,6 +18,8 @@ const TableBarContainer = styled.div`
     font-weight:500;
     padding:20px 30px;
     border:var(--light-border);
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
     border-bottom:none;
     opacity: ${(props) => ((props.loadingPagination) ? 0.5 : 1)};
     pointer-events: ${(props) => ((props.loadingPagination) ? 'none' : '')};
