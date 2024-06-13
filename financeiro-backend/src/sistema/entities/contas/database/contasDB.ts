@@ -141,10 +141,11 @@ export async function getFrotendHistoricoConta(
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     ORDER BY historico_contas.id DESC
-                    LIMIT ${page_size} OFFSET ${start_index};
                     `
                 // var nonNullFilters = [];
-
+                if(page){
+                    query+=` LIMIT ${page_size} OFFSET ${start_index};`
+                }
                 const n_pages = await getNumberOfPages(page_size);
                 connection.query(query,
                     (err, result) => {
@@ -321,7 +322,10 @@ export async function getFilteredFrotendHistoricoConta(
 
                 query+=filtersQuery;
                 const n_pages = await getFilteredNumberOfPages(query,page_size);//nao contar as paginas antes do limit e offset ser aplicado
-                let final_part = ` ORDER BY historico_contas.id DESC LIMIT ${page_size} OFFSET ${start_index};`
+                let final_part = ` ORDER BY historico_contas.id DESC`
+                if(page){
+                    final_part = final_part + ` LIMIT ${page_size} OFFSET ${start_index};`
+                }
                 query+=final_part;
                 // var nonNullFilters = [];
                 connection.query(query,
@@ -392,16 +396,31 @@ export function getFilteredNumberOfPages(query:string,page_size:number): Promise
 
 export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{
-        SQLConnection().then((connection) => {
+        SQLConnection().then(async (connection) => {
             if (connection) {
-                connection.query(
-                    `UPDATE historico_contas SET
-                    vencimento='${conta.vencimento.slice(0,10)}',
-                    conta_tipo='${conta.tipo_fiscal}',
-                    terceiro='${conta.terceiro}',
-                    valor='${conta.valor}'
-                    WHERE id='${conta.pastid}'
-                    `,
+                var valor_resolvido = await getValorResolvido(conta.pastid);
+                console.log('VALOR RESOLVIDO TIPO');
+                console.log(typeof valor_resolvido);
+                let new_situacao_chunk_query:string = "";
+                if(valor_resolvido===null){
+                    new_situacao_chunk_query = `,situacao = NULL`;
+                }
+                else if(conta.valor === valor_resolvido){
+                    new_situacao_chunk_query = `,situacao='resolvido'`;
+                }else if(typeof valor_resolvido === 'number' && valor_resolvido < conta.valor){
+                    new_situacao_chunk_query = `,situacao='parcial'`;
+                }
+                var query =
+                `UPDATE historico_contas SET
+                vencimento='${conta.vencimento.slice(0,10)}',
+                conta_tipo='${conta.tipo_fiscal}',
+                terceiro='${conta.terceiro}',
+                valor=${conta.valor}
+                `
+                query += new_situacao_chunk_query;
+                query += ` WHERE id='${conta.pastid}'`;
+
+                connection.query(query,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
@@ -426,6 +445,41 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
         });
     })
 }
+
+export function getValorResolvido(id:number): Promise<(number|null)|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            if (connection) {
+                connection.query(
+                    `SELECT historico_contas.valor_resolucao
+                    FROM historico_contas
+                    WHERE id=${id}
+                    `,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            resolve(result[0].valor_resolucao);
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
+
 
 export function deleteHistoricoConta(conta_id: number): Promise<null|DBError>{
     return new Promise((resolve,reject)=>{

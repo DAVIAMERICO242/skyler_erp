@@ -163,6 +163,10 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   console.log('teste debuger2')
 
   function onSubmit(values: z.infer<typeof contasSchema>) {
+    if(values.valor<contaToBeEdited?.valor_resolucao && edit){
+       alert('O valor novo da conta não pode ser menor do que o valor da transação, se quiser atribuir um novo valor para conta, mude o valor da transação. Sugiro criar uma nova conta com essa diferença.');
+       return;
+    }
 
     console.log('CATEGORIAS FISCAIS DATA')
     console.log(categorias_fiscaisData);
