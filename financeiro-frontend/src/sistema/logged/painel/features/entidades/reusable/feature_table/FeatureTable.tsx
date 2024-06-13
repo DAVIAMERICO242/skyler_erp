@@ -64,7 +64,7 @@ const TableHeaderValue = styled.th`
         font-weight:500;
 `
 const TableRowValue = styled.td`
-        border: var(--light-border);
+        border-bottom:2px solid #f7f3f3;
         padding:10px;
         font-size:13px;
         text-align:center;
