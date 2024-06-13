@@ -248,9 +248,11 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                     )
                                 })}
                                     <TableRowValue>
-                                        <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
-                                        /
-                                        <Deletar author={author} identifier_value={row[identifier]}/>
+                                        <div className="flex gap-2">
+                                            <CriarEditar edit={true} author={author} identifier_value={row[identifier]}/>
+        
+                                            <Deletar author={author} identifier_value={row[identifier]}/>
+                                        </div>
                                     </TableRowValue>                   
                             </TableRow>
                         )

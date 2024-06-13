@@ -15,9 +15,9 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   background-color: ${(props) => {
     switch (props.btnType) {
       case "success":
-        return "green";
+        return "rgb(144, 254, 96)";
       case "warning":
-        return "yellow";
+        return "rgb(245, 250, 165)";
       case "skyler":
         return "var(--skyler-blue)";
       case "cancel":
@@ -33,7 +33,7 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   color: ${(props) => {
     switch (props.btnType) {
       case "success":
-        return "white";
+        return "black";
       case "warning":
         return "black";
       case "skyler":
@@ -52,9 +52,9 @@ const StyledButton = styled(Button)<{ btnType: string }>`
     background-color: ${(props) => {
       switch (props.btnType) {
         case "success":
-          return "green";
+          return "rgb(144, 254, 96)";
         case "warning":
-          return "yellow";
+          return "rgb(245, 250, 165)";
         case "skyler":
           return "var(--skyler-blue-hover)";
         case "cancel":

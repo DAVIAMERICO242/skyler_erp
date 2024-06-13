@@ -14,6 +14,7 @@ import { TerceirosForm } from "../../Terceiros/TerceirosForm";
 import { LojasForm } from "../../Lojas/LojasForm";
 import { BancosForm } from "../../Bancos/BancosForm";
 import { ContasForm } from "../../Contas/ContasForm";
+import { FilePenLine } from "lucide-react";
 
 
 export const CriarEditar = ({author, edit, identifier_value}:{author:string, edit:boolean, identifier_value?:string})=>{
@@ -27,7 +28,7 @@ export const CriarEditar = ({author, edit, identifier_value}:{author:string, edi
             <LoadingButton loading={false} type={!edit?"skyler":"neutral"} className="w-3/5">
               {!edit?"+ Novo":"Editar"}
             </LoadingButton>
-          ):(<button>Editar</button>)
+          ):(<button><FilePenLine /></button>)
           }
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

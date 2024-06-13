@@ -23,6 +23,7 @@ import { areAllValuesUndefined, singularWord } from "@/sistema/essentials";
 import { DeleteEntity } from "../../BackendHelper/API/fetch";
 import { usePagination } from "./pagination/PaginationContext";
 import { useFilterContas } from "./filter/contas/ContextFilterContas";
+import { Trash2 } from "lucide-react";
 
 export const Deletar = ({author,identifier_value}:{author:string,identifier_value:string})=>{
 
@@ -126,7 +127,7 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
 
       return(
         <AlertDialog>
-            <AlertDialogTrigger style={{color:"red"}}>Deletar</AlertDialogTrigger>
+            <AlertDialogTrigger style={{color:"red"}}><Trash2 /></AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                 <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>

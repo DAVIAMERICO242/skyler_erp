@@ -1,6 +1,6 @@
 import { SQLConnection } from "../connect-sql";
 
-const receber = [
+export const receber = [
     "1 - Receitas Diretas",
     "Clientes - Serviços Prestados",
     "Clientes - Revenda de Mercadoria",
@@ -19,7 +19,7 @@ const receber = [
     "SEM USO -  Outras Entradas"
 ]
 
-const pagar = [
+export const pagar = [
     "3 - Tributações",
     "Devoluções de Vendas de Mercadoria (inativa)",
     "PIS",
@@ -155,90 +155,90 @@ const pagar = [
     "Demais Despesas"
 ]
 
-function is_category(string:string){
-    const pattern = /^\d+(?:\.\d+)? -.+$/;
-    return pattern.test(string)
-}
+// function is_category(string:string){
+//     const pattern = /^\d+(?:\.\d+)? -.+$/;
+//     return pattern.test(string)
+// }
 
-for (let i=0;i<=pagar.length;i++){
-    console.log(pagar[i])
-    console.log(is_category(pagar[i]))
-}
-
-
-
-function cadastroCategoria(nome:string,action:string) {
-    return new Promise((resolve, reject) => {
-        SQLConnection().then((connection) => {
-            if (connection) {
-                connection.query(`INSERT INTO categoria_contas (nome_categoria,pagar_receber) VALUES 
-                   ('${nome}','${action}')`,
-                    (err, result) => {
-                        if (err) {
-                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
-                                reject({
-                                    duplicate:true
-                                })
-                            }else{
-                                reject({
-                                    duplicate:false
-                                })
-                            }
-                        } else {
-                            resolve(null);
-                        }
-                    });
-            }
-        }).catch((err) => {
-            reject({
-                duplicate:false
-            });
-        });
-    });
-}
-
-function cadastroTipo(tipo:string,categoria:string) {
-    return new Promise((resolve, reject) => {
-        SQLConnection().then((connection) => {
-            if (connection) {
-                connection.query(`INSERT INTO tipo_contas (nome_conta,categoria_conta) VALUES 
-                   ('${tipo}','${categoria}')`,
-                    (err, result) => {
-                        if (err) {
-                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
-                                reject({
-                                    duplicate:true
-                                })
-                            }else{
-                                reject({
-                                    duplicate:false
-                                })
-                            }
-                        } else {
-                            resolve(null);
-                        }
-                    });
-            }
-        }).catch((err) => {
-            reject({
-                duplicate:false
-            });
-        });
-    });
-}
+// for (let i=0;i<=pagar.length;i++){
+//     console.log(pagar[i])
+//     console.log(is_category(pagar[i]))
+// }
 
 
-const categorias_pagar = pagar.filter((e)=>is_category(e)).filter((e)=>e)
-const categorias_receber = receber.filter((e)=>is_category(e)).filter((e)=>e)
 
-var current_category = ""
-for (let i = 0; i <= pagar.length; i++) {
-    if(is_category(pagar[i])){
-        var current_category = pagar[i];
-    }
-    else if(current_category){
-        cadastroTipo(pagar[i],current_category)
-    }
-}
+// function cadastroCategoria(nome:string,action:string) {
+//     return new Promise((resolve, reject) => {
+//         SQLConnection().then((connection) => {
+//             if (connection) {
+//                 connection.query(`INSERT INTO categoria_contas (nome_categoria,pagar_receber) VALUES 
+//                    ('${nome}','${action}')`,
+//                     (err, result) => {
+//                         if (err) {
+//                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+//                                 reject({
+//                                     duplicate:true
+//                                 })
+//                             }else{
+//                                 reject({
+//                                     duplicate:false
+//                                 })
+//                             }
+//                         } else {
+//                             resolve(null);
+//                         }
+//                     });
+//             }
+//         }).catch((err) => {
+//             reject({
+//                 duplicate:false
+//             });
+//         });
+//     });
+// }
+
+// function cadastroTipo(tipo:string,categoria:string) {
+//     return new Promise((resolve, reject) => {
+//         SQLConnection().then((connection) => {
+//             if (connection) {
+//                 connection.query(`INSERT INTO tipo_contas (nome_conta,categoria_conta) VALUES 
+//                    ('${tipo}','${categoria}')`,
+//                     (err, result) => {
+//                         if (err) {
+//                             if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+//                                 reject({
+//                                     duplicate:true
+//                                 })
+//                             }else{
+//                                 reject({
+//                                     duplicate:false
+//                                 })
+//                             }
+//                         } else {
+//                             resolve(null);
+//                         }
+//                     });
+//             }
+//         }).catch((err) => {
+//             reject({
+//                 duplicate:false
+//             });
+//         });
+//     });
+// }
+
+
+// const categorias_pagar = pagar.filter((e)=>is_category(e)).filter((e)=>e)
+// const categorias_receber = receber.filter((e)=>is_category(e)).filter((e)=>e)
+
+// var current_category = ""
+// for (let i = 0; i <= pagar.length; i++) {
+//     if(is_category(pagar[i])){
+//         var current_category = pagar[i];
+//     }
+//     else if(current_category){
+//         cadastroTipo(pagar[i],current_category)
+//     }
+// }
 
 

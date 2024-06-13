@@ -219,7 +219,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                     name="valor"
                     render={({ field }) => (
                         <FormItem style={{ marginBottom: '30px' }}>
-                        <FormLabel>Valor de resolução (máximo: {row['valor']})</FormLabel>
+                        <FormLabel>Valor de transação/resolução (máximo: {row['valor']})</FormLabel>
                         <FormControl>
                             <Input {...field} placeholder="Ex: 999.90"/>
                         </FormControl>
