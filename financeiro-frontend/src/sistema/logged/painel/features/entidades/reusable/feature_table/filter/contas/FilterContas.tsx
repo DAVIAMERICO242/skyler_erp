@@ -121,8 +121,6 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         setFilterContas(null);
         form.reset();
     },[cleanSignal]);
-
-
       
 
     return(

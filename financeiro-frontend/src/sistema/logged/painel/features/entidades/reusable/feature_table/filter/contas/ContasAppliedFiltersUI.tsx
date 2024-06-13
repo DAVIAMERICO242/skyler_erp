@@ -53,12 +53,14 @@ export const ContasAppliedFiltersUI = ()=>{
                 <FilterList>
                     {filterContas && 
                         Object.keys(filterContas).map((e)=>{
-                            if(filterContas[e]){
+                            if(filterContas[e] || filterContas[e]===null){
                                 return(
                                     <Filter>
                                         {getUIColumnName("contas",e)}: 
                                         {isStringDate(filterContas[e])?
-                                         (" " + TZtoFriendlyDate(filterContas[e])):(" " + filterContas[e])
+                                         (" " + TZtoFriendlyDate(filterContas[e])):(" " + 
+                                            ((e==="situacao")?(filterContas[e]===null?"não resolvido":filterContas[e]):filterContas[e])
+                                            )
                                         }
                                         <TiDeleteOutline onClick={()=>manager_particular_clean(e)} className="text-xl cursor-pointer text-red-600"/>
                                     </Filter>

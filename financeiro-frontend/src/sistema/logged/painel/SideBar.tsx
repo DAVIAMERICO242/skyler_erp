@@ -24,6 +24,7 @@ import logo from '/skyler.png';
 import favicon from '/skyler-favicon.png';
 import { CircleSideBar } from "@/components/ui/circleSideBar";
 import { Link } from "react-router-dom";
+import { AreaChart, BarChart3, FileBarChart, Landmark, Users } from "lucide-react";
 
 export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeature, setFatherToggle}: 
     {features: string[],
@@ -133,8 +134,8 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[0]}>
-                                        <FaRegChartBar className="side_icon"/>
-                                    </CircleSideBar>
+                                        <FileBarChart className="side_icon"/>
+                                    </CircleSideBar> 
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
                                 <p>{features[0]}</p>
@@ -168,7 +169,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[2]}>
-                                        <GiNotebook className="side_icon"/>
+                                        <Users className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -185,7 +186,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[3]}>
-                                        <BsBank2 className="side_icon"/>
+                                        <Landmark className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
