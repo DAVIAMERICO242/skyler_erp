@@ -43,7 +43,7 @@ contas_router.post('/get',async (req:RequestModel,res:Response)=>{
     try{    
         const page = req.query?.page;
         const filter = req.body?.filter;
-        const page_size = 100;
+        const page_size = 40;
 
         let response;
 

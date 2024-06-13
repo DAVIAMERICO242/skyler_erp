@@ -34,7 +34,7 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
 
     const [isActive, setIsActive] = useState(1);
     const [current_group, setGroup] = useState(1); //um grupo mostra 3 paginas pro usuário, cada grupo tem tamanho 2
-    const group_size = 3;//NUMERO DE PAGINAS ANTES DE MUDAR O GRUPO
+    const group_size = 6;//NUMERO DE PAGINAS ANTES DE MUDAR O GRUPO
 
     const filterContas = useFilterContas().filterContas;
 

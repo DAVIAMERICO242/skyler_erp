@@ -4,6 +4,8 @@
   }
   
   .side_bar{
+        left: 0;
+        top: 0;
         font-weight: 400;
         transition: all 0.3s ease;
         position: fixed;
