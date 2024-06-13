@@ -122,33 +122,15 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         form.reset();
     },[cleanSignal]);
 
-    useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
-        function handleClickOutside(event) {
-            if (drawerRef.current && event.target.matches('.fixed')) {
-                console.log(event.target)
-                setOpen(false);
-            }else{
-                console.log(event.target)
-            }
-        }
-        // Bind the event listener
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-        // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [drawerRef]);
+
       
 
     return(
-        <Drawer open={open} >
+        <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" onClick={()=>setOpen((prev)=>!prev)}>Filtrar essa tabela</Button>
             </DrawerTrigger>
-            <DrawerContent ref={drawerRef}>
+            <DrawerContent ref={drawerRef} className="oiii">
                 <DrawerHeader className="ml-7">
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
