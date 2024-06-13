@@ -11,6 +11,7 @@ export function resolverConta(conta: contaToBeResolved): Promise<("parcial" |"re
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
+                let query:string;
                 let state:("parcial" |"resolvido" | null );
                 if (conta.value === 0) {
                     state = null;
@@ -22,14 +23,27 @@ export function resolverConta(conta: contaToBeResolved): Promise<("parcial" |"re
 
                 const stateQuery = state === null ? "NULL" : `'${state}'`;
 
-                connection.query(
+                if(state!==null){
+                    query = 
                     `UPDATE historico_contas SET
                     data_resolucao='${conta.data_resolucao.slice(0,10)}',
                     valor_resolucao='${conta.value}',
                     nossa_conta_bancaria='${conta.contaloja}',
                     situacao=${stateQuery}
                     WHERE id='${conta.id}'
-                    `,
+                    `
+                }else{
+                    query = 
+                    `UPDATE historico_contas SET
+                    data_resolucao=NULL,
+                    valor_resolucao=NULL,
+                    nossa_conta_bancaria=NULL,
+                    situacao=${stateQuery}
+                    WHERE id='${conta.id}'
+                    `
+                }
+
+                connection.query(query,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
