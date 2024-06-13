@@ -113,7 +113,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                     setFilterContas(filterContasBeforeSubmit)
                     setLoadingPagination(false);
                     setLoading(false);
-                    alert('Nenhum dado encontrado para esse filtro')
+                    alert('Nenhum dado encontrado para esse filtro, tente novamente')
                 }
             }).catch((err)=>{
                 setFilterContas(filterContasBeforeSubmit)

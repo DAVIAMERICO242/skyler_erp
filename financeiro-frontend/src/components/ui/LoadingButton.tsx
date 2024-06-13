@@ -15,9 +15,9 @@ const StyledButton = styled(Button)<{ btnType: string }>`
   background-color: ${(props) => {
     switch (props.btnType) {
       case "success":
-        return "rgb(144, 254, 96)";
+        return "rgb(203, 251, 182)";
       case "warning":
-        return "rgb(245, 250, 165)";
+        return "rgb(251, 255, 187)";
       case "skyler":
         return "var(--skyler-blue)";
       case "cancel":
@@ -25,7 +25,7 @@ const StyledButton = styled(Button)<{ btnType: string }>`
       case "neutral":
         return "var(--deep-white-button)";
       case "destructive":
-        return "var(--red)";
+        return "rgb(245, 187, 187)";
       default:
         return "initial";
     }
@@ -43,9 +43,21 @@ const StyledButton = styled(Button)<{ btnType: string }>`
       case "neutral":
         return "var(--skyler-blue)";
       case "destructive":
-        return "white";
+        return "black";
       default:
         return "initial";
+    }
+  }};
+  border: ${(props)=>{
+      switch (props.btnType) {
+        case "success":
+          return "1px solid rgb(110, 244, 52)";
+        case "warning":
+          return "1px solid rgb(232, 248, 55)";
+        case "destructive":
+          return "1px solid rgb(253, 58, 58)";
+        default:
+          return "none";
     }
   }};
   &:hover {
