@@ -36,7 +36,10 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
     const bancos_refetch = useBancos().refetch;
     const contas_refetch = useContas().refetch;
 
+    const contasData = useContas().data;
+
     const current_page = usePagination().current_page;// apenas para contas
+    const setCurrent_page = usePagination().setCurrent_page
 
     switch (author){
       case "terceiros":
@@ -61,9 +64,21 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
             if(d.success){
               if(author==="contas"){
                 if(filterContas && !areAllValuesUndefined(filterContas)){
-                  refetch(current_page,filterContas);
+                  if(contasData?.length===1 && current_page>1){//ultimo item deletado da pagina
+                    refetch(current_page-1,filterContas).then(()=>{
+                      setCurrent_page(prev=>(prev-1))
+                    });
+                  }else{
+                    refetch(current_page,filterContas);
+                  }
                 }else{
-                  refetch(current_page);
+                  if(contasData?.length===1 && current_page>1){
+                    refetch(current_page-1).then(()=>{
+                      setCurrent_page(prev=>(prev-1))
+                    });
+                  }else{
+                    refetch(current_page);
+                  }
                 }
               }else{
                 refetch();

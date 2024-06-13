@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-var */
 
@@ -39,8 +40,13 @@ import {
 } from "@/components/ui/select";
 import { areAllValuesUndefined } from "@/sistema/essentials";
 import { useFilterContas } from "../filter/contas/ContextFilterContas";
+import { useCleanAllFilter } from "../filter/FilterContextsNotContasExceptClean";
 
 export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:any})=>{
+
+    const setCleanAll = useCleanAllFilter().setCleanAll
+
+    const contasData = useContas().data;
 
     const filterContas = useFilterContas().filterContas;
 
@@ -88,20 +94,23 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
         ResolverConta(row['id'],value.valor,row['valor'],value.data_resolucao,value.contaloja).then((d)=>d.json())//row['valor'] é o valor requerido
         .then((d)=>{
           if(d.success){
+            if(contasData?.length===1){//se a conta ta filtrada e eu fiz uma operação que nao obedece o filtro, e essa conta é a ultima da pagina eu tenho que limpar o filtro
+              setCleanAll((prev)=>-1*prev);
+            }
             setLoading(false);
             setResolverOpen(false);
             if(d.state==="parcial"){
                 toast({
                     title: "PARCIAL",
                     className: "warning",
-                    description: "Essa conta foi resolvida PARCIALMENTE",
+                    description: "Essa conta foi resolvida PARCIALMENTE, CASO NÃO APAREÇA A MUDANÇA RECARREGUE A PÁGINA",
                   })
             }
             if(d.state==="resolvido"){
                 toast({
                     title: "RESOLVIDA",
                     className: "success",
-                    description: "Essa conta foi resolvida COMPLETAMENTE",
+                    description: "Essa conta foi resolvida COMPLETAMENTE, CASO NÃO APAREÇA A MUDANÇA RECARREGUE A PÁGINA",
                   })
             }
 
@@ -109,7 +118,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                 toast({
                     title: "DESRESOLVIDA",
                     className: "warning",
-                    description: "Essa conta foi DESRESOLVIDA",
+                    description: "Essa conta foi DESRESOLVIDA, CASO NÃO APAREÇA A MUDANÇA RECARREGUE A PÁGINA",
                   })
             }
             if(filterContas && !areAllValuesUndefined(filterContas)){

@@ -111,6 +111,7 @@ export const PaginationFeatureTable = ({n_pages, refetch, loadingPagination,setL
 
     },[current_page])
 
+
     return(
         <PaginationContainer className="pagination_container" loadingPagination={loadingPagination}>
             <Pagination>
