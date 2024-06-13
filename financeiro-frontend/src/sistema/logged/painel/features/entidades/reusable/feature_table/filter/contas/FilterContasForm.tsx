@@ -44,6 +44,7 @@ import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import { useFilterContas } from "./ContextFilterContas";
 import {firstCharUpper } from "@/sistema/essentials";
 
+
 export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
     {
     setFilterContasBeforeSubmit:any,
@@ -62,6 +63,8 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
     }
     ,[]);
 
+    console.log('renderizado novs')
+
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
         console.log('VAI SER REFATORADO');
         console.log(values);
@@ -75,12 +78,15 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
         })
     }
 
+    const pagar_receber_debug = firstCharUpper(form.getValues("pagar_receber"));
+
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} >
                <div className="w-1/2 flex gap-10 flex-col justify-center p-10">
                     <div className="flex flex-row gap-10">
                         <FormField
+                            key={form.getValues('situacao')}
                             control={form.control}
                             name="situacao"
                             render={({ field }) => (
@@ -89,13 +95,12 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={
-                                                firstCharUpper(form.getValues('situacao')) || "Escolher"}/>
+                                            <SelectValue placeholder={firstCharUpper(form.getValues('situacao')) || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
-                                            <SelectItem value="resolvido">Resolvido</SelectItem>
-                                            <SelectItem value="parcial">Parcial</SelectItem>
-                                            <SelectItem value={"Não Resolvido"}>Não resolvido</SelectItem>
+                                            <SelectItem value="resolvido" >Resolvido</SelectItem>
+                                            <SelectItem value="parcial" >Parcial</SelectItem>
+                                            <SelectItem value={"Não Resolvido"} >Não resolvido</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -104,6 +109,7 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                             )}
                         />
                         <FormField
+                            key={form.getValues('pagar_receber')}
                             control={form.control}
                             name="pagar_receber"
                             render={({ field }) => (
@@ -125,6 +131,7 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                             )}
                         />
                         <FormField
+                            key={form.getValues('terceiro')}
                             control={form.control}
                             name="terceiro"
                             render={({ field }) => (
@@ -149,6 +156,7 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                             )}
                         />
                         <FormField
+                            key={form.getValues('nome_loja')}
                             control={form.control}
                             name="nome_loja"
                             render={({ field }) => (

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-var */
 import * as React from "react"
-import { Minus, Plus } from "lucide-react"
+import { Eraser, Minus, Plus } from "lucide-react"
 import { Bar, BarChart, ResponsiveContainer } from "recharts"
  
 import { Button } from "@/components/ui/button"
@@ -29,6 +29,22 @@ import { areAllValuesUndefined } from "@/sistema/essentials"
 import { useClickOutside } from '@mantine/hooks';
 import { useRef } from "react"
 import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
+import styled from "styled-components"
+
+
+const LimparCampos = styled.div`
+    color:white;
+    background-color:var(--skyler-blue);
+    border-radius:50px;
+    padding:10px 20px;
+    width:200px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    margin-top:50px;
+    gap:10px;
+`
 
 export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=>{
     //logica para limpar o estado do filtro atual se a requisição nao retornar nenhum dado ou falhar
@@ -121,7 +137,14 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         setFilterContas(null);
         form.reset();
     },[cleanSignal]);
-      
+
+    const limpar_campos = ()=>{
+        form.reset();
+        console.log('PAGAR RECEBER APOS LIMPEZA')
+        console.log(form.getValues("pagar_receber"))
+    }
+
+    console.log('render')
 
     return(
         <Drawer open={open} onOpenChange={setOpen}>
@@ -132,9 +155,15 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                 <DrawerHeader className="ml-7">
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
+                    <LimparCampos onClick={limpar_campos}>
+                        <Eraser />
+                        Limpar campos
+                    </LimparCampos>
                 </DrawerHeader>
                 <FilterContasForm filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
         </Drawer>
     )
 }
+
+
