@@ -58,6 +58,8 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const filterContas = useFilterContas().filterContas;
 
+  const contasData = useContas().data;
+
   const current_page = usePagination().current_page;
 
   const [signalUpdateUIAfterNewTipo,setSignalUpdateUIAfterNewTipo] = useState<number>(-1);
@@ -184,6 +186,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       .then((d)=>{
         if(d.success){
           if(!edit){
+            setCleanAll((prev)=>-1*prev);
+          }
+          if(contasData?.length===1){
             setCleanAll((prev)=>-1*prev);
           }
           setOpen(false);
