@@ -28,6 +28,12 @@ const Pagar = styled.div`
    font-size:18px;
 `
 
+const Pago = styled.div`
+        color:rgb(36, 205, 56);
+        font-weight:600;
+        font-size:18px;
+`
+
 const Receber = styled.div`
    color:rgb(36, 205, 56);
    font-weight:600;
@@ -50,7 +56,7 @@ export const Statistcs = ()=>{
                     <Static>
                         <ChevronsRight />
                         Pago <i className="text-gray-500">(resolvido + parcial):</i>
-                        <Pagar> {BRLReais(statistics?.pago)}</Pagar>
+                        <Pago> {BRLReais(statistics?.pago)}</Pago>
                     </Static>
                     <Static>
                         <ChevronsRight />

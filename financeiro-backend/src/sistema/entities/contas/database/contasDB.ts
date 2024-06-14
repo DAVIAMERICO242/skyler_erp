@@ -282,6 +282,7 @@ export async function getFilteredFrotendHistoricoConta(
                 var filtersQuery = ``;
                 var check_first_if = true;
                 var check_first_run_vencimento = true;
+                //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key]) {
                         if(key!=="nome_loja" && !isStringDate(filter[key])){
@@ -347,6 +348,16 @@ export async function getFilteredFrotendHistoricoConta(
 
                 query+=filtersQuery;
                 const n_pages = await getFilteredNumberOfPages(query,page_size);//nao contar as paginas antes do limit e offset ser aplicado
+                const pago = await getPagoComFiltro(filtersQuery);
+                const recebido = await getRecebidoComFiltro(filtersQuery);
+                const a_pagar = await getAPagarComFiltro(filtersQuery);
+                const a_receber = await getAReceberComFiltro(filtersQuery);
+                const statistics:StatisticContas = {
+                    'pago':pago as number,
+                    'recebido':recebido as number,
+                    'a_pagar':a_pagar as number,
+                    'a_receber':a_receber as number
+                }
                 let final_part = ` ORDER BY historico_contas.id DESC`
                 if(page){
                     final_part = final_part + ` LIMIT ${page_size} OFFSET ${start_index};`
@@ -369,7 +380,7 @@ export async function getFilteredFrotendHistoricoConta(
                         } else {
                             resolve({
                                 data:result,
-                                statistics:undefined,
+                                statistics:statistics,
                                 n_pages:n_pages as number
                             });
                         }
@@ -494,7 +505,7 @@ export function getValorResolvido(id:number): Promise<(number|null)|DBError>{
                                 })
                             }
                         } else {
-                            resolve(result[0].valor_resolucao);
+                            resolve(result[0]?.valor_resolucao);
                         }
                     });
             }
@@ -543,6 +554,227 @@ export function deleteHistoricoConta(conta_id: number): Promise<null|DBError>{
     })
 }
 
+export function getPagoComFiltro(filter_query:string): Promise<(number|null)|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            let query =
+            `
+            SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+            FROM 
+                historico_contas
+            INNER JOIN 
+                tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+            INNER JOIN 
+                categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+            LEFT JOIN
+                lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+            `
+            if(!filter_query){
+                var final_part = ` WHERE 
+                    (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
+                GROUP BY categoria_contas.pagar_receber;`
+            }else{
+                var final_part = ` AND 
+                    (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
+                GROUP BY categoria_contas.pagar_receber;`  
+            }
+
+            query = query + filter_query + final_part;
+
+            if (connection) {
+                connection.query(query,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            console.log(result);
+                            if(result?.filter((e:any)=>e.pagar_receber==="pagar")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
+
+export function getRecebidoComFiltro(filter_query:string): Promise<(number|null)|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            let query =
+            `
+            SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+            FROM 
+                historico_contas
+            INNER JOIN 
+                tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+            INNER JOIN 
+                categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+            LEFT JOIN
+                lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+            `
+            if(!filter_query){
+                var final_part = ` WHERE 
+                    (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
+                GROUP BY categoria_contas.pagar_receber;`
+            }else{
+                var final_part = ` AND 
+                    (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
+                GROUP BY categoria_contas.pagar_receber;`  
+            }
+
+            query = query + filter_query + final_part;
+            console.log(query)
+            if (connection) {
+                connection.query(query,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            console.log(result);
+                            if(result?.filter((e:any)=>e.pagar_receber==="receber")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA)
+                            }else{
+                                resolve(null);
+                            }
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
+
+export function getAPagarComFiltro(filter_query:string): Promise<(number|null)|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            if (connection) {
+                let query = 
+                `
+                    SELECT 
+                        categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+               `
+                const final_part = " GROUP BY categoria_contas.pagar_receber;"
+
+                query = query + filter_query + final_part;
+
+                connection.query(query,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            console.log(result);
+                            if(result?.filter((e:any)=>e.pagar_receber==="pagar")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
+
+export function getAReceberComFiltro(filter_query:string): Promise<(number|null)|DBError>{
+    return new Promise((resolve,reject)=>{
+        SQLConnection().then((connection) => {
+            if (connection) {
+                let query = 
+                `
+                    SELECT 
+                        categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                    FROM 
+                        historico_contas
+                    INNER JOIN 
+                        tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
+                    INNER JOIN 
+                        categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    LEFT JOIN
+                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
+               `
+                const final_part = " GROUP BY categoria_contas.pagar_receber;"
+
+                query = query + filter_query + final_part;
+
+                connection.query(query,
+                    (err, result) => {
+                        connection.end(); // Simply close the connection
+                        if (err) {
+                            if(err.sqlMessage?.toUpperCase().includes("DUPLICATE")){
+                                reject({
+                                    duplicate:true
+                                })
+                            }else{
+                                reject({
+                                    duplicate:false
+                                })
+                            }
+                        } else {
+                            console.log(result);
+                            if(result?.filter((e:any)=>e.pagar_receber==="receber")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
+                        }
+                    });
+            }
+        }).catch((err) => {
+            reject({
+                duplicate:false
+            });
+        });
+    })
+}
 
 export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
     return new Promise((resolve,reject)=>{
@@ -560,7 +792,7 @@ export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     WHERE 
-                        historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial"
+                        (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {
@@ -576,7 +808,11 @@ export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
                                 })
                             }
                         } else {
-                            resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            if(result?.filter((e:any)=>e.pagar_receber==="pagar")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
                         }
                     });
             }
@@ -604,7 +840,7 @@ export function getRecebidoSemFiltro(): Promise<(number|null)|DBError>{
                     LEFT JOIN
                         lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     WHERE 
-                        historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial"
+                        (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {
@@ -620,7 +856,11 @@ export function getRecebidoSemFiltro(): Promise<(number|null)|DBError>{
                                 })
                             }
                         } else {
-                            resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA);
+                            if(result?.filter((e:any)=>e.pagar_receber==="receber")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
                         }
                     });
             }
@@ -640,7 +880,7 @@ export function getAPagarSemFiltro(): Promise<(number|null)|DBError>{
                 connection.query(
                     `
                         SELECT 
-                            categoria_contas.pagar_receber, SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao) AS SOMA 
+                            categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
                         FROM 
                             historico_contas
                         INNER JOIN 
@@ -664,7 +904,11 @@ export function getAPagarSemFiltro(): Promise<(number|null)|DBError>{
                                 })
                             }
                         } else {
-                            resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            if(result?.filter((e:any)=>e.pagar_receber==="pagar")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="pagar")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
                         }
                     });
             }
@@ -683,7 +927,7 @@ export function getAReceberSemFiltro(): Promise<(number|null)|DBError>{
                 connection.query(
                     `
                         SELECT 
-                            categoria_contas.pagar_receber, SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao) AS SOMA 
+                            categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
                         FROM 
                             historico_contas
                         INNER JOIN 
@@ -707,7 +951,11 @@ export function getAReceberSemFiltro(): Promise<(number|null)|DBError>{
                                 })
                             }
                         } else {
-                            resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA);
+                            if(result?.filter((e:any)=>e.pagar_receber==="receber")[0]){
+                                resolve(result?.filter((e:any)=>e.pagar_receber==="receber")[0].SOMA);
+                            }else{
+                                resolve(null);
+                            }
                         }
                     });
             }
