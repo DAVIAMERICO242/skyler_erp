@@ -17,13 +17,14 @@ import { FilteredDataNotContasProvider } from "./filter/FilterContextsNotContasE
 import { FaLessThanEqual } from "react-icons/fa";
 import { CleanAllFilterProvider } from "./filter/FilterContextsNotContasExceptClean";
 import { getUIColumnName } from "../../BackendHelper/formatBackendData/getUIColumnName";
-import { isStringDate } from "@/sistema/essentials";
+import { BRLReais, isStringDate } from "@/sistema/essentials";
 import { TZtoFriendlyDate } from "@/sistema/essentials";
 import {  PaginationFeatureTable } from "./pagination/PaginationFeatureTable";
 import { PaginationProvider } from "./pagination/PaginationContext";
 import { Resolver } from "./pagamentos_logic/Resolver";
 import { BancosProvider } from "../../Bancos/Bancos";
 import { FilterContasProvider } from "./filter/contas/ContextFilterContas";
+import { Statistcs } from "./Statistics";
 
 const TableContainer = styled.div`
     padding:30px;
@@ -72,6 +73,10 @@ const TableRowValue = styled.td`
             background-color:#f7f3f3;
         }
 `
+const Money = styled.div`
+   color:rgb(36, 205, 56);
+   font-weight:400;
+`
 
 export const FeatureTable = ({author}:{author:string})=>{
 
@@ -81,6 +86,7 @@ export const FeatureTable = ({author}:{author:string})=>{
                 <FilterContasProvider>
                     <TableFilterProvider>
                         <CleanAllFilterProvider>
+                                {author==="contas" && <Statistcs/>}
                                 <FeatureTableUI author={author}/>
                         </CleanAllFilterProvider>
                     </TableFilterProvider>
@@ -229,9 +235,11 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                         <>
                                             <TableRowValue key={row[identifier]}>
                                                 {
-                                                    column!=='situacao'?(
+                                                    (column!=='situacao')?(
+
+                                                        
                                                     isStringDate(row[column])?
-                                                    TZtoFriendlyDate(row[column]):row[column]):(
+                                                    TZtoFriendlyDate(row[column]):((column.includes("valor") || column.includes("saldo"))?<Money>{(BRLReais(row[column]))}</Money>:row[column])):(
                                                         ( //SITUACAO E UMA COLUNA DA TABELA CONTAS
                                                             <Resolver row={row} key={row[identifier]} resolverOpen={resolverOpenStates && resolverOpenStates[i]}
                                                             setResolverOpen={(open) => {
