@@ -559,7 +559,7 @@ export function getPagoComFiltro(filter_query:string): Promise<(number|null)|DBE
         SQLConnection().then((connection) => {
             let query =
             `
-            SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+            SELECT categoria_contas.pagar_receber, SUM(COALESCE(historico_contas.valor_resolucao,0)) AS SOMA
             FROM 
                 historico_contas
             INNER JOIN 
@@ -618,7 +618,7 @@ export function getRecebidoComFiltro(filter_query:string): Promise<(number|null)
         SQLConnection().then((connection) => {
             let query =
             `
-            SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+            SELECT categoria_contas.pagar_receber, SUM(COALESCE(historico_contas.valor_resolucao,0)) AS SOMA
             FROM 
                 historico_contas
             INNER JOIN 
@@ -679,7 +679,7 @@ export function getAPagarComFiltro(filter_query:string): Promise<(number|null)|D
                 let query = 
                 `
                     SELECT 
-                        categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                        categoria_contas.pagar_receber, (SUM(COALESCE(historico_contas.valor,0))-SUM(COALESCE(historico_contas.valor_resolucao,0))) AS SOMA 
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -731,7 +731,7 @@ export function getAReceberComFiltro(filter_query:string): Promise<(number|null)
                 let query = 
                 `
                     SELECT 
-                        categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                        categoria_contas.pagar_receber, (SUM(COALESCE(historico_contas.valor,0))-SUM(COALESCE(historico_contas.valor_resolucao,0))) AS SOMA 
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -782,7 +782,7 @@ export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
             if (connection) {
                 connection.query(
                     `
-                    SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+                    SELECT categoria_contas.pagar_receber, SUM(COALESCE(historico_contas.valor_resolucao,0)) AS SOMA
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -830,7 +830,7 @@ export function getRecebidoSemFiltro(): Promise<(number|null)|DBError>{
             if (connection) {
                 connection.query(
                     `
-                    SELECT categoria_contas.pagar_receber, SUM(historico_contas.valor_resolucao) AS SOMA
+                    SELECT categoria_contas.pagar_receber, SUM(COALESCE(historico_contas.valor_resolucao,0)) AS SOMA
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -880,7 +880,7 @@ export function getAPagarSemFiltro(): Promise<(number|null)|DBError>{
                 connection.query(
                     `
                         SELECT 
-                            categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                            categoria_contas.pagar_receber, (SUM(COALESCE(historico_contas.valor,0))-SUM(COALESCE(historico_contas.valor_resolucao,0))) AS SOMA 
                         FROM 
                             historico_contas
                         INNER JOIN 
@@ -927,7 +927,7 @@ export function getAReceberSemFiltro(): Promise<(number|null)|DBError>{
                 connection.query(
                     `
                         SELECT 
-                            categoria_contas.pagar_receber, (SUM(historico_contas.valor)-SUM(historico_contas.valor_resolucao)) AS SOMA 
+                            categoria_contas.pagar_receber, (SUM(COALESCE(historico_contas.valor,0))-SUM(COALESCE(historico_contas.valor_resolucao,0))) AS SOMA 
                         FROM 
                             historico_contas
                         INNER JOIN 
