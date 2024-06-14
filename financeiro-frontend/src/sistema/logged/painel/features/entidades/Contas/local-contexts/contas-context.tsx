@@ -23,23 +23,34 @@ export interface SchemaContasFrontendData {
 
 interface ContasContextType {
     data: SchemaContasFrontendData[] | null;
+    statistics: statistics | null;
     n_pages:number;
     refetch: () => void;
+}
+
+interface statistics {
+    pago?:number,
+    recebido?:number,
+    a_pagar?:number,
+    a_receber?:number
 }
 
 const ContasContext = createContext<ContasContextType>({ data: null,refetch: () => {} });
 
 export const ContasProvider = ({ children }:{children:ReactNode}) => {
     const [data, setData] = useState<SchemaContasFrontendData[] | null>(null);
+    const [statistics,setstatistics] = useState<statistics | null>(null);
     const [n_pages,setN_pages] = useState<number>(0);
     const fetchData = async (page:number = 1, filter?:SchemaContasFilterObject) => {//vai ter filtro
             try {
                 const response = await getContas(page,filter);
                 if(response?.data?.length && filter){//se tiver filtrado, so vai mudar os dados atuais se foi achado filtro
                     setData(response?.data);
+                    setstatistics(response?.statistics)
                     setN_pages(response?.n_pages);
                 }else if(!filter){// se nao tiver filtrado vai atualizar os dados de qualquer forma, serve pra UX de quando nao tem dados
                     setData(response?.data);
+                    setstatistics(response?.statistics)
                     setN_pages(response?.n_pages);      
                 }
                 return response;
@@ -58,7 +69,7 @@ export const ContasProvider = ({ children }:{children:ReactNode}) => {
     };
 
      return (
-        <ContasContext.Provider value={{data,n_pages,refetch}}>
+        <ContasContext.Provider value={{data,statistics,n_pages,refetch}}>
             {children}
         </ContasContext.Provider>
     );

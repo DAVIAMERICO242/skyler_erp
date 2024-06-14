@@ -83,7 +83,9 @@ export const Exportar = ({author}:{author:string})=>{
             description: "EXPORTAÇÃO BEM SUCEDIDA",
           });
         }
-        )  
+        ).catch(()=>{
+          alert("erro");
+        })
       }
     }
   

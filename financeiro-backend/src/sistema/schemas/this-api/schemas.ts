@@ -87,6 +87,13 @@ export interface SchemaContasFilterObject{
     data_resolucao?:string
 }
 
+export interface StatisticContas{
+    pago?:number,
+    recebido?:number,
+    a_pagar?:number,
+    a_receber?:number
+}
+
 export interface contaToBeResolved{
     id:number,
     value:number,

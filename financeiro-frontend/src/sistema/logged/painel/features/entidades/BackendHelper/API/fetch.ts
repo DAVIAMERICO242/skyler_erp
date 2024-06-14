@@ -81,8 +81,9 @@ export async function getContas(page:number, filter?:SchemaContasFilterObject){
       });
       const result = await response.json();
       return {
-        data:result.data,
-        n_pages:result.n_pages
+        data:result?.data,
+        statistics:result?.statistics,
+        n_pages:result?.n_pages
       };
     } catch (error) {
       console.log('erro')
