@@ -50,18 +50,18 @@ export const Statistcs = ()=>{
             <Card>
                 <CardHeader>
                     <CardTitle>Análise</CardTitle>
-                    <CardDescription>Esse análise é com base nos dados filtrados/não filtrados da tabela abaixo, se, por exemplo, não houver nenhuma conta a resolver  no filtro ela não será somada aqui (NÃO LEVA EM CONTA IMPORTAÇÕES BANCÁRIAS).</CardDescription>
+                    <CardDescription>Esse análise é com base nos dados filtrados/não filtrados da tabela abaixo, se, por exemplo, não houver nenhuma conta parcial no filtro ela não será somada aqui (NÃO LEVA EM CONTA IMPORTAÇÕES BANCÁRIAS).</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Static>
                         <ChevronsRight />
                         Pago <i className="text-gray-500">(resolvido + parcial):</i>
-                        <Pago> {BRLReais(statistics?.pago)}</Pago>
+                        <Pago>    {BRLReais(statistics?.pago)}</Pago>
                     </Static>
                     <Static>
                         <ChevronsRight />
                         Recebido <i className="text-gray-500">(resolvido + parcial):</i>
-                        <Receber>{BRLReais(statistics?.recebido)}</Receber>
+                        <Receber> {BRLReais(statistics?.recebido)}</Receber>
                     </Static>
                     <Static>
                         <ChevronsRight />
