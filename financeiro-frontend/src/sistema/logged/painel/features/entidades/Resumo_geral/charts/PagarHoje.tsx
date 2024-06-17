@@ -13,6 +13,18 @@ import {
   } from "@/components/ui/dialog"
 import { useCharts } from "../chartsContext"
 import { useEffect, useState } from "react"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+import { BRLReais, SubtractColumns, TZtoFriendlyDate } from "@/sistema/essentials"
+import { Exportar } from "./Exportar"
 
 const PagarHojeContainer = styled.div`
     color:white;
@@ -39,6 +51,10 @@ const PagarHojeContainer = styled.div`
         font-size:14px;
     }
 `
+const TableLimiter = styled.div`
+    max-height:400px;
+    overflow:auto;
+`
 
 export const PagarHoje = ()=>{
 
@@ -64,23 +80,49 @@ export const PagarHoje = ()=>{
         }
     },[chartData]);
 
+
     return(
         <Dialog>
             <DialogTrigger className="w-full">
                 <PagarHojeContainer>
                     <h2>A pagar hoje</h2>
-                    <h1>R$ 6559.6</h1>
+                    <h1>{chartData && BRLReais(SubtractColumns(chartData['a_pagar_hoje'],'valor','valor_resolucao'))}</h1>
                 </PagarHojeContainer>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                 <DialogTitle>A pagar hoje</DialogTitle>
                 <DialogDescription>
-                    This action cannot be undone. This will permanently delete your account
-                    and remove your data from our servers.
+                    Veja com mais detalhes em contas a pagar / receber
                 </DialogDescription>
                 </DialogHeader>
-                <div>{chartData && JSON.stringify(chartData['a_pagar_hoje'])}</div>
+                <div className="flex w-full items-end justify-end">
+                    <Exportar author="a_pagar_hoje"/>
+                </div>
+                <TableLimiter>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead className="w-[100px]">ID</TableHead>
+                            <TableHead className="w-[100px]">Vencimento</TableHead>
+                            <TableHead className="w-[100px]">Terceiro</TableHead>
+                            <TableHead className="w-[100px]">Valor necessário</TableHead>
+                            <TableHead className="text-right">Valor pago</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {chartData && chartData['a_pagar_hoje']?.map((e) => (
+                            <TableRow key={e.id}>
+                                <TableCell>{e.id}</TableCell>
+                                <TableCell>{TZtoFriendlyDate(e.vencimento)}</TableCell>
+                                <TableCell>{e.terceiro}</TableCell>
+                                <TableCell>{BRLReais(e.valor)}</TableCell>
+                                <TableCell className="text-right">{BRLReais(e.valor_resolucao)}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+               </TableLimiter>
             </DialogContent>
         </Dialog>
     )

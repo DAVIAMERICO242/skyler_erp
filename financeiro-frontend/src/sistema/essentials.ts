@@ -1,3 +1,6 @@
+/* eslint-disable no-var */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -120,3 +123,20 @@ export function BRLReais(valor:number|null|undefined){
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
+export function SubtractColumns(ObjectArray:{[key:string]:any}[],column1:string,column2:string){
+    let subtraction;
+    if(!ObjectArray?.length){
+        subtraction=0;
+        return;
+    }
+    if((ObjectArray[0].hasOwnProperty(column1) && ObjectArray[0].hasOwnProperty(column2))){
+        subtraction =  ObjectArray.map((e)=>{
+            if(e[column1] && e[column1]){
+                return e[column1] - e[column2]
+            }else{
+                return 0;
+            }
+        }).reduce((prev,current)=>prev+current,0)
+    }
+    return subtraction;
+}
