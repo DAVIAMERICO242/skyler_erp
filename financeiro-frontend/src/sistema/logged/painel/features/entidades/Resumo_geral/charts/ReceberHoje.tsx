@@ -53,7 +53,7 @@ const ReceberHojeContainer = styled.div`
 
 const TableLimiter = styled.div`
     max-height:400px;
-    overflow:auto;
+    overflow-y:auto;
 `
 
 export const ReceberHoje = ()=>{
@@ -88,7 +88,7 @@ export const ReceberHoje = ()=>{
                     <h1>{chartData && BRLReais(SubtractColumns(chartData['a_receber_hoje'],'valor','valor_resolucao'))}</h1>
                 </ReceberHojeContainer>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="min-w-[800px]">
                 <DialogHeader>
                 <DialogTitle>A receber hoje</DialogTitle>
                 <DialogDescription>
@@ -107,7 +107,8 @@ export const ReceberHoje = ()=>{
                                 <TableHead className="w-[100px]">Vencimento</TableHead>
                                 <TableHead className="w-[100px]">Terceiro</TableHead>
                                 <TableHead className="w-[100px]">Valor necessário</TableHead>
-                                <TableHead className="text-right">Valor pago</TableHead>
+                                <TableHead className="w-[100px]">Valor pago</TableHead>
+                                <TableHead className="w-[100px]">Restante</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -117,7 +118,8 @@ export const ReceberHoje = ()=>{
                                     <TableCell>{TZtoFriendlyDate(e.vencimento)}</TableCell>
                                     <TableCell>{e.terceiro}</TableCell>
                                     <TableCell>{BRLReais(e.valor)}</TableCell>
-                                    <TableCell className="text-right">{BRLReais(e.valor_resolucao)}</TableCell>
+                                    <TableCell>{BRLReais(e.valor_resolucao)}</TableCell>
+                                    <TableCell>{BRLReais(e.valor - e.valor_resolucao)}</TableCell>
                                 </TableRow>
                                 ))}
                             </TableBody>

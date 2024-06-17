@@ -20,6 +20,7 @@ const ChartsFlex = styled.div`
    display:grid;
    grid-template-columns: 600px 600px;
    gap:10px;
+   margin-right:30px;
    @media (max-width: 1300px){
     grid-template-columns: 500px 500px;
    }
