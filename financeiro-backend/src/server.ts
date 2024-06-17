@@ -11,6 +11,7 @@ import { lojas_major_router } from './sistema/entities/lojas/lojasRoute';
 import { bancos_major_router } from './sistema/entities/bancos/bancosRoute';
 import { fiscal_category_major_router } from './sistema/fiscal_category/fiscalCategoryRouter';
 import { contas_major_router } from './sistema/entities/contas/bancosRoute';
+import { resumo_router } from './sistema/entities/resumo/resumoAPI';
 
 console.log(FRONTEND_URL);
 const server:Express = express();
@@ -22,6 +23,7 @@ server.use(cors({
 server.use(express.json());
 server.use('/',ProtectFrontendRoutes_router);
 server.use('/',login_router);
+server.use('/',AuthMiddleware, resumo_router);
 server.use('/',AuthMiddleware, terceiros_major_router);
 server.use('/',AuthMiddleware, lojas_major_router);
 server.use('/',AuthMiddleware, bancos_major_router);

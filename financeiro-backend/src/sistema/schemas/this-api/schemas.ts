@@ -39,6 +39,14 @@ export interface CategoriaContas{//FRONTEND NAO CADASTRA ISSO
     pagar_receber:string
 }
 
+export interface ChartsSchema{
+    id?:number,
+    vencimento?:string,
+    terceiro?:string,
+    valor?:number,
+    valor_resolucao?:number
+}
+
 export interface TipoContas{//COMPATIVEL COM O NOME DO BANCO DE DADOS
     nome_conta:string,
     categoria_conta:string

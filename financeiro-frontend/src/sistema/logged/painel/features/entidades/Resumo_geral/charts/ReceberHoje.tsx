@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog"
 
 import styled from "styled-components";
+import { useCharts } from "../chartsContext";
+import { useEffect, useState } from "react";
 
 const ReceberHojeContainer = styled.div`
     color:white;
@@ -37,6 +39,29 @@ const ReceberHojeContainer = styled.div`
     }
 `
 export const ReceberHoje = ()=>{
+    
+    const fetchRequiredChart = useCharts().fetchRequiredChart;
+
+    useEffect(()=>{
+        fetchRequiredChart('a_receber_hoje');
+    },[]);
+
+    const [receberHoje, setReceberHoje] = useState<{
+                                                vencimento?: string;
+                                                terceiro?: string;
+                                                valor?: number;
+                                                valor_resolucao?: number;
+                                            }[] | undefined>(undefined);
+
+    const chartData = useCharts()?.chartData;
+
+    useEffect(()=>{
+        console.log(chartData);
+        if(chartData && chartData['a_receber_hoje']){
+            setReceberHoje(chartData['a_receber_hoje']);
+        }
+    },[chartData]);
+
     return(
         <Dialog>
             <DialogTrigger className="w-full">
@@ -53,6 +78,7 @@ export const ReceberHoje = ()=>{
                     and remove your data from our servers.
                 </DialogDescription>
                 </DialogHeader>
+                <div>{chartData && JSON.stringify(chartData['a_receber_hoje'])}</div>
             </DialogContent>
         </Dialog>
     )

@@ -31,12 +31,12 @@ const ChartsFlex = styled.div`
    } 
 
 `
-
 const Chart = styled.div`
     user-select:none;
 `
 
 export const Charts = ()=>{
+    console.log('RE RENDER CHARTS')
     return(
         <ChartsContainer>
             <ChartsFlex>

@@ -9,6 +9,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { useCharts } from "../chartsContext";
+import { useEffect, useState } from "react";
 
 const VencidasAreceberContainer = styled.div`
     color:white;
@@ -38,6 +40,29 @@ const VencidasAreceberContainer = styled.div`
 `
 
 export const VencidasAreceber = ()=>{
+    
+    const fetchRequiredChart = useCharts().fetchRequiredChart;
+
+    useEffect(()=>{
+        fetchRequiredChart('receber_vencidas');
+    },[]);
+
+    const [receberVencidas, setReceberVencidas] = useState<{
+                                                vencimento?: string;
+                                                terceiro?: string;
+                                                valor?: number;
+                                                valor_resolucao?: number;
+                                            }[] | undefined>(undefined);
+
+    const chartData = useCharts()?.chartData;
+
+    useEffect(()=>{
+        console.log(chartData);
+        if(chartData && chartData['receber_vencidas']){
+            setReceberVencidas(chartData['receber_vencidas']);
+        }
+    },[chartData]);
+    
     return(
         <Dialog>
             <DialogTrigger className="w-full">
@@ -54,6 +79,7 @@ export const VencidasAreceber = ()=>{
                     and remove your data from our servers.
                 </DialogDescription>
                 </DialogHeader>
+                <div>{chartData && JSON.stringify(chartData['receber_vencidas'])}</div>
             </DialogContent>
         </Dialog>
     )
