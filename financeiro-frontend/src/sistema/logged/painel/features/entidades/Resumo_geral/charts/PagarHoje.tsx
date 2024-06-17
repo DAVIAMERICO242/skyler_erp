@@ -27,6 +27,8 @@ import { BRLReais, SubtractColumns, TZtoFriendlyDate } from "@/sistema/essential
 import { Exportar } from "./Exportar"
 
 const PagarHojeContainer = styled.div`
+    animation: fadeInYFromTop 0.5s ease;
+    transition:all 0.2s ease;
     color:white;
     border-radius:5px;
     height:300px;
@@ -36,8 +38,8 @@ const PagarHojeContainer = styled.div`
     justify-content:center;
     background-color:rgb(239, 85, 85);
     box-shadow: rgba(235, 64, 38, 0.25) 0px 50px 100px -20px, rgba(227, 56, 26, 0.3) 0px 30px 60px -30px;
-    transition:all 0.2s ease;
     &:hover{
+        z-index:9999;
         cursor:pointer;
         transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
     }

@@ -28,6 +28,7 @@ import { Exportar } from "./Exportar";
 const VencidasApagarContainer = styled.div`
     color:white;
     height:300px;
+    animation: fadeInXFromLeft 0.5s ease;
     border-radius:5px;
     display:flex;
     align-items:center;

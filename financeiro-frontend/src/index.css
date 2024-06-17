@@ -58,6 +58,51 @@
   }
 }
 
+@keyframes fadeInXFromRight {
+  from{
+    transform: translateX(300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInXFromLeft {
+  from{
+    transform: translateX(-300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+
+@keyframes fadeInX {
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInYFromTop {
+  from {
+    transform: translateY(-100%);
+  }to {
+    transform: translateY(0px);
+  }
+}
+
+
+@keyframes fadeInYFromBottom {
+  from {
+    transform: translateY(100%);
+  }to {
+    transform: translateY(0px);
+  }
+}
+
 @keyframes fadeInTranlating30pxDown {
   to {
     opacity: 1;

@@ -26,6 +26,7 @@ import { BRLReais, SubtractColumns, TZtoFriendlyDate } from "@/sistema/essential
 import { Exportar } from "./Exportar";
 
 const ReceberHojeContainer = styled.div`
+    animation: fadeInXFromRight 0.5s ease;
     color:white;
     height:300px;
     border-radius:5px;

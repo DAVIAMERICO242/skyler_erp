@@ -27,6 +27,9 @@ import { Exportar } from "./Exportar";
 const VencidasAreceberContainer = styled.div`
     color:white;
     height:300px;
+    animation: fadeInYFromBottom 0.5s ease;
+    color:white;
+    height:300px;
     border-radius:5px;
     display:flex;
     align-items:center;
