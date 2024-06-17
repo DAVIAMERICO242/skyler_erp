@@ -1,6 +1,6 @@
 import {BasicLineChart, BasicPie, BasicBars, Charts } from './charts/Charts';
 import {useEffect, useState} from 'react';
-import { FeatureTitle } from '../entidades/reusable/FeatureTitle';
+import { FeatureTitle } from '../reusable/FeatureTitle';
 import { ChartDataProvider } from './data/chartsContext';
 
 

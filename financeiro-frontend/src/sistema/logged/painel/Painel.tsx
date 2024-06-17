@@ -3,7 +3,7 @@ import { checkAuth } from "../../auth/checkAuth";
 import { LoadingAuth } from "../../auth/LoadingAuth";
 import { useNavigate } from 'react-router-dom';
 import { SideBar } from "./SideBar";
-import { ResumoGeral } from "./features/Resumo_geral/ResumoGeral";
+import { ResumoGeral } from "./features/entidades/Resumo_geral/ResumoGeral";
 import { Lojas } from "./features/entidades/Lojas/Lojas";
 import { Terceiros } from "./features/entidades/Terceiros/Terceiros";
 import { Contas } from "./features/entidades/Contas/Contas";
