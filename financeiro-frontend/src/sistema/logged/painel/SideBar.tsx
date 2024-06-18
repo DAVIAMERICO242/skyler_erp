@@ -152,7 +152,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[1]}>
-                                        <FaMoneyBillTransfer className="side_icon"/>
+                                        <div className="font-medium">DRE</div>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -169,7 +169,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[2]}>
-                                        <Users className="side_icon"/>
+                                        <FaMoneyBillTransfer className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -178,7 +178,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                          {features[2]}
+                            {features[2]}
                         </div>
                     </li>
                     <li onClick={handle_click}>
@@ -186,7 +186,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[3]}>
-                                        <Landmark className="side_icon"/>
+                                        <Users className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -195,7 +195,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                            {features[3]}
+                          {features[3]}
                         </div>
                     </li>
                     <li onClick={handle_click}>
@@ -203,7 +203,7 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             <Tooltip>
                                 <TooltipTrigger>
                                     <CircleSideBar focused={focusedFeature===features[4]}>
-                                        <FaStoreAlt className="side_icon"/>
+                                        <Landmark className="side_icon"/>
                                     </CircleSideBar>
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
@@ -212,7 +212,24 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                             </Tooltip>
                         </TooltipProvider>
                         <div className="item_name">
-                           {features[4]}
+                            {features[4]}
+                        </div>
+                    </li>
+                    <li onClick={handle_click}>
+                        <TooltipProvider delayDuration={100}>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <CircleSideBar focused={focusedFeature===features[5]}>
+                                        <FaStoreAlt className="side_icon"/>
+                                    </CircleSideBar>
+                                </TooltipTrigger>
+                                <TooltipContent className="tooltip">
+                                <p>{features[5]}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        <div className="item_name">
+                           {features[5]}
                         </div>
                     </li>
                 </ul>

@@ -1,5 +1,7 @@
+import { FeatureTitle } from "../reusable/FeatureTitle"
+
 export const DRE = ()=>{
     return(
-        <div>oi</div>
+        <FeatureTitle>DRE</FeatureTitle>
     )
 }

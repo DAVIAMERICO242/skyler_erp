@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { useParams } from "react-router-dom";
 import { convertToPARAM } from "@/sistema/essentials";
 import { IoIosContacts } from "react-icons/io";
+import { DRE } from "./features/entidades/DRE/DRE";
 // eslint-disable-next-line
 export const Painel = ()=>{
 
@@ -25,6 +26,7 @@ export const Painel = ()=>{
 
     const features:string[]= [
       "Resumo geral",
+      "DRE",
       "Contas a Pagar / Receber",
       "Terceiros",
       "Bancos",
@@ -33,6 +35,7 @@ export const Painel = ()=>{
 
     const featuresToPARAM: { [key: string]: string } = {
       "Resumo geral": "resumo_geral",
+      "DRE":"dre",
       "Contas a Pagar / Receber":"contas",
       "Terceiros": "terceiros",
       "Bancos": "bancos",
@@ -41,6 +44,7 @@ export const Painel = ()=>{
 
     const PARAMSTofeature: { [key: string]: string } = {
       "resumo_geral": "Resumo geral",
+      "dre":"DRE",
       "contas":"Contas a Pagar / Receber",
       "terceiros":"Terceiros",
       "bancos":"Bancos",
@@ -91,10 +95,11 @@ export const Painel = ()=>{
               />
               <div className={"main " + (fatherToggle?'toggled':'')}>
                 {feature===featuresToPARAM[features[0]] && <ResumoGeral/>}
-                {feature===featuresToPARAM[features[1]] && <Contas/>}
-                {feature===featuresToPARAM[features[2]] && <Terceiros/>}
-                {feature===featuresToPARAM[features[3]] && <Bancos/>}
-                {feature===featuresToPARAM[features[4]] && <Lojas/>}
+                {feature===featuresToPARAM[features[1]] && <DRE/>}
+                {feature===featuresToPARAM[features[2]] && <Contas/>}
+                {feature===featuresToPARAM[features[3]] && <Terceiros/>}
+                {feature===featuresToPARAM[features[4]] && <Bancos/>}
+                {feature===featuresToPARAM[features[5]] && <Lojas/>}
               </div>
             </div>
           )}
