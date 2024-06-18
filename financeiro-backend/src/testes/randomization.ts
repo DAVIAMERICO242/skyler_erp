@@ -77,29 +77,30 @@ export class RandomFrontendContasInstance extends ControllerRandomFrontendContas
             this.generateRandomSituacao(),//situacao 0
             this.generateRandomDate(),//lançamento 1
             this.generateRandomDate(),//vencimento 2
-            this.generateRandomTipoFiscal(),//tipo fiscal 3
-            this.generateRandomTerceiro(),//terceiro 4
-            this.generateRandomRequiredValue(),//valor 5
-            this.generateRandomDate(),//data resolucao  6
-            this.generateRandomRequiredValue(),//valor resolvido 7
-            this.getRandomContaBancaria()// conta bancária 8
+            this.generateRandomDate(),//competencia 3
+            this.generateRandomTipoFiscal(),//tipo fiscal 4
+            this.generateRandomTerceiro(),//terceiro 5
+            this.generateRandomRequiredValue(),//valor 6
+            this.generateRandomDate(),//data resolucao  7
+            this.generateRandomRequiredValue(),//valor resolvido 8
+            this.getRandomContaBancaria()// conta bancária 9
         ] 
     }
 
     FazerSentido(random_row:any[]){
-        if(random_row[5]>random_row[7]){//se o valor de requerido e maior que o resolvido
+        if(random_row[6]>random_row[8]){//se o valor de requerido e maior que o resolvido
             random_row[0] = "parcial";
-         }else if(random_row[5]<random_row[7]){//aumentar o numero de resolvidos
-           random_row[5] = random_row[7];
+         }else if(random_row[6]<random_row[8]){//aumentar o numero de resolvidos
+           random_row[6] = random_row[8];
            random_row[0] = "resolvido";
          }else{
            random_row[0] = "resolvido";
          }
-         if(Math.random()>=0.5 && !(random_row[5]<random_row[7])){
-           random_row[7] = null;//valor resolvido nulo
+         if(Math.random()>=0.5 && (random_row[6]>random_row[8])){
+           random_row[8] = null;//valor resolvido nulo
            random_row[0] = null;//solucao nula (nao resolvido)
-           random_row[6] = null;//data resolucao nula
-           random_row[8] = null;//conta bancaria nula
+           random_row[7] = null;//data resolucao nula
+           random_row[9] = null;//conta bancaria nula
          }
 
          return random_row;
