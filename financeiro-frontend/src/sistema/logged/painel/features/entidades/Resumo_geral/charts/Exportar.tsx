@@ -22,7 +22,9 @@ export const Exportar = ({author}:{author:string})=>{
                     'Vencimento': TZtoFriendlyDate(e.vencimento),
                     'Terceiro': e.terceiro,
                     'Valor necessário': e.valor,
-                    'Valor pago': e.valor_resolucao
+                    'Valor pago': e.valor_resolucao,
+                    'Restante': e.valor - e.valor_resolucao
+
                 }
               })
           }
@@ -36,7 +38,9 @@ export const Exportar = ({author}:{author:string})=>{
                     'Vencimento': TZtoFriendlyDate(e.vencimento),
                     'Terceiro': e.terceiro,
                     'Valor necessário': e.valor,
-                    'Valor pago': e.valor_resolucao
+                    'Valor pago': e.valor_resolucao,
+                    'Restante': e.valor - e.valor_resolucao
+
                 }
               })
           }
@@ -50,7 +54,9 @@ export const Exportar = ({author}:{author:string})=>{
                     'Vencimento': TZtoFriendlyDate(e.vencimento),
                     'Terceiro': e.terceiro,
                     'Valor necessário': e.valor,
-                    'Valor pago': e.valor_resolucao
+                    'Valor pago': e.valor_resolucao,
+                    'Restante': e.valor - e.valor_resolucao
+
                 }
               })
           }
@@ -64,7 +70,8 @@ export const Exportar = ({author}:{author:string})=>{
                     'Vencimento': TZtoFriendlyDate(e.vencimento),
                     'Terceiro': e.terceiro,
                     'Valor necessário': e.valor,
-                    'Valor pago': e.valor_resolucao
+                    'Valor pago': e.valor_resolucao,
+                    'Restante': e.valor - e.valor_resolucao
                 }
               })
           }
