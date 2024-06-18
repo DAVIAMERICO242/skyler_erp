@@ -67,9 +67,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
     const setCurrent_page = usePagination().setCurrent_page;
     
     const filterContasFormSchema = z.object({
-        situacao: z.string().min(2, {
-            message: "Nao precisa",
-          }).optional(),
+        situacao: z.any().optional(),//array de objetos
         pagar_receber: z.string().min(2, {
             message: "Nao precisa",
           }).optional(),

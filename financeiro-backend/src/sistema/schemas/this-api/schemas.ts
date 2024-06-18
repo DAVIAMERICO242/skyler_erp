@@ -87,7 +87,7 @@ export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
 
 
 export interface SchemaContasFilterObject{
-    situacao?:string,
+    situacao?:("parcial" | "resolvido" | null)[],
     pagar_receber?:string,
     terceiro?:string,
     nome_loja?:string,

@@ -3,6 +3,7 @@
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -12,18 +13,13 @@ import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
     } from "@/components/ui/select"
 import { useEffect, useState } from 'react';
 import { LoadingButton } from '@/components/ui/LoadingButton';
-import { zodResolver } from "@hookform/resolvers/zod";
 import {z} from 'zod';
-import { SchemaContasFilterObject } from "../../../../Contas/local-contexts/contas-context";
-import { useForm } from "react-hook-form";
 import {
     Popover,
     PopoverContent,
@@ -34,15 +30,10 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useContas } from "../../../../Contas/local-contexts/contas-context";
-import { useTerceiros } from "../../../../Terceiros/Terceiros";
-import { useLojas } from "../../../../Lojas/Lojas";
-import { useTableFilter } from "../FilterContextsNotContasExceptClean";
-import { usePagination } from "../../pagination/PaginationContext";
 import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";
-import { useFilterContas } from "./ContextFilterContas";
 import {firstCharUpper } from "@/sistema/essentials";
+import MultipleSelector from "@/components/ui/MultipleSelector";
 
 
 export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
@@ -68,9 +59,16 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
     function onSubmit(values: z.infer<typeof filterContasFormSchema>){//o NÃO RESOLVIDO TEM QUE SER ALTERADO PRA NULO
         console.log('VAI SER REFATORADO');
         console.log(values);
+        
         setFilterContasBeforeSubmit(filterContas);
         setFilterContas({...values,
-            situacao:(values['situacao']==="Não Resolvido")?null:values['situacao'],
+            situacao:values['situacao']?.map((e)=>{
+                if(e.value==="não resolvido"){
+                    return null
+                }else{
+                    return e.value
+                }
+            }),
             data:(values['data']?.toISOString()),
             data_resolucao: (values['data_resolucao']?.toISOString()),
             vencimento_inicio: (values['vencimento_inicio']?.toISOString()),
@@ -80,6 +78,12 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
         })
     }
 
+    useEffect(()=>{
+        console.log('FILTRO ESTADO');
+        console.log(filterContas)
+
+    },[filterContas])
+
     const pagar_receber_debug = firstCharUpper(form.getValues("pagar_receber"));
 
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
@@ -87,24 +91,19 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
             <form onSubmit={form.handleSubmit(onSubmit)} >
                <div className="w-1/2 flex gap-10 flex-col justify-center p-10">
                     <div className="flex flex-row gap-10">
-                        <FormField
+                    <FormField
                             key={form.getValues('situacao')}
                             control={form.control}
                             name="situacao"
                             render={({ field }) => (
-                                <FormItem style={{ marginBottom: '30px' }}>
-                                <FormLabel>{"Situação"}</FormLabel>
+                                <FormItem>
+                                <FormLabel>Situação</FormLabel>
                                 <FormControl>
-                                    <Select onValueChange={(value) => { field.onChange(value); }}>
-                                        <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={firstCharUpper(form.getValues('situacao')) || "Escolher"}/>
-                                        </SelectTrigger>
-                                        <SelectContent {...field }>
-                                            <SelectItem value="resolvido" >Resolvido</SelectItem>
-                                            <SelectItem value="parcial" >Parcial</SelectItem>
-                                            <SelectItem value={"Não Resolvido"} >Não resolvido</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <MultipleSelector
+                                    options={[{ label: 'Resolvido', value: 'resolvido' },{label:"Parcial", value:"parcial"},{label:"Não Resolvido", value:"não resolvido"}]}
+                                    {...field}
+                                    placeholder="Selecione..."
+                                    />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>

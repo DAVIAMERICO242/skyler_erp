@@ -286,9 +286,10 @@ export async function getFilteredFrotendHistoricoConta(
                 var check_first_if = true;
                 var check_first_run_vencimento = true;
                 var check_first_run_competencia = true;
+                var check_first_run_situacao = true;
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
-                    if (filter[key]) {
+                    if (filter[key] && key!=='situacao') {
                         if(key!=="nome_loja" && !isStringDate(filter[key])){
                             if(check_first_if){
                                 filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]}'`
@@ -370,14 +371,45 @@ export async function getFilteredFrotendHistoricoConta(
                                 check_first_run_competencia = false;
                             }
                         }
-                    }else if (filter.hasOwnProperty('situacao')){
-                        if(filter['situacao']===null){
+                    }else if (filter.hasOwnProperty('situacao') && filter['situacao']?.length){
+                        //sem nulo (não resolvido)
+                        if(filter['situacao'].length===1 && !(filter['situacao'].includes(null))){
                             if(check_first_if){
-                                filtersQuery = filtersQuery + ` WHERE situacao is NULL`;
-                                check_first_if=false;
+                                filtersQuery = filtersQuery + ` WHERE situacao='${filter['situacao'][0]}'`;
+                                check_first_if = false;   
                             }else{
-                                filtersQuery = filtersQuery + ` AND situacao is NULL`
+                                filtersQuery = filtersQuery + ` AND situacao='${filter['situacao'][0]}'`
                             }
+                        }else if(filter['situacao'].length===2 && !(filter['situacao'].includes(null))){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE (situacao='${filter['situacao'][0]}' OR situacao='${filter['situacao'][1]}')`;
+                                check_first_if = false;   
+                            }else{
+                                filtersQuery = filtersQuery + ` AND (situacao='${filter['situacao'][0]}' OR situacao='${filter['situacao'][1]}')`
+                            }  
+                        }
+                        //com nulo (não resolvido)
+                        else if(filter['situacao'].length===1 && (filter['situacao'].includes(null))){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE situacao IS NULL`;
+                                check_first_if = false;   
+                            }else{
+                                filtersQuery = filtersQuery + ` AND situacao IS NULL`
+                            }
+                        }else if(filter['situacao'].length===2 && (filter['situacao'].includes(null))){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE (situacao='${filter['situacao'].filter(e=>e!==null)[0]}' OR situacao IS NULL)`;
+                                check_first_if = false;   
+                            }else{
+                                filtersQuery = filtersQuery + ` AND (situacao='${filter['situacao'].filter(e=>e!==null)[0]}' OR situacao IS NULL)`
+                            }  
+                        }else if(filter['situacao'].length===3 && (filter['situacao'].includes(null))){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE (situacao='${filter['situacao'].filter(e=>e!==null)[0]}' OR situacao='${filter['situacao'].filter(e=>e!==null)[1]}' OR situacao IS NULL)`;
+                                check_first_if = false;   
+                            }else{
+                                filtersQuery = filtersQuery + ` AND (situacao='${filter['situacao'].filter(e=>e!==null)[0]}' OR situacao='${filter['situacao'].filter(e=>e!==null)[1]}' OR situacao IS NULL)`
+                            }  
                         }
 
                     }
