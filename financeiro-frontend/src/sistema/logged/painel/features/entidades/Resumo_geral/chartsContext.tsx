@@ -27,7 +27,7 @@ export const ChartDataProvider = ({children}:{children:ReactNode})=>{
     function fetchRequiredChart(author:"a_pagar_hoje" | "a_receber_hoje" | "pagar_vencidas" | "receber_vencidas"){
         console.log('CHART DATA INSIDE FETCH FUNCTION')
         console.log(chartData)
-        fetch(BACKEND_URL + `/resumo?author=${author}`,{
+        return fetch(BACKEND_URL + `/resumo?author=${author}`,{
             headers:{
                 "Content-type":"application/json",
                 "token":localStorage.getItem('token') as string

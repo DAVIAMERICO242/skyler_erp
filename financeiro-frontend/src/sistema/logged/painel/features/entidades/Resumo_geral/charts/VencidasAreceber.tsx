@@ -60,11 +60,19 @@ const TableLimiter = styled.div`
 `
 
 export const VencidasAreceber = ()=>{
+
+    const [loading, setLoading] = useState(true);
+
     
     const fetchRequiredChart = useCharts().fetchRequiredChart;
 
     useEffect(()=>{
-        fetchRequiredChart('receber_vencidas');
+        setLoading(true);
+        fetchRequiredChart("receber_vencidas").then(()=>{
+            setLoading(false);
+        }).catch(()=>{
+            setLoading(false);
+        });
     },[]);
 
     const [receberVencidas, setReceberVencidas] = useState<{
@@ -88,7 +96,7 @@ export const VencidasAreceber = ()=>{
             <DialogTrigger className="w-full">
                 <VencidasAreceberContainer>
                     <h2>Vencidas a receber</h2>
-                    <h1>{chartData && BRLReais(SubtractColumns(chartData['receber_vencidas'],'valor','valor_resolucao'))}</h1>
+                    <h1>{!loading?(chartData && BRLReais(SubtractColumns(chartData['receber_vencidas'],'valor','valor_resolucao'))):"carregando..."}</h1>
                 </VencidasAreceberContainer>
             </DialogTrigger>
             <DialogContent className="min-w-[800px]">

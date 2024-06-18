@@ -60,10 +60,17 @@ const TableLimiter = styled.div`
 
 export const PagarHoje = ()=>{
 
+    const [loading, setLoading] = useState(true);
+
     const fetchRequiredChart = useCharts().fetchRequiredChart;
 
     useEffect(()=>{
-        fetchRequiredChart("a_pagar_hoje");
+        setLoading(true);
+        fetchRequiredChart("a_pagar_hoje").then(()=>{
+            setLoading(false);
+        }).catch(()=>{
+            setLoading(false);
+        });
     },[]);
 
     const [pagarHoje, setPagarHoje] = useState<{
@@ -88,7 +95,7 @@ export const PagarHoje = ()=>{
             <DialogTrigger className="w-full">
                 <PagarHojeContainer>
                     <h2>A pagar hoje</h2>
-                    <h1>{chartData && BRLReais(SubtractColumns(chartData['a_pagar_hoje'],'valor','valor_resolucao'))}</h1>
+                    <h1>{!loading?(chartData && BRLReais(SubtractColumns(chartData['a_pagar_hoje'],'valor','valor_resolucao'))):"carregando..."}</h1>
                 </PagarHojeContainer>
             </DialogTrigger>
             <DialogContent className="min-w-[800px]">

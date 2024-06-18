@@ -118,7 +118,7 @@ export function areAllValuesUndefined(obj: ({ [key: string | number]: any[] }|nu
 
 export function BRLReais(valor:number|null|undefined){
     if(!valor){
-        return valor;
+        return "R$ 0,00";
     }
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
