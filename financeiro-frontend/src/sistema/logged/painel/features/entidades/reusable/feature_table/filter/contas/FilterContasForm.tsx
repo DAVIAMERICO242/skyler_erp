@@ -75,6 +75,8 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
             data_resolucao: (values['data_resolucao']?.toISOString()),
             vencimento_inicio: (values['vencimento_inicio']?.toISOString()),
             vencimento_fim: (values['vencimento_fim']?.toISOString()),
+            competencia_inicio: (values['competencia_inicio']?.toISOString()),
+            competencia_fim: (values['competencia_fim']?.toISOString()),
         })
     }
 
@@ -184,11 +186,12 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
             
                     <div className="flex flex-row gap-10">
                         <FormField
+                            key={form.getValues('data')}
                             control={form.control}
                             name="data"
                             render={({ field }) => (
                                 <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                                <FormLabel>{"Lançamento"}</FormLabel>
+                                <FormLabel>{"Data de lançamento"}</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild className="w-[100%]">
                                     <FormControl >
@@ -225,11 +228,12 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                             )}
                         />
                         <FormField
+                            key={form.getValues('data_resolucao')}
                             control={form.control}
                             name="data_resolucao"
                             render={({ field }) => (
                                 <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                                <FormLabel>{"Transação"}</FormLabel>
+                                <FormLabel>{"Data de transação"}</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild className="w-[100%]">
                                     <FormControl >
@@ -269,6 +273,7 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                     </div>
                     <div className="flex flex-row gap-10">
                         <FormField
+                            key={form.getValues('vencimento_inicio')}
                             control={form.control}
                             name="vencimento_inicio"
                             render={({ field }) => (
@@ -312,9 +317,96 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                         <FormField
                             control={form.control}
                             name="vencimento_fim"
+                            key={form.getValues('vencimento_fim')}
                             render={({ field }) => (
                                 <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
                                 <FormLabel>{"Vencimento fim"}</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild className="w-[100%]">
+                                    <FormControl >
+                                        <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[240px] pl-3 text-left font-normal",
+                                            !field.value && "text-muted-foreground"
+                                        )}
+                                        >
+                                        {field.value ? (
+                                            format(field.value, "PPP")
+                                        ) : (
+                                            <span>Selecione uma data</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start" >
+                                    <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) =>
+                                        date < new Date("1900-01-01")
+                                        }
+                                        initialFocus
+                                    />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className="flex flex-row gap-10">
+                        <FormField
+                            control={form.control}
+                            key={form.getValues('competencia_inicio')}
+                            name="competencia_inicio"
+                            render={({ field }) => (
+                                <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                                <FormLabel>{"Competência inicio"}</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild className="w-[100%]">
+                                    <FormControl >
+                                        <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[240px] pl-3 text-left font-normal",
+                                            !field.value && "text-muted-foreground"
+                                        )}
+                                        >
+                                        {field.value ? (
+                                            format(field.value, "PPP")
+                                        ) : (
+                                            <span>Selecione uma data</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start" >
+                                    <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        disabled={(date) =>
+                                        date < new Date("1900-01-01")
+                                        }
+                                        initialFocus
+                                    />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            key={form.getValues('competencia_fim')}
+                            name="competencia_fim"
+                            render={({ field }) => (
+                                <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                                <FormLabel>{"Competência fim"}</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild className="w-[100%]">
                                     <FormControl >

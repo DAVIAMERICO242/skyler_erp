@@ -285,6 +285,7 @@ export async function getFilteredFrotendHistoricoConta(
                 var filtersQuery = ``;
                 var check_first_if = true;
                 var check_first_run_vencimento = true;
+                var check_first_run_competencia = true;
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key]) {
@@ -303,14 +304,14 @@ export async function getFilteredFrotendHistoricoConta(
                                 filtersQuery = filtersQuery + ` AND lojas.nome='${filter[key]}'`
                             }
                         }else if(isStringDate(filter[key])){
-                            if(!(key.includes('vencimento'))){
+                            if(!(key.includes('vencimento')) && !(key.includes('competencia'))){//se a data nao é intervalar
                                 if(check_first_if){
                                     filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
                                     check_first_if = false;
                                 }else{
                                     filtersQuery = filtersQuery + ` AND ${key}='${filter[key]?.slice(0,10)}'`
                                 }
-                            }else if(check_first_run_vencimento){
+                            }else if(check_first_run_vencimento && (key.includes('vencimento'))){
                                 if(check_first_if){
                                     if(!filter['vencimento_fim']){
                                         filtersQuery = filtersQuery + ` WHERE vencimento='${filter['vencimento_inicio']?.slice(0,10)}'`
@@ -334,6 +335,39 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }
                                 check_first_run_vencimento = false;
+                            }
+                            //linear
+                            if(!(key.includes('vencimento')) && !(key.includes('competencia'))){//se a data nao é intervalar
+                                if(check_first_if){
+                                    filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
+                                    check_first_if = false;
+                                }else{
+                                    filtersQuery = filtersQuery + ` AND ${key}='${filter[key]?.slice(0,10)}'`
+                                }
+                            }else if(check_first_run_competencia && (key.includes('competencia'))){
+                                if(check_first_if){
+                                    if(!filter['competencia_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE competencia='${filter['competencia_inicio']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }
+                                    else if(!filter['competencia_inicio']){
+                                        filtersQuery = filtersQuery + ` WHERE competencia='${filter['competencia_fim']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }else if(filter['competencia_inicio'] && filter['competencia_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE competencia>='${filter['competencia_inicio']?.slice(0,10)}' AND competencia<='${filter['competencia_fim']?.slice(0,10)}'`
+                                        check_first_if = false;
+                                    }
+                                }else{
+                                    if(!filter['competencia_fim']){
+                                        filtersQuery = filtersQuery + ` AND competencia='${filter['competencia_inicio']?.slice(0,10)}'`
+                                    }
+                                    else if(!filter['competencia_inicio']){
+                                        filtersQuery = filtersQuery + ` AND competencia='${filter['competencia_fim']?.slice(0,10)}'`
+                                    }else if(filter['competencia_inicio'] && filter['competencia_fim']){
+                                        filtersQuery = filtersQuery + ` AND competencia>='${filter['competencia_inicio']?.slice(0,10)}' AND competencia<='${filter['competencia_fim']?.slice(0,10)}'`
+                                    }
+                                }
+                                check_first_run_competencia = false;
                             }
                         }
                     }else if (filter.hasOwnProperty('situacao')){
