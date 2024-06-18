@@ -87,10 +87,11 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, conta_tipo, terceiro, valor) VALUES 
+                    (id, data, vencimento, competencia, conta_tipo, terceiro, valor) VALUES 
                     ('${novoId}',
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
+                    '${novo_historico.competencia.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
                     '${novo_historico.terceiro}',
                     '${novo_historico.valor}'
@@ -137,6 +138,7 @@ export async function getFrotendHistoricoConta(
                         historico_contas.situacao,
                         historico_contas.data, 
                         historico_contas.vencimento, 
+                        historico_contas.competencia,
                         historico_contas.terceiro, 
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
@@ -260,7 +262,8 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.id,
                         historico_contas.situacao,
                         historico_contas.data, 
-                        historico_contas.vencimento, 
+                        historico_contas.vencimento,
+                        historico_contas.competencia, 
                         historico_contas.terceiro, 
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
@@ -450,6 +453,7 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                 var query =
                 `UPDATE historico_contas SET
                 vencimento='${conta.vencimento.slice(0,10)}',
+                competencia='${conta.competencia.slice(0,10)}',
                 conta_tipo='${conta.tipo_fiscal}',
                 terceiro='${conta.terceiro}',
                 valor=${conta.valor}

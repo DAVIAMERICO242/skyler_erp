@@ -79,6 +79,8 @@ function ContasGetUIName(columnName:string){
             return 'Lançamento';
         case 'vencimento':
             return 'Vencimento';
+        case 'competencia':
+            return 'Competência';
         case 'terceiro':
             return 'Terceiro';
         case 'categoria_conta':

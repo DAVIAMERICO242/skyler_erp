@@ -10,6 +10,7 @@ export interface SchemaContasFrontendData {
     id?:number,
     data?:string,
     vencimento?:string,
+    competencia?:string,
     conta_tipo?: string;
     pagar_receber:string;
     terceiro?:string,
