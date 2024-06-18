@@ -92,8 +92,11 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         competencia_fim: z.date().refine((date) => date instanceof Date, {
             message: "A data de competencia deve ser válida",
         }).optional(),
-        data_resolucao: z.date().refine((date) => date instanceof Date, {
-            message: "A data de vencimento deve ser válida",
+        data_resolucao_inicio: z.date().refine((date) => date instanceof Date, {
+            message: "A data de resolucao deve ser válida",
+        }).optional(),
+        data_resolucao_fim: z.date().refine((date) => date instanceof Date, {
+            message: "A data de resolucao deve ser válida",
         }).optional(),
       });
 

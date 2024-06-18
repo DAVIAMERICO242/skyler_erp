@@ -139,12 +139,12 @@ export async function getFrotendHistoricoConta(
                         historico_contas.data, 
                         historico_contas.vencimento, 
                         historico_contas.competencia,
+                        historico_contas.data_resolucao, 
                         historico_contas.terceiro, 
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
-                        historico_contas.data_resolucao, 
                         historico_contas.valor_resolucao, 
                         historico_contas.nossa_conta_bancaria, 
                         lojas.nome as nome_loja
@@ -264,12 +264,12 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.data, 
                         historico_contas.vencimento,
                         historico_contas.competencia, 
+                        historico_contas.data_resolucao, 
                         historico_contas.terceiro, 
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
-                        historico_contas.data_resolucao, 
                         historico_contas.valor_resolucao, 
                         historico_contas.nossa_conta_bancaria, 
                         lojas.nome as nome_loja
@@ -286,6 +286,7 @@ export async function getFilteredFrotendHistoricoConta(
                 var check_first_if = true;
                 var check_first_run_vencimento = true;
                 var check_first_run_competencia = true;
+                var check_first_run_resolucao = true;
                 var check_first_run_situacao = true;
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
@@ -305,7 +306,7 @@ export async function getFilteredFrotendHistoricoConta(
                                 filtersQuery = filtersQuery + ` AND lojas.nome='${filter[key]}'`
                             }
                         }else if(isStringDate(filter[key])){
-                            if(!(key.includes('vencimento')) && !(key.includes('competencia'))){//se a data nao é intervalar
+                            if(!(key.includes('vencimento')) && !(key.includes('competencia')) && !(key.includes('data_resolucao'))){//se a data nao é intervalar
                                 if(check_first_if){
                                     filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
                                     check_first_if = false;
@@ -338,14 +339,7 @@ export async function getFilteredFrotendHistoricoConta(
                                 check_first_run_vencimento = false;
                             }
                             //linear
-                            if(!(key.includes('vencimento')) && !(key.includes('competencia'))){//se a data nao é intervalar
-                                if(check_first_if){
-                                    filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
-                                    check_first_if = false;
-                                }else{
-                                    filtersQuery = filtersQuery + ` AND ${key}='${filter[key]?.slice(0,10)}'`
-                                }
-                            }else if(check_first_run_competencia && (key.includes('competencia'))){
+                            else if(check_first_run_competencia && (key.includes('competencia'))){
                                 if(check_first_if){
                                     if(!filter['competencia_fim']){
                                         filtersQuery = filtersQuery + ` WHERE competencia='${filter['competencia_inicio']?.slice(0,10)}'`
@@ -369,6 +363,32 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }
                                 check_first_run_competencia = false;
+                            }
+                            //INTERVALO DATA RESOLUCAO
+                             else if(check_first_run_resolucao && (key.includes('data_resolucao'))){
+                                if(check_first_if){
+                                    if(!filter['data_resolucao_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE data_resolucao='${filter['data_resolucao_inicio']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }
+                                    else if(!filter['data_resolucao_inicio']){
+                                        filtersQuery = filtersQuery + ` WHERE data_resolucao='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }else if(filter['data_resolucao_inicio'] && filter['data_resolucao_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}' AND data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                        check_first_if = false;
+                                    }
+                                }else{
+                                    if(!filter['data_resolucao_fim']){
+                                        filtersQuery = filtersQuery + ` AND data_resolucao='${filter['data_resolucao_inicio']?.slice(0,10)}'`
+                                    }
+                                    else if(!filter['data_resolucao_inicio']){
+                                        filtersQuery = filtersQuery + ` AND data_resolucao='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                    }else if(filter['data_resolucao_inicio'] && filter['data_resolucao_fim']){
+                                        filtersQuery = filtersQuery + ` AND data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}' AND data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                    }
+                                }
+                                check_first_run_resolucao = false;
                             }
                         }
                     }else if (filter.hasOwnProperty('situacao') && filter['situacao']?.length){

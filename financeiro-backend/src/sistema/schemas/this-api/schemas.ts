@@ -96,7 +96,8 @@ export interface SchemaContasFilterObject{
     vencimento_fim?:string,
     competencia_inicio?:string,
     competencia_fim?:string,
-    data_resolucao?:string
+    data_resolucao_inicio?:string
+    data_resolucao_fim?:string
 }
 
 export interface StatisticContas{
