@@ -162,3 +162,6 @@
   }
 }
 
+[vaul-drawer][vaul-drawer-direction=bottom]::after {
+  display: none;
+}

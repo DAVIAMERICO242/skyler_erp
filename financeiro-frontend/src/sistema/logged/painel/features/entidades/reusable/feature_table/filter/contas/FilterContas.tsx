@@ -158,7 +158,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
             <DrawerTrigger asChild>
                 <Button variant="outline" onClick={()=>setOpen((prev)=>!prev)}>Filtrar essa tabela</Button>
             </DrawerTrigger>
-            <DrawerContent ref={drawerRef} className="oiii">
+            <DrawerContent ref={drawerRef} className="oiii" style={{overflow:"auto", height:"100%"}}>
                 <DrawerHeader className="ml-7">
                     <DrawerTitle>Filtrar</DrawerTitle>
                     <DrawerDescription>Os filtros serão aplicados em todas as páginas.</DrawerDescription>
