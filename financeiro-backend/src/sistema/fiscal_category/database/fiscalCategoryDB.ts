@@ -102,6 +102,7 @@ export function newIndexedCategory(new_category:{tipo:("pagar"|"receber"),nome:s
                                 })
                             }
                         } else {
+                            newTipoContas({categoria:((PreLastIndex + 1) + " - " + new_category.nome),nome_tipo:( `genérico ( ${new_category.nome} )`)});
                             resolve(null);
                         }
                     });

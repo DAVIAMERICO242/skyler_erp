@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     Dialog,
     DialogContent,
@@ -21,44 +23,40 @@ import {
 import { Input } from "@/components/ui/input";
 import { useContas } from "./local-contexts/contas-context";
 import { useCategoriasFiscais } from "./local-contexts/categorias_fiscais-context";
-import { NovaCategoriaFiscalDialog } from "./NovaCategoriaFiscalDialog";
 
-export const NovoTipoFiscalDialog = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[], setSignalUpdateUIAfterNewTipo:any})=>{
+export const NovaCategoriaFiscalDialog = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[], setSignalUpdateUIAfterNewTipo:any})=>{
     const [open,setOpen] = useState<boolean>(false);
 
-    const novoTipoFiscal = ()=>{
+    const novaCategoriaFiscal = ()=>{
         console.log('oi')
      }
 
-
-    
     
     return(
         <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-            <div onClick={novoTipoFiscal} style={{display:"flex",alignItems:"center",userSelect:"none",cursor:"pointer",height:"100%",fontSize:"13px",padding:'5px 10px' ,borderRadius: '3px', backgroundColor:'var(--deep-white)', color:"var(--skyler-blue)" }}>Novo</div>
+            <div onClick={novaCategoriaFiscal} style={{display:"flex",alignItems:"center",userSelect:"none",cursor:"pointer",height:"100%",fontSize:"13px",padding:'5px 10px' ,borderRadius: '3px', backgroundColor:'var(--deep-white)', color:"var(--skyler-blue)" }}>Novo</div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-            <DialogTitle>Cadastrar tipo fiscal</DialogTitle>
+            <DialogTitle>Cadastrar categoria fiscal</DialogTitle>
             </DialogHeader>
-            <NovoTipoFiscalForm categorias={categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
+            <NovaCategoriaFiscalForm categorias={categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
         </DialogContent>
         </Dialog>
     )
 }
 
-const NovoTipoFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[],setSignalUpdateUIAfterNewTipo:any})=>{
+const NovaCategoriaFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categorias: string[],setSignalUpdateUIAfterNewTipo:any})=>{
     const refetch_categorias = useCategoriasFiscais().refetch;
     const refetch_contas = useContas().refetch
     const [loading, setLoading] = useState(false);
     const [category,setCategory] = useState("");
-    const [newTipo, setNewTipo] = useState("");
+    const [tipo, setTipo] = useState<"pagar"|"receber"|"">("");
     const { toast } = useToast();
 
-
    function submit(){
-            if(!newTipo || !category){
+            if(!tipo || !category){
                 alert("Dados inválidos")
                 return
             }
@@ -69,10 +67,11 @@ const NovoTipoFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categ
                   'Content-type':"application/json",
                   'token':localStorage.getItem('token') as string,
                 },
-                body:JSON.stringify({tipo_conta:{
-                    categoria:category,
-                    nome_tipo:newTipo
-                }})
+                body:JSON.stringify(
+                    {new_category:{
+                        nome:category,
+                        tipo:tipo
+                    }})
               }).then((d)=>d.json())
                 .then((d)=>{
                   if(d.success){
@@ -113,33 +112,24 @@ const NovoTipoFiscalForm = ({categorias, setSignalUpdateUIAfterNewTipo} : {categ
                   setLoading(false);
                 })
             
-            console.log({
-                category,
-                newTipo
-            })
    }
 
     return(
         <>
-            <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
-                <Select onValueChange={(value) => {setCategory(value)}}>
-                    <SelectTrigger className="w-[100%]">
-                        <SelectValue placeholder="Escolha a categoria fiscal"/>
-                    </SelectTrigger>
-                        <SelectContent>
-                            {categorias?.map((e)=>{
-                                return(
-                                    <SelectItem value={e}>
-                                        {!e.trim().toLocaleLowerCase().includes('outro')?((parseInt(e.trim().slice(0,2))<=2)?(`${e} (receber)`):(`${e} (pagar)`)):e}
-                                    </SelectItem>
-                                )
-                            })}
-                        </SelectContent>
-                </Select>
-                <NovaCategoriaFiscalDialog categorias={categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
-            </div>
-
-            <Input placeholder="nome do tipo fiscal" onChange={(e)=>{setNewTipo(e.currentTarget.value.trim())}}/>
+            <Select onValueChange={(value) => {setTipo(value)}}>
+                <SelectTrigger className="w-[100%]">
+                    <SelectValue placeholder="Pagar ou receber?"/>
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value={"pagar"}>
+                        Pagar
+                    </SelectItem>
+                    <SelectItem value={"receber"}>
+                        Receber
+                    </SelectItem>
+                </SelectContent>
+            </Select>
+            <Input placeholder="nome da categoria" onChange={(e)=>{setCategory(e.currentTarget.value.trim())}}/>
             <LoadingButton onClick={()=>submit()} loading={loading} type="neutral">
                 Pronto
             </LoadingButton>
