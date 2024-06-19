@@ -15,9 +15,15 @@ const Table = styled.table`
 
 `
 
-const TableHeader = styled.tr`
+const TablePreHeader = styled.tr`
     user-select:none;
     background-color: #f4f2f2;
+    color:var(--skyler-blue);
+`;
+
+const TableHeader = styled.tr`
+    user-select:none;
+    background-color:#fffbfb;
     color:var(--skyler-blue);
 `;
 
@@ -35,7 +41,15 @@ const TableHeaderValue = styled.th`
         padding:10px;
         font-size:13px;
         font-weight:500;
+        border:var(--light-border);
+
 `
+const TablePreHeaderValue = styled.th`
+        padding:10px;
+        font-size:13px;
+        font-weight:500;
+`
+
 const TableRowValue = styled.td`
         border-bottom:2px solid #f7f3f3;
         padding:10px;
@@ -50,12 +64,26 @@ const Money = styled.div`
    font-weight:400;
 `
 
+const CategoriaName = styled.td`
+    border:var(--light-border);
+    user-select:none;
+    background-color:#fffbfb;
+    color:var(--skyler-blue);
+    text-align:center;
+`
+
 export const DRETable = ()=>{
+    const n_lojas = 7;
+
     return(
         <TableContainer>
             <Table>
+                <TablePreHeader>
+                    <TablePreHeaderValue rowSpan={2}>Categoria</TablePreHeaderValue>
+                    <TablePreHeaderValue colSpan={n_lojas-1}>Loja</TablePreHeaderValue>
+                    <TablePreHeaderValue></TablePreHeaderValue>
+                </TablePreHeader>
                 <TableHeader>
-                    <TableHeaderValue>Categoria fiscal</TableHeaderValue>
                     <TableHeaderValue>Loja1</TableHeaderValue>
                     <TableHeaderValue>Loja2</TableHeaderValue>
                     <TableHeaderValue>Loja3</TableHeaderValue>
@@ -65,7 +93,7 @@ export const DRETable = ()=>{
                     <TableHeaderValue>Loja7</TableHeaderValue>
                 </TableHeader>
                 <TableRow>
-                    <TableRowValue>Categoria</TableRowValue>
+                    <CategoriaName>Categoria</CategoriaName>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
@@ -75,7 +103,7 @@ export const DRETable = ()=>{
                     <TableRowValue>R$ 100,00</TableRowValue>
                 </TableRow>
                 <TableRow>
-                    <TableRowValue>Categoria</TableRowValue>
+                    <CategoriaName>Categoria</CategoriaName>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
@@ -85,7 +113,7 @@ export const DRETable = ()=>{
                     <TableRowValue>R$ 100,00</TableRowValue>
                 </TableRow>
                 <TableRow>
-                    <TableRowValue>Categoria</TableRowValue>
+                    <CategoriaName>Categoria</CategoriaName>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
                     <TableRowValue>R$ 100,00</TableRowValue>
