@@ -1,6 +1,6 @@
 import {Router, Response} from 'express';
 import { DBError, RequestModel, newTipoContasSchema } from '../../schemas/this-api/schemas';
-import { getTipoContas, newTipoContas } from '../database/fiscalCategoryDB';
+import { getTipoContas, newIndexedCategory, newTipoContas } from '../database/fiscalCategoryDB';
 import { sortFiscalCategory } from '../../essentials';
 import { DBTipoContas } from '../../schemas/this-api/schemas';
 
@@ -24,7 +24,12 @@ fiscal_category_router.get('/get',async (req:RequestModel,res:Response)=>{
 fiscal_category_router.post('/cadastro',async (req:RequestModel,res:Response)=>{
     const {tipo_conta} = req.body;
     try{
-        const response = await newTipoContas(tipo_conta as newTipoContasSchema);
+        if(!req.body?.new_category){
+            const response = await newTipoContas(tipo_conta as newTipoContasSchema);
+        }else{
+            const new_category = req.body.new_category as {tipo:("pagar"|"receber"),nome:string};
+            const response = await newIndexedCategory(new_category);
+        }
         res.status(200).send({
             success:true
         })
