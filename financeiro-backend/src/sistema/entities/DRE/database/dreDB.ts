@@ -74,7 +74,7 @@ function queryController(requested_dre:requestedDRE):string{
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
             LEFT JOIN
                 lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
-            WHERE historico_contas.vencimento>='2024-01-01' AND historico_contas.vencimento<='2024-07-07'
+            WHERE historico_contas.vencimento>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.vencimento<='${requested_dre.data_fim.slice(0,10)}'
             GROUP BY tipo_contas.indice,lojas.nome,tipo_contas.categoria_conta
             ORDER BY tipo_contas.indice;
         `
