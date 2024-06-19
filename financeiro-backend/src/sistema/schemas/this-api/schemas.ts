@@ -182,3 +182,15 @@ export interface DBError{
     exists?:boolean,
     error_msg?:string
 }
+
+export interface requestedDRE{
+    tipo_data: ("competencia"|"vencimento"|"pagamento")
+    data_inicio:string,
+    data_fim:string
+}
+
+export interface theDRE{
+    nome_loja?:string,
+    nome_categoria_fiscal?:string,
+    RESULTADO?:string
+}
