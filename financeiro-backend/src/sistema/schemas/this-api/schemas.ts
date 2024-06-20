@@ -191,6 +191,7 @@ export interface requestedDRE{
 
 export interface theDRE{
     nome_loja?:string,
-    nome_categoria_fiscal?:string,
+    categoria_fiscal?:string,
+    pagar_receber?:string,
     RESULTADO?:string
 }

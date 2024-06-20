@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useDRE } from './DREContext';
+import { BRLReais } from '@/sistema/essentials';
 
 const TableContainer = styled.div` 
     padding:30px;
@@ -51,6 +53,7 @@ const TablePreHeaderValue = styled.th`
 `
 
 const TableRowValue = styled.td`
+        color:${(props)=>props.pagar_receber==="pagar"?"red":"green"};
         border-bottom:2px solid #f7f3f3;
         padding:10px;
         font-size:13px;
@@ -74,6 +77,11 @@ const CategoriaName = styled.td`
 
 export const DRETable = ()=>{
     const n_lojas = 7;
+    const DREData = useDRE().DREData;
+    console.log(DREData);
+    const unique_categories = [... new Set(DREData?.map((e)=>{return e.categoria_fiscal}))]
+    const unique_lojas = [... new Set(DREData?.map((e)=>{return e.nome_loja}))]
+    console.log(unique_categories);
 
     return(
         <TableContainer>
@@ -81,47 +89,28 @@ export const DRETable = ()=>{
                 <TablePreHeader>
                     <TablePreHeaderValue rowSpan={2}>Categoria</TablePreHeaderValue>
                     <TablePreHeaderValue colSpan={n_lojas-1}>Loja</TablePreHeaderValue>
-                    <TablePreHeaderValue></TablePreHeaderValue>
                 </TablePreHeader>
                 <TableHeader>
-                    <TableHeaderValue>Loja1</TableHeaderValue>
-                    <TableHeaderValue>Loja2</TableHeaderValue>
-                    <TableHeaderValue>Loja3</TableHeaderValue>
-                    <TableHeaderValue>Loja4</TableHeaderValue>
-                    <TableHeaderValue>Loja5</TableHeaderValue>
-                    <TableHeaderValue>Loja6</TableHeaderValue>
-                    <TableHeaderValue>Loja7</TableHeaderValue>
+                    {unique_lojas?.map((e)=>{
+                        return(
+                            <TableHeaderValue>{e}</TableHeaderValue>
+                        )
+                    })}
                 </TableHeader>
-                <TableRow>
-                    <CategoriaName>Categoria</CategoriaName>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                </TableRow>
-                <TableRow>
-                    <CategoriaName>Categoria</CategoriaName>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                </TableRow>
-                <TableRow>
-                    <CategoriaName>Categoria</CategoriaName>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                    <TableRowValue>R$ 100,00</TableRowValue>
-                </TableRow>
+                {unique_categories?.map((categoria)=>{
+                    return(
+                        <TableRow>
+                            <CategoriaName>{categoria}</CategoriaName>
+                            {unique_lojas?.map((loja)=>{
+                                return(
+                                    <TableRowValue pagar_receber={DREData?.filter((e)=>e.nome_loja===loja && e.categoria_fiscal===categoria)[0]?.pagar_receber}>
+                                        {BRLReais(DREData?.filter((e)=>e.nome_loja===loja && e.categoria_fiscal===categoria)[0]?.RESULTADO)}
+                                    </TableRowValue>  
+                                )
+                            })}
+                        </TableRow>
+                    )
+                })}
             </Table>
         </TableContainer>
     )

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BACKEND_URL from "@/sistema/backend-urls";
 import { singularWord } from "@/sistema/essentials";
-import { SchemaContasFilterObject } from "../../Contas/local-contexts/contas-context";
+import { SchemaContasFilterObject } from "../../reusable/feature_table/filter/contas/ContextFilterContas";
+import { DREFilterObject } from "../../DRE/DREContext";
 
 export async function getTerceiros(){
     try {
@@ -181,4 +182,16 @@ export async function DeleteEntity(author: string,identifier_value: any){
         },
         body:JSON.stringify({[singularWord(author)]:identifier_value})
       })
+}
+
+export async function getDRE(requestedDRE:DREFilterObject){
+  return fetch(BACKEND_URL+'/dre',{
+    method:"POST",
+    headers:{
+      'Content-type':"application/json",
+      'token':localStorage.getItem('token') as string,
+    },
+    body:JSON.stringify({dre_request:requestedDRE})
+  }
+  )
 }

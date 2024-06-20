@@ -133,7 +133,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
               toast({
                 title: "Duplicata",
                 className: "error",
-                description: "Esse nome já existe no banco de dados",
+                description: "Esse nome já existe no banco de dados, OBS: uma loja só pode ter uma conta bancária e o nome da loja é unico",
               })
             }else{
               toast({

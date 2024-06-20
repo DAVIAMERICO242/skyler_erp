@@ -31,7 +31,7 @@ function queryController(requested_dre:requestedDRE):string{
     if(requested_dre.tipo_data==="pagamento"){
         return `
         SELECT 
-                lojas.nome,categoria_contas.nome_categoria,SUM(COALESCE(historico_contas.valor_resolucao,0)) AS RESULTADO
+                lojas.nome AS nome_loja,categoria_contas.nome_categoria AS categoria_fiscal,pagar_receber,SUM(COALESCE(historico_contas.valor_resolucao,0)) AS RESULTADO
                 FROM 
                 historico_contas
                 INNER JOIN 
@@ -48,7 +48,7 @@ function queryController(requested_dre:requestedDRE):string{
     else if(requested_dre.tipo_data==="competencia"){
         return `
         SELECT 
-            lojas.nome,categoria_contas.nome_categoria,SUM(COALESCE(historico_contas.valor,0)) AS RESULTADO
+            lojas.nome AS nome_loja,categoria_contas.nome_categoria AS categoria_fiscal,pagar_receber,SUM(COALESCE(historico_contas.valor,0)) AS RESULTADO
         FROM 
             historico_contas
         INNER JOIN 
@@ -65,7 +65,7 @@ function queryController(requested_dre:requestedDRE):string{
     else if(requested_dre.tipo_data==="vencimento"){
         return `
             SELECT 
-                lojas.nome,categoria_contas.nome_categoria,SUM(COALESCE(historico_contas.valor,0)) AS RESULTADO
+                lojas.nome AS nome_loja,categoria_contas.nome_categoria AS categoria_fiscal,pagar_receber,SUM(COALESCE(historico_contas.valor,0)) AS RESULTADO
             FROM 
                 historico_contas
             INNER JOIN 
