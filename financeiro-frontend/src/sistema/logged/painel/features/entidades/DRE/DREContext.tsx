@@ -10,7 +10,7 @@ export interface DREFilterObject{
 }
 
 export interface theDRE{
-    nome_loja?:string,
+    nome_loja?:string,//loja resolucao
     categoria_fiscal?:string,
     pagar_receber?:string,
     RESULTADO?:string

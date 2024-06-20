@@ -25,6 +25,18 @@ class ControllerRandomFrontendContasInstance{
             ]
         )
     }
+
+    generateRandomLoja(){
+        return this.getRandomItemFromArray(
+            [
+                'center um',
+                'center um 3',
+                'eewqdewq',
+                'LOJA TESTE',
+                'vitrine mall 3'
+            ]
+        )
+    }
     
     generateRandomTerceiro(){
         return this.getRandomItemFromArray(
@@ -81,27 +93,28 @@ export class RandomFrontendContasInstance extends ControllerRandomFrontendContas
             this.generateRandomDate(),//competencia 3
             this.generateRandomTipoFiscal(),//tipo fiscal 4
             this.generateRandomTerceiro(),//terceiro 5
-            this.generateRandomRequiredValue(),//valor 6
-            this.generateRandomDate(),//data resolucao  7
-            this.generateRandomRequiredValue(),//valor resolvido 8
-            this.getRandomContaBancaria()// conta bancária 9
+            this.generateRandomLoja(),//loja origem 6
+            this.generateRandomRequiredValue(),//valor 7
+            this.generateRandomDate(),//data resolucao  8
+            this.generateRandomRequiredValue(),//valor resolvido 9
+            this.getRandomContaBancaria()// conta bancária 10
         ] 
     }
 
     FazerSentido(random_row:any[]){
-        if(random_row[6]>random_row[8]){//se o valor de requerido e maior que o resolvido
+        if(random_row[7]>random_row[9]){//se o valor de requerido e maior que o resolvido
             random_row[0] = "parcial";
-         }else if(random_row[6]<random_row[8]){//aumentar o numero de resolvidos
-           random_row[6] = random_row[8];
+         }else if(random_row[7]<random_row[9]){//aumentar o numero de resolvidos
+           random_row[7] = random_row[9];
            random_row[0] = "resolvido";
          }else{
            random_row[0] = "resolvido";
          }
-         if(Math.random()>=0.5 && (random_row[6]>random_row[8])){
-           random_row[8] = null;//valor resolvido nulo
+         if(Math.random()>=0.5 && (random_row[7]>random_row[9])){
+           random_row[9] = null;//valor resolvido nulo
            random_row[0] = null;//solucao nula (nao resolvido)
-           random_row[7] = null;//data resolucao nula
-           random_row[9] = null;//conta bancaria nula
+           random_row[8] = null;//data resolucao nula
+           random_row[10] = null;//conta bancaria nula
          }
 
          return random_row;

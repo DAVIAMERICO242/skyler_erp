@@ -81,6 +81,8 @@ function ContasGetUIName(columnName:string){
             return 'Vencimento';
         case 'competencia':
             return 'Competência';
+        case 'loja_origem':
+            return 'Loja origem'
         case 'terceiro':
             return 'Terceiro';
         case 'categoria_conta':
@@ -97,8 +99,8 @@ function ContasGetUIName(columnName:string){
             return 'Valor da Transação';
         case 'nossa_conta_bancaria':
             return 'Conta Bancaria';
-        case 'nome_loja':
-            return 'Loja';
+        case 'loja_resolucao':
+            return 'Loja Pagamento';
         default:
             return columnName
         

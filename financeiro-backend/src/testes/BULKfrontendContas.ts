@@ -19,7 +19,7 @@ export function RandomCadastro(){
                       var novoId:number = 1;
                   }
                   connection.query(`INSERT INTO historico_contas
-                  (id, situacao ,data, vencimento, competencia, conta_tipo, terceiro, valor, data_resolucao,valor_resolucao,nossa_conta_bancaria) VALUES 
+                  (id, situacao ,data, vencimento, competencia, conta_tipo, terceiro, loja_origem ,valor, data_resolucao,valor_resolucao,nossa_conta_bancaria) VALUES 
                   ('${novoId}',
                   '${random_row[0]}',
                   '${random_row[1]}',
@@ -30,7 +30,8 @@ export function RandomCadastro(){
                   '${random_row[6]}',
                   '${random_row[7]}',
                   '${random_row[8]}',
-                  '${random_row[9]}'
+                  '${random_row[9]}',
+                  '${random_row[10]}'
                   )`,
                   (err, result) => {
                       connection.end(); // Simply close the connection

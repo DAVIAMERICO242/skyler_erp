@@ -50,6 +50,7 @@ import { usePagination } from '../reusable/feature_table/pagination/PaginationCo
 import { useCleanAllFilter, useTableFilter } from '../reusable/feature_table/filter/FilterContextsNotContasExceptClean';
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 import { useFilterContas } from '../reusable/feature_table/filter/contas/ContextFilterContas';
+import { useLojas } from '../Lojas/Lojas';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -66,6 +67,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   const [storePagarReceberToUI,setStorePagarReceberToUI] = useState<"pagar" | "receber" | undefined>(undefined);
   
   const terceirosData = useTerceiros().data;
+  const lojasData = useLojas().data;
 
   var categorias_fiscaisData = useCategoriasFiscais().data;
   var all_categorias = [...new Set(categorias_fiscaisData?.map((e)=>e.categoria_conta as string))]
@@ -85,6 +87,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const contasSchema = z.object({
     pastid: z.coerce.number().optional(),
+    loja_origem: z.string().min(2, {
+      message: "O nome da loja deve ter no mínimo 2 caracteres",
+    }),
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
     }),
@@ -257,6 +262,30 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                 )}
                 />
               }
+              <FormField
+                  control={form.control}
+                  name="loja_origem"
+                  render={({ field }) => (
+                      <FormItem style={{ marginBottom: '30px' }}>
+                      <FormLabel>{edit && <EditFieldAlert/>} {"Loja de origem"}</FormLabel>
+                      <FormControl>
+                          <Select onValueChange={(value) => { field.onChange(value); }}>
+                            <SelectTrigger className="w-[100%]">
+                                <SelectValue placeholder={contaToBeEdited?.loja_origem || "Escolher"}/>
+                            </SelectTrigger>
+                            <SelectContent {...field }>
+                                {lojasData?.map((e)=>{
+                                    return (
+                                        <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
+                                    )
+                                })}
+                            </SelectContent>
+                          </Select>
+                      </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                  )}
+            />
             <FormField
                   control={form.control}
                   name="terceiro"
