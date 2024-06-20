@@ -13,9 +13,11 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { LoadingButton } from "@/components/ui/LoadingButton";
+import { useDRE } from "./DREContext";
 
 export const DREFilter = ()=>{
     const [loading,setLoading] = useState(false);
+    const refetch = useDRE().refecthDRE;
     const filterDRESchema = z.object({
         tipo_data: z.string(),
         data_inicio: z.date(),
@@ -27,7 +29,8 @@ export const DREFilter = ()=>{
     })
 
     function onSubmit(values:z.infer<typeof filterDRESchema>){
-        alert('submitado')
+        refetch(values)
+
     }
 
     return(

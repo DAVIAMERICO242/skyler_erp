@@ -319,11 +319,11 @@ export async function getFilteredFrotendHistoricoConta(
                             }else if(check_first_run_vencimento && (key.includes('vencimento'))){
                                 if(check_first_if){
                                     if(!filter['vencimento_fim']){
-                                        filtersQuery = filtersQuery + ` WHERE vencimento='${filter['vencimento_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE vencimento>='${filter['vencimento_inicio']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }
                                     else if(!filter['vencimento_inicio']){
-                                        filtersQuery = filtersQuery + ` WHERE vencimento='${filter['vencimento_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }else if(filter['vencimento_inicio'] && filter['vencimento_fim']){
                                         filtersQuery = filtersQuery + ` WHERE vencimento>='${filter['vencimento_inicio']?.slice(0,10)}' AND vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
@@ -331,10 +331,10 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }else{
                                     if(!filter['vencimento_fim']){
-                                        filtersQuery = filtersQuery + ` AND vencimento='${filter['vencimento_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND vencimento>='${filter['vencimento_inicio']?.slice(0,10)}'`
                                     }
                                     else if(!filter['vencimento_inicio']){
-                                        filtersQuery = filtersQuery + ` AND vencimento='${filter['vencimento_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
                                     }else if(filter['vencimento_inicio'] && filter['vencimento_fim']){
                                         filtersQuery = filtersQuery + ` AND vencimento>='${filter['vencimento_inicio']?.slice(0,10)}' AND vencimento<='${filter['vencimento_fim']?.slice(0,10)}'`
                                     }
@@ -345,11 +345,11 @@ export async function getFilteredFrotendHistoricoConta(
                             else if(check_first_run_competencia && (key.includes('competencia'))){
                                 if(check_first_if){
                                     if(!filter['competencia_fim']){
-                                        filtersQuery = filtersQuery + ` WHERE competencia='${filter['competencia_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE competencia>='${filter['competencia_inicio']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }
                                     else if(!filter['competencia_inicio']){
-                                        filtersQuery = filtersQuery + ` WHERE competencia='${filter['competencia_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE competencia<='${filter['competencia_fim']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }else if(filter['competencia_inicio'] && filter['competencia_fim']){
                                         filtersQuery = filtersQuery + ` WHERE competencia>='${filter['competencia_inicio']?.slice(0,10)}' AND competencia<='${filter['competencia_fim']?.slice(0,10)}'`
@@ -357,10 +357,10 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }else{
                                     if(!filter['competencia_fim']){
-                                        filtersQuery = filtersQuery + ` AND competencia='${filter['competencia_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND competencia>='${filter['competencia_inicio']?.slice(0,10)}'`
                                     }
                                     else if(!filter['competencia_inicio']){
-                                        filtersQuery = filtersQuery + ` AND competencia='${filter['competencia_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND competencia<='${filter['competencia_fim']?.slice(0,10)}'`
                                     }else if(filter['competencia_inicio'] && filter['competencia_fim']){
                                         filtersQuery = filtersQuery + ` AND competencia>='${filter['competencia_inicio']?.slice(0,10)}' AND competencia<='${filter['competencia_fim']?.slice(0,10)}'`
                                     }
@@ -371,11 +371,11 @@ export async function getFilteredFrotendHistoricoConta(
                              else if(check_first_run_resolucao && (key.includes('data_resolucao'))){
                                 if(check_first_if){
                                     if(!filter['data_resolucao_fim']){
-                                        filtersQuery = filtersQuery + ` WHERE data_resolucao='${filter['data_resolucao_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }
                                     else if(!filter['data_resolucao_inicio']){
-                                        filtersQuery = filtersQuery + ` WHERE data_resolucao='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` WHERE data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
                                         check_first_if = false;   
                                     }else if(filter['data_resolucao_inicio'] && filter['data_resolucao_fim']){
                                         filtersQuery = filtersQuery + ` WHERE data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}' AND data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
@@ -383,10 +383,10 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }else{
                                     if(!filter['data_resolucao_fim']){
-                                        filtersQuery = filtersQuery + ` AND data_resolucao='${filter['data_resolucao_inicio']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}'`
                                     }
                                     else if(!filter['data_resolucao_inicio']){
-                                        filtersQuery = filtersQuery + ` AND data_resolucao='${filter['data_resolucao_fim']?.slice(0,10)}'`
+                                        filtersQuery = filtersQuery + ` AND data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
                                     }else if(filter['data_resolucao_inicio'] && filter['data_resolucao_fim']){
                                         filtersQuery = filtersQuery + ` AND data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}' AND data_resolucao<='${filter['data_resolucao_fim']?.slice(0,10)}'`
                                     }
