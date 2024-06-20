@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { DREFilter } from "./DREFilter"
 import { DRETable } from "./DRETable"
 import styled from "styled-components"
@@ -25,6 +26,8 @@ const DREAviso = styled.div`
 `
 
 export const DREUI = ()=>{
+    const [loading,setLoading] = useState(false);//carregando filtro
+
     return(
         <DREUIContainer>
             <DREAvisos>
@@ -38,8 +41,8 @@ export const DREUI = ()=>{
                     <b>Vencimento:</b>A DRE é baseada nas lojas de origem na data de vencimento.
                </DREAviso> 
             </DREAvisos>
-            <DREFilter/>
-            <DRETable/>
+            <DREFilter loading={loading} setLoading={setLoading}/>
+            <DRETable loading={loading} setLoading={setLoading}/>
         </DREUIContainer>
     )
 }

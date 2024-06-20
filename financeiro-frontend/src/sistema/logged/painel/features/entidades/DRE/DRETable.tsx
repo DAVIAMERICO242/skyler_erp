@@ -14,7 +14,8 @@ const TableContainer = styled.div`
 const Table = styled.table`
     width:100%;
     border:var(--light-border);
-
+    opacity:${(props)=>props.loading?"0.5":"1"};
+    pointer-events:${(props)=>props.loading?"none":""};
 `
 
 const TablePreHeader = styled.tr`
@@ -75,17 +76,19 @@ const CategoriaName = styled.td`
     text-align:center;
 `
 
-export const DRETable = ()=>{
+export const DRETable = ({loading,setLoading}:{loading:boolean,setLoading:any})=>{
     const n_lojas = 7;
     const DREData = useDRE().DREData;
     console.log(DREData);
     const unique_categories = [... new Set(DREData?.map((e)=>{return e.categoria_fiscal}))]
     const unique_lojas = [... new Set(DREData?.map((e)=>{return e.nome_loja}))]
     console.log(unique_categories);
+    const successFilter = useDRE().successFilter;
+    console.log(successFilter)
 
     return(
         <TableContainer>
-            <Table>
+            <Table loading={loading}>
                 <TablePreHeader>
                     <TablePreHeaderValue rowSpan={2}>Categoria</TablePreHeaderValue>
                     <TablePreHeaderValue colSpan={n_lojas-1}>Loja</TablePreHeaderValue>

@@ -15,8 +15,7 @@ import { cn } from "@/lib/utils";
 import { LoadingButton } from "@/components/ui/LoadingButton";
 import { useDRE } from "./DREContext";
 
-export const DREFilter = ()=>{
-    const [loading,setLoading] = useState(false);
+export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})=>{
     const refetch = useDRE().refecthDRE;
     const filterDRESchema = z.object({
         tipo_data: z.string(),
@@ -29,7 +28,10 @@ export const DREFilter = ()=>{
     })
 
     function onSubmit(values:z.infer<typeof filterDRESchema>){
-        refetch(values)
+        setLoading(true);
+        refetch(values).then(()=>{
+            setLoading(false);
+        })
 
     }
 
@@ -38,13 +40,14 @@ export const DREFilter = ()=>{
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="w-1/2 flex gap-10 mt-[80px] items-center">
                     <FormField
+                        defaultValue="pagamento"
                         control={form.control}
                         name="tipo_data"
                         render={({ field }) => (
                             <FormItem style={{ marginBottom: '30px',transform:"translateY(-5px)"}}>
                             <FormLabel style={{textWrap:"nowrap"}}>Tipo da data</FormLabel>
                             <FormControl>
-                            <Select onValueChange={(value) => { field.onChange(value); }}>
+                            <Select onValueChange={(value) => { field.onChange(value); }} defaultValue="pagamento">
                                 <SelectTrigger className="w-[100%]">
                                     <SelectValue placeholder={"Escolher"}/>
                                 </SelectTrigger>
@@ -60,6 +63,7 @@ export const DREFilter = ()=>{
                         )}
                         />
                         <FormField
+                            defaultValue={(new Date(new Date().getFullYear(), 0, 1))}
                             control={form.control}
                             name="data_inicio"
                             render={({ field }) => (
@@ -101,6 +105,7 @@ export const DREFilter = ()=>{
                             )}
                         />
                         <FormField
+                            defaultValue={new Date()}
                             control={form.control}
                             name="data_fim"
                             render={({ field }) => (
