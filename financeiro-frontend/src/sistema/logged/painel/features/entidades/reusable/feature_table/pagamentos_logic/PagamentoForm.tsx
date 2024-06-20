@@ -232,7 +232,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                   name="contaloja"
                   render={({ field }) => (
                       <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
+                      <FormLabel>Conta Bancária da loja de PAGAMENTO</FormLabel>
                       <FormControl>
                           <Select onValueChange={(value) => { field.onChange(value); }}>
                             <SelectTrigger className="w-[100%]">

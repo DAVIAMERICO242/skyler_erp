@@ -157,13 +157,38 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                                 </FormItem>
                             )}
                         />
+                            <FormField
+                                key={form.getValues('loja_origem')}
+                                control={form.control}
+                                name="loja_origem"
+                                render={({ field }) => (
+                                    <FormItem style={{ marginBottom: '30px' }}>
+                                    <FormLabel>{"Nome da loja (origem)"}</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={(value) => { field.onChange(value); }}>
+                                            <SelectTrigger className="w-[150px]">
+                                                <SelectValue placeholder={form.getValues('loja_origem') || "Escolher"}/>
+                                            </SelectTrigger>
+                                            <SelectContent {...field }>
+                                                {lojasData?.map((e)=>{
+                                                    return (
+                                                        <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
+                                                    )
+                                                })}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         <FormField
                             key={form.getValues('nome_loja')}
                             control={form.control}
                             name="nome_loja"
                             render={({ field }) => (
                                 <FormItem style={{ marginBottom: '30px' }}>
-                                <FormLabel>{"Nome da loja"}</FormLabel>
+                                <FormLabel style={{textWrap:"nowrap"}}>{"Nome da loja (pagamento)"}</FormLabel>
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">

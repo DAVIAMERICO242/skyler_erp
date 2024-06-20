@@ -77,6 +77,9 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         nome_loja: z.string().min(2, {
             message: "O nome da loja deve ter no mínimo 2 caracteres",
           }).optional(),
+        loja_origem: z.string().min(2, {
+            message: "O nome da loja deve ter no mínimo 2 caracteres",
+        }).optional(),
         data: z.date().refine((date) => date instanceof Date, {
             message: "A data de vencimento deve ser válida",
         }).optional(),

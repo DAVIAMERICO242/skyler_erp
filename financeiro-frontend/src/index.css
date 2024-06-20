@@ -25,6 +25,11 @@
   --smooth-blue:#9ec5f0;
 }
 
+body{
+  min-height: 100vh;
+}
+
+
 .disabled{
   pointer-events: none;
   opacity: 0.5;
