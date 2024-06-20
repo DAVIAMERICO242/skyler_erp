@@ -3,8 +3,8 @@ import { useDRE } from './DREContext';
 import { BRLReais } from '@/sistema/essentials';
 
 const TableContainer = styled.div` 
-    padding:30px;
     opacity:0;
+    margin-top:30px;
     width:100%;
     transform: translateY(50px);
     animation: fadeIn 0.5s ease forwards;
