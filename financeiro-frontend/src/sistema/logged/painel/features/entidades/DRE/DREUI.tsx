@@ -1,3 +1,4 @@
+import { DREFilter } from "./DREFilter"
 import { DRETable } from "./DRETable"
 import styled from "styled-components"
 
@@ -37,6 +38,7 @@ export const DREUI = ()=>{
                     <b>Vencimento:</b>A DRE é baseada nas lojas de origem na data de vencimento.
                </DREAviso> 
             </DREAvisos>
+            <DREFilter/>
             <DRETable/>
         </DREUIContainer>
     )
