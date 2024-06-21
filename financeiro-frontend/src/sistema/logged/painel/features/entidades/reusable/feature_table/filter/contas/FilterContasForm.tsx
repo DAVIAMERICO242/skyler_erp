@@ -34,9 +34,10 @@ import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import {firstCharUpper } from "@/sistema/essentials";
 import MultipleSelector from "@/components/ui/MultipleSelector";
+import { SchemaBancosData } from "../../../../Bancos/Bancos";
 
 
-export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,filterContasFormSchema}:
+export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,bancosData,filterContasFormSchema}:
     {
     setFilterContasBeforeSubmit:any,
     filterContas:any,
@@ -45,6 +46,7 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
     form:any,
     terceirosData:(SchemaTerceirosData[]|null),
     lojasData:(SchemaLojasData[]|null),
+    bancosData:(SchemaBancosData[]|null),
     filterContasFormSchema:any})=>{
 
     useEffect(()=>{
@@ -175,6 +177,31 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                                             {lojasData?.map((e)=>{
                                                 return (
                                                     <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
+                                                )
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            key={form.getValues('nossa_conta_bancaria')}
+                            control={form.control}
+                            name="nossa_conta_bancaria"
+                            render={({ field }) => (
+                                <FormItem style={{ marginBottom: '30px' }}>
+                                <FormLabel style={{textWrap:"nowrap"}}>{"Conta bancária associada"}</FormLabel>
+                                <FormControl>
+                                    <Select onValueChange={(value) => { field.onChange(value); }}>
+                                        <SelectTrigger className="w-[150px]">
+                                            <SelectValue placeholder={form.getValues('nossa_conta_bancaria') || "Escolher"}/>
+                                        </SelectTrigger>
+                                        <SelectContent {...field }>
+                                            {bancosData?.map((e)=>{
+                                                return (
+                                                    <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
                                                 )
                                             })}
                                         </SelectContent>

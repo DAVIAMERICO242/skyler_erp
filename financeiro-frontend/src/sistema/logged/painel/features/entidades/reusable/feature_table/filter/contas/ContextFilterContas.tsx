@@ -12,8 +12,11 @@ export interface SchemaContasFilterObject{
     competencia_fim:string,
     vencimento_inicio?:string,
     vencimento_fim?:string,
-    data_resolucao_inicio?:string
-    data_resolucao_fim?:string
+    data_resolucao_inicio?:string,
+    data_resolucao_fim?:string,
+    previsao_inicio?:string,
+    previsao_fim?:string,
+    nossa_conta_bancaria?:string
 }
 
 interface ContasFilterContextType {

@@ -30,6 +30,7 @@ import { useClickOutside } from '@mantine/hooks';
 import { useRef } from "react"
 import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
 import styled from "styled-components"
+import { useBancos } from "../../../../Bancos/Bancos"
 
 
 const LimparCampos = styled.div`
@@ -54,6 +55,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
 
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
+    const bancosData = useBancos().data;
     
     const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(false);
@@ -76,6 +78,9 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
           }).optional(),
         loja: z.string().min(2, {
             message: "O nome da loja deve ter no mínimo 2 caracteres",
+          }).optional(),
+        nossa_conta_bancaria: z.string().min(2, {
+            message: "O nome da conta deve ter no mínimo 2 caracteres",
           }).optional(),
         data: z.date().refine((date) => date instanceof Date, {
             message: "A data de vencimento deve ser válida",
@@ -173,7 +178,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                         Limpar campos
                     </LimparCampos>
                 </DrawerHeader>
-                <FilterContasForm filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
+                <FilterContasForm bancosData={bancosData} filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
         </Drawer>
     )

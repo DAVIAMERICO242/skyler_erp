@@ -94,6 +94,7 @@ export interface SchemaContasFilterObject{
     pagar_receber?:string,
     terceiro?:string,
     loja?:string,//pagamento,
+    conta?:string,
     data?:string,
     vencimento_inicio?:string,
     vencimento_fim?:string,
