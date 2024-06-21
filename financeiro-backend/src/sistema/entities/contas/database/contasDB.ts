@@ -87,13 +87,12 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, competencia, conta_tipo, loja_origem, terceiro, valor) VALUES 
+                    (id, data, vencimento, competencia, conta_tipo, terceiro, valor) VALUES 
                     ('${novoId}',
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
                     '${novo_historico.competencia.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
-                    '${novo_historico.loja_origem}',
                     '${novo_historico.terceiro}',
                     '${novo_historico.valor}'
                     )`,
@@ -141,7 +140,6 @@ export async function getFrotendHistoricoConta(
                         historico_contas.vencimento, 
                         historico_contas.competencia,
                         historico_contas.data_resolucao, 
-                        historico_contas.loja_origem,
                         historico_contas.terceiro, 
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
@@ -267,7 +265,6 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.vencimento,
                         historico_contas.competencia, 
                         historico_contas.data_resolucao, 
-                        historico_contas.loja_origem,
                         historico_contas.terceiro,
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
@@ -545,7 +542,6 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                 competencia='${conta.competencia.slice(0,10)}',
                 conta_tipo='${conta.tipo_fiscal}',
                 terceiro='${conta.terceiro}',
-                loja_origem='${conta.loja_origem}',
                 valor=${conta.valor}
                 `
                 query += new_situacao_chunk_query;

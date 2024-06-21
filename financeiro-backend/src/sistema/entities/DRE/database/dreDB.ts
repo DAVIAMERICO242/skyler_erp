@@ -56,7 +56,7 @@ function queryController(requested_dre:requestedDRE):string{
         INNER JOIN 
             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
         LEFT JOIN
-            lojas ON lojas.nome = historico_contas.loja_origem
+            lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
         WHERE historico_contas.competencia>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.competencia<='${requested_dre.data_fim.slice(0,10)}'
         GROUP BY tipo_contas.indice,lojas.nome,tipo_contas.categoria_conta
         ORDER BY tipo_contas.indice;
@@ -73,7 +73,7 @@ function queryController(requested_dre:requestedDRE):string{
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
             LEFT JOIN
-                lojas ON lojas.nome = historico_contas.loja_origem
+                lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
             WHERE historico_contas.vencimento>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.vencimento<='${requested_dre.data_fim.slice(0,10)}'
             GROUP BY tipo_contas.indice,lojas.nome,tipo_contas.categoria_conta
             ORDER BY tipo_contas.indice;
