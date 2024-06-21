@@ -285,7 +285,7 @@ export async function getFilteredFrotendHistoricoConta(
                 var check_first_run_vencimento = true;
                 var check_first_run_competencia = true;
                 var check_first_run_resolucao = true;
-                var check_first_run_situacao = true;
+                var check_first_run_previsao = true;
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key] && key!=='situacao') {
@@ -297,7 +297,7 @@ export async function getFilteredFrotendHistoricoConta(
                                 filtersQuery = filtersQuery + ` AND ${key}='${filter[key]}'`
                             }
                         }else if(isStringDate(filter[key])){
-                            if(!(key.includes('vencimento')) && !(key.includes('competencia')) && !(key.includes('data_resolucao'))){//se a data nao é intervalar
+                            if(!(key.includes('vencimento')) && !(key.includes('competencia')) && !(key.includes('data_resolucao')) && !(key.includes('previsao'))){//se a data nao é intervalar
                                 if(check_first_if){
                                     filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`
                                     check_first_if = false;
@@ -356,7 +356,7 @@ export async function getFilteredFrotendHistoricoConta(
                                 check_first_run_competencia = false;
                             }
                             //INTERVALO DATA RESOLUCAO
-                             else if(check_first_run_resolucao && (key.includes('data_resolucao'))){
+                            else if(check_first_run_resolucao && (key.includes('data_resolucao'))){
                                 if(check_first_if){
                                     if(!filter['data_resolucao_fim']){
                                         filtersQuery = filtersQuery + ` WHERE data_resolucao>='${filter['data_resolucao_inicio']?.slice(0,10)}'`
@@ -380,6 +380,33 @@ export async function getFilteredFrotendHistoricoConta(
                                     }
                                 }
                                 check_first_run_resolucao = false;
+                            }
+
+                            //previsao
+                            else if(check_first_run_previsao && (key.includes('previsao'))){
+                                if(check_first_if){
+                                    if(!filter['previsao_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE previsao>='${filter['previsao_inicio']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }
+                                    else if(!filter['previsao_inicio']){
+                                        filtersQuery = filtersQuery + ` WHERE previsao<='${filter['previsao_fim']?.slice(0,10)}'`
+                                        check_first_if = false;   
+                                    }else if(filter['previsao_inicio'] && filter['previsao_fim']){
+                                        filtersQuery = filtersQuery + ` WHERE previsao>='${filter['previsao_inicio']?.slice(0,10)}' AND previsao<='${filter['previsao_fim']?.slice(0,10)}'`
+                                        check_first_if = false;
+                                    }
+                                }else{
+                                    if(!filter['previsao_fim']){
+                                        filtersQuery = filtersQuery + ` AND previsao>='${filter['previsao_inicio']?.slice(0,10)}'`
+                                    }
+                                    else if(!filter['previsao_inicio']){
+                                        filtersQuery = filtersQuery + ` AND previsao<='${filter['previsao_fim']?.slice(0,10)}'`
+                                    }else if(filter['previsao_inicio'] && filter['previsao_fim']){
+                                        filtersQuery = filtersQuery + ` AND previsao>='${filter['previsao_inicio']?.slice(0,10)}' AND previsao<='${filter['previsao_fim']?.slice(0,10)}'`
+                                    }
+                                }
+                                check_first_run_previsao = false;
                             }
                         }
                     }else if (filter.hasOwnProperty('situacao') && filter['situacao']?.length){

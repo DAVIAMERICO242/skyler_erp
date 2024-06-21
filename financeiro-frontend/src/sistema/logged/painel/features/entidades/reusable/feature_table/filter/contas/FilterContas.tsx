@@ -98,6 +98,12 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         data_resolucao_fim: z.date().refine((date) => date instanceof Date, {
             message: "A data de resolucao deve ser válida",
         }).optional(),
+        previsao_inicio: z.date().refine((date) => date instanceof Date, {
+            message: "A data de previsao deve ser válida",
+        }).optional(),
+        previsao_fim: z.date().refine((date) => date instanceof Date, {
+            message: "A data de previsao deve ser válida",
+        }).optional(),
       });
 
     var form = useForm<z.infer<typeof filterContasFormSchema>>({

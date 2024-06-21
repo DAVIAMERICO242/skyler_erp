@@ -100,7 +100,9 @@ export interface SchemaContasFilterObject{
     competencia_inicio?:string,
     competencia_fim?:string,
     data_resolucao_inicio?:string
-    data_resolucao_fim?:string
+    data_resolucao_fim?:string,
+    previsao_inicio?:string,
+    previsao_fim?:string
 }
 
 export interface StatisticContas{
