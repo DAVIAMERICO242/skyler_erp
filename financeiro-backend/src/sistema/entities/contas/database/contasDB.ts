@@ -86,11 +86,12 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, competencia, conta_tipo, terceiro,loja, valor, nossa_conta_bancaria) VALUES 
+                    (id, data, vencimento, competencia, previsao, conta_tipo, terceiro,loja, valor, nossa_conta_bancaria) VALUES 
                     ('${novoId}',
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
                     '${novo_historico.competencia.slice(0,10)}',
+                    '${novo_historico.previsao.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
                     '${novo_historico.terceiro}',
                     '${novo_historico.loja}',
@@ -140,6 +141,7 @@ export async function getFrotendHistoricoConta(
                         historico_contas.data, 
                         historico_contas.vencimento, 
                         historico_contas.competencia,
+                        historico_contas.previsao,
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro, 
                         historico_contas.loja as loja,
@@ -260,7 +262,8 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.situacao,
                         historico_contas.data, 
                         historico_contas.vencimento,
-                        historico_contas.competencia, 
+                        historico_contas.competencia,
+                        historico_contas.previsao,
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro,
                         historico_contas.loja as loja,
@@ -531,6 +534,7 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                 conta_tipo='${conta.tipo_fiscal}',
                 terceiro='${conta.terceiro}',
                 loja='${conta.loja}',
+                previsao='${conta.previsao.slice(0,10)}',
                 nossa_conta_bancaria='${conta.nossa_conta_bancaria}',
                 valor=${conta.valor}
                 `

@@ -99,6 +99,8 @@ function ContasGetUIName(columnName:string){
             return 'Conta Bancaria';
         case 'loja':
             return 'Loja';
+        case 'previsao':
+            return 'Previsão';
         default:
             return columnName
         

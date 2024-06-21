@@ -117,7 +117,10 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     }),
     competencia: z.date().refine((date) => date instanceof Date, {
         message: "A data de competência deve ser válida",
-  })
+  }),
+    previsao: z.date().refine((date) => date instanceof Date, {
+      message: "A data de previsão deve ser válida",
+  }),
   });
 
   if(identifier_value){
@@ -171,6 +174,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       nossa_conta_bancaria:contaToBeEdited?.nossa_conta_bancaria,
       pagar_receber:contaToBeEdited?.pagar_receber,
       tipo_fiscal:contaToBeEdited?.conta_tipo,
+      previsao:contaToBeEdited?.previsao?(new Date(contaToBeEdited?.previsao)):"",
       vencimento:contaToBeEdited?.vencimento?(new Date(contaToBeEdited?.vencimento)):"",
       competencia:contaToBeEdited?.competencia?(new Date(contaToBeEdited?.competencia)):""
     });
@@ -467,6 +471,47 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                           render={({ field }) => (
                               <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
                               <FormLabel>{edit && <EditFieldAlert/>} {"Data de competência"}</FormLabel>
+                              <Popover>
+                                  <PopoverTrigger asChild className="w-[100%]">
+                                  <FormControl >
+                                      <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                          "w-[240px] pl-3 text-left font-normal",
+                                          !field.value && "text-muted-foreground"
+                                      )}
+                                      >
+                                      {field.value ? (
+                                          format(field.value, "PPP")
+                                      ) : (
+                                          <span>Selecione uma data</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                  </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-auto p-0" align="start" >
+                                  <Calendar
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) =>
+                                      date < new Date("1900-01-01")
+                                      }
+                                      initialFocus
+                                  />
+                                  </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                      />
+                      <FormField
+                          control={form.control}
+                          name="previsao"
+                          render={({ field }) => (
+                              <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                              <FormLabel>{edit && <EditFieldAlert/>} {"Data de previsão"}</FormLabel>
                               <Popover>
                                   <PopoverTrigger asChild className="w-[100%]">
                                   <FormControl >

@@ -11,6 +11,7 @@ export interface SchemaContasFrontendData {
     data?:string,
     vencimento?:string,
     competencia?:string,
+    previsao?:string,
     conta_tipo?: string;
     pagar_receber:string;
     terceiro?:string,
