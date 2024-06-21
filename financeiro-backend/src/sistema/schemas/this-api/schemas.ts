@@ -20,7 +20,6 @@ export interface TerceiroFrontendFormInput{
 }
 
 export interface LojaFrontendFormInput{
-    contaloja:string,
     nomeloja:string,
     razaoloja:string,
     cnpjloja:string
@@ -65,6 +64,7 @@ export interface HistoricoContas{//IDENTICO NO FROTEND FORM
     competencia:string,
     tipo_fiscal:string,
     terceiro:string,
+    loja:string,
     valor:number,
     data_resolucao:string,
     valor_resolucao:number,
@@ -79,6 +79,7 @@ export interface changeHistoricoContas{//IDENTICO NO FROTEND FORM
     competencia:string,
     tipo_fiscal:string,
     terceiro:string,
+    loja:string,
     valor:number,
     data_resolucao:string,
     valor_resolucao:number,
@@ -136,7 +137,6 @@ export interface DBTerceiro{
 }
 
 export interface DBLoja{
-    conta:string,
     nome:string,
     razao:string,
     cnpj:string
@@ -170,6 +170,7 @@ export interface DBHistoricoContas{
     competencia:string,
     tipo_fiscal:string,
     terceiro:string,
+    loja:string,
     valor:number,
     data_resolucao:string,
     valor_resolucao:number,

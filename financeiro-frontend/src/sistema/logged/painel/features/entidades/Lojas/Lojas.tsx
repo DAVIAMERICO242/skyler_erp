@@ -8,7 +8,6 @@ import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { getLojas } from '../BackendHelper/API/fetch';
 
 export interface SchemaLojasData {
-  conta?:string,
   nome?:string,
   razao?:string,
   cnpj?:string

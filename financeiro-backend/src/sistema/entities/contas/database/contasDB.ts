@@ -141,21 +141,19 @@ export async function getFrotendHistoricoConta(
                         historico_contas.competencia,
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro, 
+                        historico_contas.loja as loja_resolucao,
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
                         historico_contas.valor_resolucao, 
-                        historico_contas.nossa_conta_bancaria, 
-                        lojas.nome as loja_resolucao
+                        historico_contas.nossa_conta_bancaria
                     FROM 
                         historico_contas
                     INNER JOIN 
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     ORDER BY historico_contas.id DESC
                     `
                 // var nonNullFilters = [];
@@ -213,8 +211,6 @@ export function getNumberOfPages(page_size:number): Promise<number|DBError> {
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     ORDER BY historico_contas.id DESC
                     `
     return new Promise((resolve, reject) => {
@@ -266,21 +262,19 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.competencia, 
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro,
+                        historico_contas.loja as loja_resolucao,
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
                         historico_contas.valor_resolucao, 
-                        historico_contas.nossa_conta_bancaria, 
-                        lojas.nome as loja_resolucao
+                        historico_contas.nossa_conta_bancaria 
                     FROM 
                         historico_contas
                     INNER JOIN 
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     `
                 var filtersQuery = ``;
                 var check_first_if = true;
@@ -656,8 +650,6 @@ export function getPagoComFiltro(filter_query:string): Promise<(number|null)|DBE
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-            LEFT JOIN
-                lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
             `
             if(!filter_query){
                 var final_part = ` WHERE 
@@ -715,8 +707,6 @@ export function getRecebidoComFiltro(filter_query:string): Promise<(number|null)
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-            LEFT JOIN
-                lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
             `
             if(!filter_query){
                 var final_part = ` WHERE 
@@ -776,8 +766,6 @@ export function getAPagarComFiltro(filter_query:string): Promise<(number|null)|D
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                `
                 const final_part = " GROUP BY categoria_contas.pagar_receber;"
 
@@ -828,8 +816,6 @@ export function getAReceberComFiltro(filter_query:string): Promise<(number|null)
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                `
                 const final_part = " GROUP BY categoria_contas.pagar_receber;"
 
@@ -879,8 +865,6 @@ export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     WHERE 
                         (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
@@ -927,8 +911,6 @@ export function getRecebidoSemFiltro(): Promise<(number|null)|DBError>{
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     WHERE 
                         (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
@@ -977,8 +959,6 @@ export function getAPagarSemFiltro(): Promise<(number|null)|DBError>{
                             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                         INNER JOIN 
                             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                        LEFT JOIN
-                            lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                         GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {
@@ -1024,8 +1004,6 @@ export function getAReceberSemFiltro(): Promise<(number|null)|DBError>{
                             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                         INNER JOIN 
                             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                        LEFT JOIN
-                            lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                         GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {

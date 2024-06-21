@@ -98,7 +98,7 @@ function ContasGetUIName(columnName:string){
         case 'nossa_conta_bancaria':
             return 'Conta Bancaria';
         case 'loja_resolucao':
-            return 'Loja Pagamento';
+            return 'Loja';
         default:
             return columnName
         

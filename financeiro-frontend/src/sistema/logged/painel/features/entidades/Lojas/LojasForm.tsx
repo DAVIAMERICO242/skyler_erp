@@ -46,11 +46,7 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
         pastnomeloja: z.string().min(2, {
           message: "O nome da loja deve ter 2 caracteres",
         }).optional(),
-
-        contaloja: z.string().regex(/^\d{8}$/, {
-          message: "A conta sem dígito deve ter 8 caracteres numéricos.",
-        }),
-
+        
         nomeloja: z.string().min(2, {
           message: "O nome da loja deve ter 2 caracteres",
         }),
@@ -174,30 +170,6 @@ export const LojasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen
                   )}
                   />
                 }
-                <FormField
-                  control={form.control}
-                  name="contaloja"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{edit && <EditFieldAlert/>} Conta Bancária da loja (precisa estar registrado em bancos)</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={lojaToBeEdited?.conta || "Escolher"}/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {bancosData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-                />
                 <FormField
                 control={form.control}
                 name="nomeloja"
