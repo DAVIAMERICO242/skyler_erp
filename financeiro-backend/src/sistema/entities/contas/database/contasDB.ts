@@ -80,14 +80,14 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                             duplicate:true
                         })
                     }
-                    if(result[0].maxId){
-                        var novoId:number = result[0].maxId + 1;
+                    if(result[0]?.maxId){
+                        var novoId:number = result[0]?.maxId + 1;
                     }else{
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
                     (id, data, vencimento, competencia, previsao, conta_tipo, terceiro,loja, valor, nossa_conta_bancaria) VALUES 
-                    ('${novoId}',
+                    (${novoId},
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
                     '${novo_historico.competencia.slice(0,10)}',

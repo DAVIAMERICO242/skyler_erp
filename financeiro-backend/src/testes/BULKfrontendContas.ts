@@ -13,8 +13,8 @@ export function RandomCadastro(){
                           duplicate:true
                       })
                   }
-                  if(result[0].maxId){
-                      var novoId:number = result[0].maxId + 1;
+                  if(result[0]?.maxId){
+                      var novoId:number = result[0]?.maxId + 1;
                   }else{
                       var novoId:number = 1;
                   }

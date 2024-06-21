@@ -201,3 +201,12 @@ export interface theDRE{
     pagar_receber?:string,
     RESULTADO?:string
 }
+
+export interface grupoContasDB{
+    id_grupo?:string,
+    nome_grupo?:string
+}
+
+export interface newGrupoContas{
+    nome_grupo?:string,
+}
