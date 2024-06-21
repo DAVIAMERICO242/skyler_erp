@@ -38,6 +38,8 @@ function queryController(requested_dre:requestedDRE):string{
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                 INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                 WHERE historico_contas.data_resolucao>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.data_resolucao<='${requested_dre.data_fim.slice(0,10)}'
                 GROUP BY tipo_contas.indice,historico_contas.loja,tipo_contas.categoria_conta
                 ORDER BY tipo_contas.indice;
@@ -53,6 +55,8 @@ function queryController(requested_dre:requestedDRE):string{
             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
         INNER JOIN 
             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+        INNER JOIN
+            grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
         WHERE historico_contas.competencia>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.competencia<='${requested_dre.data_fim.slice(0,10)}'
         GROUP BY tipo_contas.indice,historico_contas.loja,tipo_contas.categoria_conta
         ORDER BY tipo_contas.indice;
@@ -68,6 +72,8 @@ function queryController(requested_dre:requestedDRE):string{
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+            INNER JOIN
+                grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
             WHERE historico_contas.vencimento>='${requested_dre.data_inicio.slice(0,10)}' AND historico_contas.vencimento<='${requested_dre.data_fim.slice(0,10)}'
             GROUP BY tipo_contas.indice,historico_contas.loja,tipo_contas.categoria_conta
             ORDER BY tipo_contas.indice;

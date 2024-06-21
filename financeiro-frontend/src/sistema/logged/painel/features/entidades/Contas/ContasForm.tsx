@@ -175,6 +175,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       terceiro:contaToBeEdited?.terceiro,
       valor:contaToBeEdited?.valor,
       loja: contaToBeEdited?.loja,
+      id_grupo:contaToBeEdited?.id_grupo,
       nossa_conta_bancaria:contaToBeEdited?.nossa_conta_bancaria,
       pagar_receber:contaToBeEdited?.pagar_receber,
       tipo_fiscal:contaToBeEdited?.conta_tipo,
@@ -370,7 +371,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                       <FormControl>
                                           <Select onValueChange={(value) => { field.onChange(value); }}>
                                             <SelectTrigger className="w-[100%]">
-                                                <SelectValue placeholder={"Escolher"}/>
+                                                <SelectValue placeholder={contaToBeEdited?.nome_grupo?`${contaToBeEdited?.nome_grupo} (cód: ${contaToBeEdited?.id_grupo})`:"Escolher"}/>
                                             </SelectTrigger>
                                             <SelectContent {...field }>
                                                 {grupoContasData?.map((e)=>{

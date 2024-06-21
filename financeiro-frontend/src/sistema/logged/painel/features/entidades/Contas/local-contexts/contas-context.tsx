@@ -15,6 +15,8 @@ export interface SchemaContasFrontendData {
     conta_tipo?: string;
     pagar_receber:string;
     terceiro?:string,
+    nome_grupo?:string,
+    id_grupo?:string,
     loja?:string,
     valor?:number,
     data_resolucao?:string,
