@@ -37,8 +37,6 @@ function queryController(author:string):string{
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                    LEFT JOIN
-                        lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                     WHERE pagar_receber='pagar' AND (situacao is NULL OR situacao='parcial')
                     AND vencimento='${dateSQLStandard(new Date())}'
                     ORDER BY historico_contas.id DESC
@@ -52,8 +50,6 @@ function queryController(author:string):string{
                     tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                 INNER JOIN 
                     categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                LEFT JOIN
-                    lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                 WHERE pagar_receber='receber' AND (situacao is NULL OR situacao='parcial')
                 AND vencimento='${dateSQLStandard(new Date())}'
                 ORDER BY historico_contas.id DESC
@@ -68,8 +64,6 @@ function queryController(author:string):string{
                     tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                 INNER JOIN 
                     categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-                LEFT JOIN
-                    lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
                 WHERE pagar_receber='pagar' AND (situacao is NULL OR situacao='parcial')
                 AND '${dateSQLStandard(new Date())}'>vencimento
                 ORDER BY historico_contas.id DESC
@@ -83,8 +77,6 @@ function queryController(author:string):string{
             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
         INNER JOIN 
             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
-        LEFT JOIN
-            lojas ON lojas.conta = historico_contas.nossa_conta_bancaria
         WHERE pagar_receber='receber' AND (situacao is NULL OR situacao='parcial')
         AND '${dateSQLStandard(new Date())}'>vencimento
         ORDER BY historico_contas.id DESC
