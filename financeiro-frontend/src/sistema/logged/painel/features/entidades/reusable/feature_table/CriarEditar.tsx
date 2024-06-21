@@ -31,7 +31,7 @@ export const CriarEditar = ({author, edit, identifier_value}:{author:string, edi
           ):(<button><FilePenLine /></button>)
           }
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="min-w-fit">
         <DialogHeader>
           <DialogTitle>{!edit?"Cadastrar":"Editar"} {author}</DialogTitle>
         </DialogHeader>

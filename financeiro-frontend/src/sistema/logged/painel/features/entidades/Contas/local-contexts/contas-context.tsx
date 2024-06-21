@@ -13,7 +13,6 @@ export interface SchemaContasFrontendData {
     competencia?:string,
     conta_tipo?: string;
     pagar_receber:string;
-    loja_origem?:string;
     terceiro?:string,
     valor?:number,
     data_resolucao?:string,

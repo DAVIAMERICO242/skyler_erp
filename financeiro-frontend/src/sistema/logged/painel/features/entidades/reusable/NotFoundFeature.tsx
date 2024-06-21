@@ -52,7 +52,7 @@ export const NotFoundFeature = ({author}:{author:string})=>{
                             {`Cadastrar ${author}`}
                         </LoadingButton>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="min-w-fit">
                         <DialogHeader>
                         <DialogTitle>Cadastrar {author}</DialogTitle>
                         <DialogDescription>

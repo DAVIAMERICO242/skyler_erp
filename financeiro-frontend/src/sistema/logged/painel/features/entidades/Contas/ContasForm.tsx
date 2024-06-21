@@ -87,9 +87,6 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const contasSchema = z.object({
     pastid: z.coerce.number().optional(),
-    loja_origem: z.string().min(2, {
-      message: "O nome da loja deve ter no mínimo 2 caracteres",
-    }),
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
     }),
@@ -247,219 +244,204 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   return(
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            {edit && 
-                <FormField
-                control={form.control}
-                name="pastid"
-                render={({ field }) => (
-                    <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>ID da conta a ser mudada</FormLabel>
-                    <FormControl>
-                        <Input {...field} defaultValue={identifier_value} disabled/>
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-              }
-              <FormField
-                  control={form.control}
-                  name="loja_origem"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{edit && <EditFieldAlert/>} {"Loja de origem"}</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={contaToBeEdited?.loja_origem || "Escolher"}/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {lojasData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-            />
-            <FormField
-                  control={form.control}
-                  name="terceiro"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{edit && <EditFieldAlert/>} {"Nome do terceiro"}</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={contaToBeEdited?.terceiro || "Escolher"}/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {terceirosData?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-            />
-            <FormField
-                control={form.control}  
-                name="valor"
-                render={({ field }) => (
-                    <FormItem style={{ marginBottom: '30px' }}>
-                    <FormLabel>{edit && <EditFieldAlert/>} {"Valor em R$"}</FormLabel>
-                    <FormControl>
-                        <Input placeholder={"Ex: 999.90"} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-            <FormField
-                  control={form.control}
-                  name="pagar_receber"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>{edit && <EditFieldAlert/>} {"Pagar ou receber"}</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); UXFiscal(value)}}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={contaToBeEdited?.pagar_receber || "Escolher"}/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                <SelectItem value="pagar">Pagar</SelectItem>
-                                <SelectItem value="receber">Receber</SelectItem>
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-                  />
-            <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
-                <FormField
-                    control={form.control}
-                    name="tipo_fiscal"
-                    render={({ field }) => (
-                        <FormItem style={{ marginBottom: '30px' }}>
-                        <FormLabel>{edit && <EditFieldAlert/>} {"Tipo fiscal"}</FormLabel>
-                        <FormControl>
-                            <Select onValueChange={(value) => { field.onChange(value); }}>
-                                <SelectTrigger className="w-[100%] flex-1">
-                                    <SelectValue placeholder={contaToBeEdited?.conta_tipo || "Escolher"}/>
-                                </SelectTrigger>
-                                <SelectContent {...field }>
-                                    {categoriasPura?.map((e)=>{
-                                        return(
-                                            <SelectGroup>
-                                                <SelectLabel>{e}</SelectLabel>
-                                                {categorias_fiscaisDataFiltered?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
-                                                    return(
-                                                        <SelectItem value={e2.nome_conta as string}>{e2.nome_conta}</SelectItem>
-                                                    )
-                                                })}
-                                            </SelectGroup>
-                                        )
-                                    })}
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <NovoTipoFiscalDialog categorias={all_categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
+            <div className="flex gap-[100px]">
+                <div>
+
+                        {edit && 
+                            <FormField
+                            control={form.control}
+                            name="pastid"
+                            render={({ field }) => (
+                                <FormItem style={{ marginBottom: '30px' }}>
+                                <FormLabel>ID da conta a ser mudada</FormLabel>
+                                <FormControl>
+                                    <Input {...field} defaultValue={identifier_value} disabled/>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                          }
+                        <FormField
+                              control={form.control}
+                              name="terceiro"
+                              render={({ field }) => (
+                                  <FormItem style={{ marginBottom: '30px' }}>
+                                  <FormLabel>{edit && <EditFieldAlert/>} {"Nome do terceiro"}</FormLabel>
+                                  <FormControl>
+                                      <Select onValueChange={(value) => { field.onChange(value); }}>
+                                        <SelectTrigger className="w-[100%]">
+                                            <SelectValue placeholder={contaToBeEdited?.terceiro || "Escolher"}/>
+                                        </SelectTrigger>
+                                        <SelectContent {...field }>
+                                            {terceirosData?.map((e)=>{
+                                                return (
+                                                    <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
+                                                )
+                                            })}
+                                        </SelectContent>
+                                      </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                        />
+                        <FormField
+                            control={form.control}  
+                            name="valor"
+                            render={({ field }) => (
+                                <FormItem style={{ marginBottom: '30px' }}>
+                                <FormLabel>{edit && <EditFieldAlert/>} {"Valor em R$"}</FormLabel>
+                                <FormControl>
+                                    <Input placeholder={"Ex: 999.90"} {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+                        <FormField
+                              control={form.control}
+                              name="pagar_receber"
+                              render={({ field }) => (
+                                  <FormItem style={{ marginBottom: '30px' }}>
+                                  <FormLabel>{edit && <EditFieldAlert/>} {"Pagar ou receber"}</FormLabel>
+                                  <FormControl>
+                                      <Select onValueChange={(value) => { field.onChange(value); UXFiscal(value)}}>
+                                        <SelectTrigger className="w-[100%]">
+                                            <SelectValue placeholder={contaToBeEdited?.pagar_receber || "Escolher"}/>
+                                        </SelectTrigger>
+                                        <SelectContent {...field }>
+                                            <SelectItem value="pagar">Pagar</SelectItem>
+                                            <SelectItem value="receber">Receber</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                              />
+                      </div>
+
+                    <div>
+                      <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
+                          <FormField
+                              control={form.control}
+                              name="tipo_fiscal"
+                              render={({ field }) => (
+                                  <FormItem style={{ marginBottom: '30px' }}>
+                                  <FormLabel>{edit && <EditFieldAlert/>} {"Tipo fiscal"}</FormLabel>
+                                  <FormControl>
+                                      <Select onValueChange={(value) => { field.onChange(value); }}>
+                                          <SelectTrigger className="w-[100%] flex-1">
+                                              <SelectValue placeholder={contaToBeEdited?.conta_tipo || "Escolher"}/>
+                                          </SelectTrigger>
+                                          <SelectContent {...field }>
+                                              {categoriasPura?.map((e)=>{
+                                                  return(
+                                                      <SelectGroup>
+                                                          <SelectLabel>{e}</SelectLabel>
+                                                          {categorias_fiscaisDataFiltered?.filter((e1)=>e1.categoria_conta===e).map((e2)=>{
+                                                              return(
+                                                                  <SelectItem value={e2.nome_conta as string}>{e2.nome_conta}</SelectItem>
+                                                              )
+                                                          })}
+                                                      </SelectGroup>
+                                                  )
+                                              })}
+                                          </SelectContent>
+                                      </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                          />
+                          <NovoTipoFiscalDialog categorias={all_categorias} setSignalUpdateUIAfterNewTipo={setSignalUpdateUIAfterNewTipo}/>
+                      </div>
+                      <FormField
+                          control={form.control}
+                          name="vencimento"
+                          render={({ field }) => (
+                              <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                              <FormLabel>{edit && <EditFieldAlert/>} {"Data de vencimento"}</FormLabel>
+                              <Popover>
+                                  <PopoverTrigger asChild className="w-[100%]">
+                                  <FormControl >
+                                      <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                          "w-[240px] pl-3 text-left font-normal",
+                                          !field.value && "text-muted-foreground"
+                                      )}
+                                      >
+                                      {field.value ? (
+                                          format(field.value, "PPP")
+                                      ) : (
+                                          <span>Selecione uma data</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                  </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-auto p-0" align="start" >
+                                  <Calendar
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) =>
+                                      date < new Date("1900-01-01")
+                                      }
+                                      initialFocus
+                                  />
+                                  </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                      />
+                      <FormField
+                          control={form.control}
+                          name="competencia"
+                          render={({ field }) => (
+                              <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
+                              <FormLabel>{edit && <EditFieldAlert/>} {"Data de competência"}</FormLabel>
+                              <Popover>
+                                  <PopoverTrigger asChild className="w-[100%]">
+                                  <FormControl >
+                                      <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                          "w-[240px] pl-3 text-left font-normal",
+                                          !field.value && "text-muted-foreground"
+                                      )}
+                                      >
+                                      {field.value ? (
+                                          format(field.value, "PPP")
+                                      ) : (
+                                          <span>Selecione uma data</span>
+                                      )}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                  </FormControl>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-auto p-0" align="start" >
+                                  <Calendar
+                                      mode="single"
+                                      selected={field.value}
+                                      onSelect={field.onChange}
+                                      disabled={(date) =>
+                                      date < new Date("1900-01-01")
+                                      }
+                                      initialFocus
+                                  />
+                                  </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                      />
+                </div>
+
             </div>
-             <FormField
-                control={form.control}
-                name="vencimento"
-                render={({ field }) => (
-                    <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                    <FormLabel>{edit && <EditFieldAlert/>} {"Data de vencimento"}</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild className="w-[100%]">
-                        <FormControl >
-                            <Button
-                            variant={"outline"}
-                            className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                            )}
-                            >
-                            {field.value ? (
-                                format(field.value, "PPP")
-                            ) : (
-                                <span>Selecione uma data</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                        </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start" >
-                        <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                            date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                        />
-                        </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={form.control}
-                name="competencia"
-                render={({ field }) => (
-                    <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                    <FormLabel>{edit && <EditFieldAlert/>} {"Data de competência"}</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild className="w-[100%]">
-                        <FormControl >
-                            <Button
-                            variant={"outline"}
-                            className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                            )}
-                            >
-                            {field.value ? (
-                                format(field.value, "PPP")
-                            ) : (
-                                <span>Selecione uma data</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                        </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start" >
-                        <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                            date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                        />
-                        </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
             <LoadingButton
                     loading={loading}
                     className="w-[100%]"
