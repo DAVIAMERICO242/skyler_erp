@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-var */
 import * as React from "react"
-import { Eraser, Minus, Plus } from "lucide-react"
+import { Eraser, Minus, Plus, X } from "lucide-react"
 import { Bar, BarChart, ResponsiveContainer } from "recharts"
  
 import { Button } from "@/components/ui/button"
@@ -45,6 +45,21 @@ const LimparCampos = styled.div`
     cursor:pointer;
     margin-top:50px;
     gap:10px;
+`
+
+const CloseFilterDialog = styled.div`
+   position:absolute;
+   top:5%;
+   right:5%;
+   background-color:#d73d3d;
+   color:white;
+   width:70px;
+   height:70px;
+   border-radius:50%;
+   cursor:pointer;
+   display:flex;
+   align-items:center;
+   justify-content:center;
 `
 
 export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=>{
@@ -177,6 +192,9 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                         <Eraser />
                         Limpar campos
                     </LimparCampos>
+                    <CloseFilterDialog onClick={()=>{setOpen(false)}}>
+                        <X />
+                    </CloseFilterDialog>
                 </DrawerHeader>
                 <FilterContasForm bancosData={bancosData} filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
