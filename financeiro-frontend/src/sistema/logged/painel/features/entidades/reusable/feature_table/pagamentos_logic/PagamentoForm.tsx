@@ -70,10 +70,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
         }),
         valor: z.coerce.number().max(row['valor'],
             {message:"O valor de resolução ultrapassa o valor exigido"}
-        ),
-        contaloja: z.string().regex(/^\d{8}$/, {
-            message: "A conta sem dígito deve ter 8 caracteres numéricos.",
-          })
+        )
         });
     var form = useForm<z.infer<typeof inputSchema>>({
             resolver: zodResolver(inputSchema),
@@ -227,30 +224,6 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                         </FormItem>
                     )}
                     />
-                  <FormField
-                  control={form.control}
-                  name="contaloja"
-                  render={({ field }) => (
-                      <FormItem style={{ marginBottom: '30px' }}>
-                      <FormLabel>Conta Bancária da loja de PAGAMENTO</FormLabel>
-                      <FormControl>
-                          <Select onValueChange={(value) => { field.onChange(value); }}>
-                            <SelectTrigger className="w-[100%]">
-                                <SelectValue placeholder={contasDataForThisId?.nossa_conta_bancaria || "Escolher"}/>
-                            </SelectTrigger>
-                            <SelectContent {...field }>
-                                {contas?.map((e)=>{
-                                    return (
-                                        <SelectItem value={e as string}>{e}</SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                          </Select>
-                      </FormControl>
-                      <FormMessage />
-                      </FormItem>
-                  )}
-                />
                 <LoadingButton
                     loading={loading}
                     className="w-[100%]"

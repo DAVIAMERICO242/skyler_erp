@@ -112,8 +112,7 @@ export interface contaToBeResolved{
     id:number,
     value:number,
     required_value:number,
-    data_resolucao:string,
-    contaloja:string
+    data_resolucao:string
 }
 ////
 

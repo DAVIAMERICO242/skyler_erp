@@ -28,7 +28,6 @@ export function resolverConta(conta: contaToBeResolved): Promise<("parcial" |"re
                     `UPDATE historico_contas SET
                     data_resolucao='${conta.data_resolucao.slice(0,10)}',
                     valor_resolucao='${conta.value}',
-                    nossa_conta_bancaria='${conta.contaloja}',
                     situacao=${stateQuery}
                     WHERE id='${conta.id}'
                     `
