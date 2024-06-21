@@ -51,6 +51,7 @@ import { useCleanAllFilter, useTableFilter } from '../reusable/feature_table/fil
 import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 import { useFilterContas } from '../reusable/feature_table/filter/contas/ContextFilterContas';
 import { useLojas } from '../Lojas/Lojas';
+import { useBancos } from '../Bancos/Bancos';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -68,6 +69,12 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   
   const terceirosData = useTerceiros().data;
   const lojasData = useLojas().data;
+  const bancosData = useBancos().data;
+
+  useEffect(()=>{
+      console.log('BANCOS DATA INSIDE CONTAS')
+    console.log(bancosData)
+  },[bancosData])
 
   var categorias_fiscaisData = useCategoriasFiscais().data;
   var all_categorias = [...new Set(categorias_fiscaisData?.map((e)=>e.categoria_conta as string))]
@@ -89,6 +96,12 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     pastid: z.coerce.number().optional(),
     terceiro: z.string().min(2, {
       message: "O nome do terceiro deve ter no mínimo 2 caracteres",
+    }),
+    loja: z.string().min(2, {
+      message: "O nome da loja deve ter no mínimo 2 caracteres",
+    }),
+    nossa_conta_bancaria: z.string().min(2, {
+      message: "O nome da conta deve ter no mínimo 2 caracteres",
     }),
     valor: z.coerce.number().positive({
         message: "O valor deve ser um número positivo",
@@ -154,6 +167,8 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     form.reset({
       terceiro:contaToBeEdited?.terceiro,
       valor:contaToBeEdited?.valor,
+      loja: contaToBeEdited?.loja,
+      nossa_conta_bancaria:contaToBeEdited?.nossa_conta_bancaria,
       pagar_receber:contaToBeEdited?.pagar_receber,
       tipo_fiscal:contaToBeEdited?.conta_tipo,
       vencimento:contaToBeEdited?.vencimento?(new Date(contaToBeEdited?.vencimento)):"",
@@ -287,6 +302,54 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                               )}
                         />
                         <FormField
+                              control={form.control}
+                              name="loja"
+                              render={({ field }) => (
+                                  <FormItem style={{ marginBottom: '30px' }}>
+                                  <FormLabel>{edit && <EditFieldAlert/>} {"Loja"}</FormLabel>
+                                  <FormControl>
+                                      <Select onValueChange={(value) => { field.onChange(value); }}>
+                                        <SelectTrigger className="w-[100%]">
+                                            <SelectValue placeholder={contaToBeEdited?.loja || "Escolher"}/>
+                                        </SelectTrigger>
+                                        <SelectContent {...field }>
+                                            {lojasData?.map((e)=>{
+                                                return (
+                                                    <SelectItem value={e.nome as string}>{e.nome}</SelectItem>
+                                                )
+                                            })}
+                                        </SelectContent>
+                                      </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                        />
+                        <FormField
+                              control={form.control}
+                              name="nossa_conta_bancaria"
+                              render={({ field }) => (
+                                  <FormItem style={{ marginBottom: '30px' }}>
+                                  <FormLabel>{edit && <EditFieldAlert/>} {"Banco"}</FormLabel>
+                                  <FormControl>
+                                      <Select onValueChange={(value) => { field.onChange(value); }}>
+                                        <SelectTrigger className="w-[100%]">
+                                            <SelectValue placeholder={contaToBeEdited?.nossa_conta_bancaria || "Escolher"}/>
+                                        </SelectTrigger>
+                                        <SelectContent {...field }>
+                                            {bancosData?.map((e)=>{
+                                                return (
+                                                    <SelectItem value={e.conta as string}>{e.conta}</SelectItem>
+                                                )
+                                            })}
+                                        </SelectContent>
+                                      </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                  </FormItem>
+                              )}
+                        />
+                        <FormField
                             control={form.control}  
                             name="valor"
                             render={({ field }) => (
@@ -299,6 +362,9 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                 </FormItem>
                             )}
                             />
+                      </div>
+
+                    <div>
                         <FormField
                               control={form.control}
                               name="pagar_receber"
@@ -320,9 +386,6 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                   </FormItem>
                               )}
                               />
-                      </div>
-
-                    <div>
                       <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
                           <FormField
                               control={form.control}

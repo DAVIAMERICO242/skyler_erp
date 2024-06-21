@@ -7,6 +7,7 @@ import { FeatureTable } from '../reusable/feature_table/FeatureTable';
 import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { useEffect, useState } from 'react';
 import { LojasProvider } from '../Lojas/Lojas';
+import { BancosProvider } from '../Bancos/Bancos';
 
 export const Contas = ()=>{
     return(
@@ -14,8 +15,10 @@ export const Contas = ()=>{
                 <ContasProvider>
                     <TerceirosProvider>
                       <LojasProvider>
-                        <FeatureTitle>Contas</FeatureTitle>
-                        <ContasUI/>
+                        <BancosProvider>
+                            <FeatureTitle>Contas</FeatureTitle>
+                            <ContasUI/>
+                        </BancosProvider>
                       </LojasProvider>
                     </TerceirosProvider>
                 </ContasProvider>

@@ -91,7 +91,7 @@ export interface SchemaContasFilterObject{
     situacao?:("parcial" | "resolvido" | null)[],
     pagar_receber?:string,
     terceiro?:string,
-    nome_loja?:string,//pagamento,
+    loja?:string,//pagamento,
     data?:string,
     vencimento_inicio?:string,
     vencimento_fim?:string,

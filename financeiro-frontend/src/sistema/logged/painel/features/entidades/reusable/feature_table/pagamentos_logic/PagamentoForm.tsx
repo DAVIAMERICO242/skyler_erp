@@ -178,7 +178,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
                         name="data_resolucao"
                         render={({ field }) => (
                             <FormItem className="data-100 flex flex-col w-full" style={{ marginBottom: '30px'}}>
-                            <FormLabel>Data de pagamento</FormLabel>
+                            <FormLabel>Data REAL do pagamento</FormLabel>
                             <Popover>
                                 <PopoverTrigger asChild className="w-[100%]">
                                 <FormControl >

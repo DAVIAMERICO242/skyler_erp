@@ -87,14 +87,16 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, competencia, conta_tipo, terceiro, valor) VALUES 
+                    (id, data, vencimento, competencia, conta_tipo, terceiro,loja, valor, nossa_conta_bancaria) VALUES 
                     ('${novoId}',
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
                     '${novo_historico.competencia.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
                     '${novo_historico.terceiro}',
-                    '${novo_historico.valor}'
+                    '${novo_historico.loja}',
+                    '${novo_historico.valor}',
+                    '${novo_historico.nossa_conta_bancaria}'
                     )`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
@@ -141,13 +143,13 @@ export async function getFrotendHistoricoConta(
                         historico_contas.competencia,
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro, 
-                        historico_contas.loja as loja_resolucao,
+                        historico_contas.loja as loja,
+                        historico_contas.nossa_conta_bancaria,
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
-                        historico_contas.valor_resolucao, 
-                        historico_contas.nossa_conta_bancaria
+                        historico_contas.valor_resolucao 
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -262,13 +264,13 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.competencia, 
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro,
-                        historico_contas.loja as loja_resolucao,
+                        historico_contas.loja as loja,
+                        historico_contas.nossa_conta_bancaria,
                         tipo_contas.categoria_conta,
                         historico_contas.conta_tipo, 
                         categoria_contas.pagar_receber, 
                         historico_contas.valor, 
-                        historico_contas.valor_resolucao, 
-                        historico_contas.nossa_conta_bancaria 
+                        historico_contas.valor_resolucao 
                     FROM 
                         historico_contas
                     INNER JOIN 
@@ -285,19 +287,12 @@ export async function getFilteredFrotendHistoricoConta(
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key] && key!=='situacao') {
-                        if(key!=="nome_loja" && !isStringDate(filter[key])){
+                        if(!isStringDate(filter[key])){
                             if(check_first_if){
                                 filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]}'`
                                 check_first_if = false;
                             }else{
                                 filtersQuery = filtersQuery + ` AND ${key}='${filter[key]}'`
-                            }
-                        }else if(key==="nome_loja"){
-                            if(check_first_if){
-                                filtersQuery = filtersQuery + ` WHERE lojas.nome='${filter[key]}'`
-                                check_first_if = false;
-                            }else{
-                                filtersQuery = filtersQuery + ` AND lojas.nome='${filter[key]}'`
                             }
                         }else if(isStringDate(filter[key])){
                             if(!(key.includes('vencimento')) && !(key.includes('competencia')) && !(key.includes('data_resolucao'))){//se a data nao é intervalar
@@ -536,6 +531,8 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                 competencia='${conta.competencia.slice(0,10)}',
                 conta_tipo='${conta.tipo_fiscal}',
                 terceiro='${conta.terceiro}',
+                loja='${conta.loja}',
+                nossa_conta_bancaria='${conta.nossa_conta_bancaria}',
                 valor=${conta.valor}
                 `
                 query += new_situacao_chunk_query;

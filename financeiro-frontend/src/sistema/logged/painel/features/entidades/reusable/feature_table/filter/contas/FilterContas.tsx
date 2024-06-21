@@ -74,7 +74,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         terceiro: z.string().min(2, {
             message: "O nome do terceiro deve ter no mínimo 2 caracteres",
           }).optional(),
-        nome_loja: z.string().min(2, {
+        loja: z.string().min(2, {
             message: "O nome da loja deve ter no mínimo 2 caracteres",
           }).optional(),
         data: z.date().refine((date) => date instanceof Date, {

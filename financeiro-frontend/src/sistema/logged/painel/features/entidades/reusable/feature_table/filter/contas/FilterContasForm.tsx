@@ -158,16 +158,16 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
                             )}
                         />
                         <FormField
-                            key={form.getValues('nome_loja')}
+                            key={form.getValues('loja')}
                             control={form.control}
-                            name="nome_loja"
+                            name="loja"
                             render={({ field }) => (
                                 <FormItem style={{ marginBottom: '30px' }}>
-                                <FormLabel style={{textWrap:"nowrap"}}>{"Nome da loja (pagamento)"}</FormLabel>
+                                <FormLabel style={{textWrap:"nowrap"}}>{"Nome da loja associada"}</FormLabel>
                                 <FormControl>
                                     <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[150px]">
-                                            <SelectValue placeholder={form.getValues('nome_loja') || "Escolher"}/>
+                                            <SelectValue placeholder={form.getValues('loja') || "Escolher"}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             {lojasData?.map((e)=>{
