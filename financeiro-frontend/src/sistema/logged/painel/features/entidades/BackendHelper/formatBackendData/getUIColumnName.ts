@@ -101,6 +101,8 @@ function ContasGetUIName(columnName:string){
             return 'Loja';
         case 'previsao':
             return 'Previsão';
+        case 'nome_grupo':
+            return 'Grupo Rateio'
         default:
             return columnName
         

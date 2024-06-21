@@ -8,6 +8,8 @@ import { NotFoundFeature } from '../reusable/NotFoundFeature';
 import { useEffect, useState } from 'react';
 import { LojasProvider } from '../Lojas/Lojas';
 import { BancosProvider } from '../Bancos/Bancos';
+import { GrupoContasProvider } from './local-contexts/grupo_contas-context';
+
 
 export const Contas = ()=>{
     return(
@@ -16,8 +18,10 @@ export const Contas = ()=>{
                     <TerceirosProvider>
                       <LojasProvider>
                         <BancosProvider>
+                          <GrupoContasProvider>
                             <FeatureTitle>Contas</FeatureTitle>
                             <ContasUI/>
+                          </GrupoContasProvider>
                         </BancosProvider>
                       </LojasProvider>
                     </TerceirosProvider>

@@ -52,6 +52,8 @@ import { areAllValuesEmptyArrays } from '@/sistema/essentials';
 import { useFilterContas } from '../reusable/feature_table/filter/contas/ContextFilterContas';
 import { useLojas } from '../Lojas/Lojas';
 import { useBancos } from '../Bancos/Bancos';
+import { UseGrupoContas } from './local-contexts/grupo_contas-context';
+import { NovoGrupoContasDialog } from './NovoGrupoContasDialog';
 
 export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpen?:any, identifier_value?:string})=>{
 
@@ -70,6 +72,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
   const terceirosData = useTerceiros().data;
   const lojasData = useLojas().data;
   const bancosData = useBancos().data;
+  const grupoContasData = UseGrupoContas().data;
 
   useEffect(()=>{
       console.log('BANCOS DATA INSIDE CONTAS')
@@ -103,6 +106,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
     nossa_conta_bancaria: z.string().min(2, {
       message: "O nome da conta deve ter no mínimo 2 caracteres",
     }),
+    id_grupo: z.coerce.number(),
     valor: z.coerce.number().positive({
         message: "O valor deve ser um número positivo",
       }),
@@ -194,6 +198,8 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
        alert('O valor novo da conta não pode ser menor do que o valor da transação, se quiser atribuir um novo valor para conta, mude o valor da transação. Sugiro criar uma nova conta com essa diferença.');
        return;
     }
+
+
 
     console.log('CATEGORIAS FISCAIS DATA')
     console.log(categorias_fiscaisData);
@@ -353,6 +359,35 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                   </FormItem>
                               )}
                         />
+
+                      <div className="gambiarra" style={{ display: 'flex',alignItems:'center', gap:"10px", fontWeight:600 }}>
+                            <FormField
+                                  control={form.control}
+                                  name="id_grupo"
+                                  render={({ field }) => (
+                                      <FormItem style={{ marginBottom: '30px' }}>
+                                      <FormLabel>{edit && <EditFieldAlert/>} {"Grupo rateio"}</FormLabel>
+                                      <FormControl>
+                                          <Select onValueChange={(value) => { field.onChange(value); }}>
+                                            <SelectTrigger className="w-[100%]">
+                                                <SelectValue placeholder={"Escolher"}/>
+                                            </SelectTrigger>
+                                            <SelectContent {...field }>
+                                                {grupoContasData?.map((e)=>{
+                                                    return (
+                                                        <SelectItem value={e.id_grupo?.toString()}> {e.nome_grupo} <i>(cód: {e.id_grupo})</i> </SelectItem>
+                                                    )
+                                                })}
+                                            </SelectContent>
+                                          </Select>
+                                      </FormControl>
+                                      <FormMessage />
+                                      </FormItem>
+                                  )}
+                            />
+                            <NovoGrupoContasDialog/>
+                        </div>
+
                         <FormField
                             control={form.control}  
                             name="valor"

@@ -59,7 +59,7 @@ export function getGrupoContas(): Promise<grupoContasDB[]|DBError> {
         SQLConnection().then((connection) => {
             if (connection) {
                     connection.query(
-                    `SELECT * FROM grupo_contas`,
+                    `SELECT * FROM grupo_contas ORDER BY id_grupo DESC`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {

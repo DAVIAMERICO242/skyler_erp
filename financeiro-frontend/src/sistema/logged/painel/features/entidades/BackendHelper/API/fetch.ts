@@ -195,3 +195,14 @@ export async function getDRE(requestedDRE:DREFilterObject){
   }
   )
 }
+
+export async function getGrupoContas(){
+  return fetch(BACKEND_URL+'/grupo_contas',{
+    method:"GET",
+    headers:{
+      'Content-type':"application/json",
+      'token':localStorage.getItem('token') as string,
+    }
+  }
+  )
+}

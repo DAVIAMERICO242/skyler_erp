@@ -86,7 +86,7 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                         var novoId:number = 1;
                     }
                     connection.query(`INSERT INTO historico_contas
-                    (id, data, vencimento, competencia, previsao, conta_tipo, terceiro,loja, valor, nossa_conta_bancaria) VALUES 
+                    (id, data, vencimento, competencia, previsao, conta_tipo, terceiro,id_grupo,loja, valor, nossa_conta_bancaria) VALUES 
                     (${novoId},
                     '${dateSQLStandard(new Date())}',
                     '${novo_historico.vencimento.slice(0,10)}',
@@ -94,6 +94,7 @@ export function cadastroHistoricoConta(novo_historico: HistoricoContas): Promise
                     '${novo_historico.previsao.slice(0,10)}',
                     '${novo_historico.tipo_fiscal}',
                     '${novo_historico.terceiro}',
+                    '${novo_historico.id_grupo}',
                     '${novo_historico.loja}',
                     '${novo_historico.valor}',
                     '${novo_historico.nossa_conta_bancaria}'
@@ -143,7 +144,8 @@ export async function getFrotendHistoricoConta(
                         historico_contas.competencia,
                         historico_contas.previsao,
                         historico_contas.data_resolucao, 
-                        historico_contas.terceiro, 
+                        historico_contas.terceiro,
+                        grupo_contas.nome_grupo AS nome_grupo,
                         historico_contas.loja as loja,
                         historico_contas.nossa_conta_bancaria,
                         tipo_contas.categoria_conta,
@@ -157,6 +159,8 @@ export async function getFrotendHistoricoConta(
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                     ORDER BY historico_contas.id DESC
                     `
                 // var nonNullFilters = [];
@@ -214,6 +218,8 @@ export function getNumberOfPages(page_size:number): Promise<number|DBError> {
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                     ORDER BY historico_contas.id DESC
                     `
     return new Promise((resolve, reject) => {
@@ -266,6 +272,7 @@ export async function getFilteredFrotendHistoricoConta(
                         historico_contas.previsao,
                         historico_contas.data_resolucao, 
                         historico_contas.terceiro,
+                        grupo_contas.nome_grupo AS nome_grupo,
                         historico_contas.loja as loja,
                         historico_contas.nossa_conta_bancaria,
                         tipo_contas.categoria_conta,
@@ -279,6 +286,8 @@ export async function getFilteredFrotendHistoricoConta(
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                     `
                 var filtersQuery = ``;
                 var check_first_if = true;
@@ -560,6 +569,7 @@ export function updateHistoricoConta(conta: changeHistoricoContas): Promise<null
                 competencia='${conta.competencia.slice(0,10)}',
                 conta_tipo='${conta.tipo_fiscal}',
                 terceiro='${conta.terceiro}',
+                id_grupo='${conta.id_grupo}',
                 loja='${conta.loja}',
                 previsao='${conta.previsao.slice(0,10)}',
                 nossa_conta_bancaria='${conta.nossa_conta_bancaria}',
@@ -677,6 +687,8 @@ export function getPagoComFiltro(filter_query:string): Promise<(number|null)|DBE
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+            INNER JOIN
+                grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
             `
             if(!filter_query){
                 var final_part = ` WHERE 
@@ -734,6 +746,8 @@ export function getRecebidoComFiltro(filter_query:string): Promise<(number|null)
                 tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
             INNER JOIN 
                 categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+            INNER JOIN
+                grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
             `
             if(!filter_query){
                 var final_part = ` WHERE 
@@ -793,6 +807,8 @@ export function getAPagarComFiltro(filter_query:string): Promise<(number|null)|D
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                `
                 const final_part = " GROUP BY categoria_contas.pagar_receber;"
 
@@ -843,6 +859,8 @@ export function getAReceberComFiltro(filter_query:string): Promise<(number|null)
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                `
                 const final_part = " GROUP BY categoria_contas.pagar_receber;"
 
@@ -892,6 +910,8 @@ export function getPagoSemFiltro(): Promise<(number|null)|DBError>{
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                     WHERE 
                         (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
@@ -938,6 +958,8 @@ export function getRecebidoSemFiltro(): Promise<(number|null)|DBError>{
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                     INNER JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                    INNER JOIN
+                        grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                     WHERE 
                         (historico_contas.situacao = "resolvido" OR historico_contas.situacao = "parcial")
                     GROUP BY categoria_contas.pagar_receber;
@@ -986,6 +1008,8 @@ export function getAPagarSemFiltro(): Promise<(number|null)|DBError>{
                             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                         INNER JOIN 
                             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                        INNER JOIN
+                            grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                         GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {
@@ -1031,6 +1055,8 @@ export function getAReceberSemFiltro(): Promise<(number|null)|DBError>{
                             tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
                         INNER JOIN 
                             categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
+                        INNER JOIN
+                            grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
                         GROUP BY categoria_contas.pagar_receber;
                     `,
                     (err, result) => {
