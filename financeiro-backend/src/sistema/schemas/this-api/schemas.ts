@@ -199,6 +199,11 @@ export interface requestedDRE{
     data_fim:string
 }
 
+export interface requestedDREContaCategory{
+    filter:requestedDRE,
+    category:string,
+}
+
 export interface theDRE{
     nome_loja?:string,
     categoria_fiscal?:string,

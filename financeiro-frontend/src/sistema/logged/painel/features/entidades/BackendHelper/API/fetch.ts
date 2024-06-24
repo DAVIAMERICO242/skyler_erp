@@ -206,3 +206,15 @@ export async function getGrupoContas(){
   }
   )
 }
+
+export async function getDRECategoryDetails(requestedDRE:{filter:DREFilterObject,category:string}){
+  return fetch(BACKEND_URL+'/dre_category_detail',{
+    method:"POST",
+    headers:{
+      'Content-type':"application/json",
+      'token':localStorage.getItem('token') as string,
+    },
+    body:JSON.stringify({category_request:requestedDRE})
+  }
+  )
+}

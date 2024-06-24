@@ -1,7 +1,7 @@
 import {Router, Response} from 'express';
-import { DBError, RequestModel, newTipoContasSchema, requestedDRE } from '../../../schemas/this-api/schemas';
+import { DBError, RequestModel, newTipoContasSchema, requestedDRE, requestedDREContaCategory } from '../../../schemas/this-api/schemas';
 import { DBTipoContas } from '../../../schemas/this-api/schemas';
-import { dreController } from '../database/dreDB';
+import { dreController, getCategoryDetailsController } from '../database/dreDB';
 
 
 export const dre_router = Router();
@@ -22,3 +22,21 @@ dre_router.post('/dre',async (req:RequestModel,res:Response)=>{
         })
     }
 });
+
+dre_router.post('/dre_category_detail',async (req:RequestModel,res:Response)=>{
+
+    const {category_request} = req.body;//tem o filtro
+
+    try{
+        const response = await getCategoryDetailsController(category_request as unknown as requestedDREContaCategory);
+        res.status(200).send({
+            success:true,
+            data: response
+        })
+    }catch(error:any){
+        res.status(400).send({
+            success:false,
+            duplicate: error?.duplicate
+        })
+    }
+})
