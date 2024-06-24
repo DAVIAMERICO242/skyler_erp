@@ -4,7 +4,7 @@ import { getDRE } from '../BackendHelper/API/fetch';
 
 
 export interface DREFilterObject{
-    tipo_data: ("competencia"|"vencimento"|"pagamento"),
+    tipo_data: ("competencia"|"vencimento"|"pagamento_previsao"|"pagamento_real"),
     data_inicio:string,
     data_fim:string,
 }
@@ -29,17 +29,17 @@ const DREContext = createContext<DREContext>({
     DREData:undefined,
     setDREData:()=>{},
     refecthDRE:()=>{},
-    successFilter:{tipo_data:"pagamento",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date()).toISOString()},
+    successFilter:{tipo_data:"pagamento_previsao",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date(new Date().getFullYear(), 11, 31)).toISOString()},
     setSuccessFilter:()=>{}
 });
 
 export const DREProvider = ({children}:{children:ReactNode})=>{
     const [DREData,setDREData] = useState<undefined | theDRE[]>(undefined);
     const [successFilter, setSuccessFilter] = useState<DREFilterObject>(
-        {tipo_data:"pagamento",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date()).toISOString()}
+        {tipo_data:"pagamento_previsao",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date(new Date().getFullYear(), 11, 31)).toISOString()}
     )
 
-    const fetchDRE = async(filter={tipo_data:"pagamento",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date()).toISOString()} as DREFilterObject)=>{
+    const fetchDRE = async(filter={tipo_data:"pagamento_previsao",data_inicio:(new Date(new Date().getFullYear(), 0, 1)).toISOString(),data_fim:(new Date(new Date().getFullYear(), 11, 31)).toISOString()} as DREFilterObject)=>{
         return getDRE(filter).then((d)=>d.json()).
         then((d)=>{
             console.log(d);

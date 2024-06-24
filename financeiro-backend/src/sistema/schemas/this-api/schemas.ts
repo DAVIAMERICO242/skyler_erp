@@ -194,7 +194,7 @@ export interface DBError{
 }
 
 export interface requestedDRE{
-    tipo_data: ("competencia"|"vencimento"|"pagamento")
+    tipo_data: ("competencia"|"vencimento"|"pagamento_real"|"pagamento_previsao")
     data_inicio:string,
     data_fim:string
 }

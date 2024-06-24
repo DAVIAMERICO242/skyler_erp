@@ -32,13 +32,13 @@ export const DREUI = ()=>{
         <DREUIContainer>
             <DREAvisos>
                <DREAviso>
-                    <b>Pagamento (padrão):</b>A DRE é baseada nas lojas que realmente receberam/efetuaram o pagamento seja parcial ou completamente resolvido.
+                    <b>Pagamento previsto (padrão):</b>A DRE é baseada na DATA DE PREVISÃO e os valores são os valores integrais das contas, independente se foi resolvido ou não.
                </DREAviso> 
                <DREAviso>
-                    <b>Competência:</b>A DRE é baseada nas lojas de origem na data de competência.
+                    <b>Pagamento real:</b>A DRE é baseada na DATA REAL DE TRANSAÇÃO, ela se baseia exatamente no valor real pago das contas, seja parcial ou resolvido.
                </DREAviso> 
                <DREAviso>
-                    <b>Vencimento:</b>A DRE é baseada nas lojas de origem na data de vencimento.
+                    <b>Competência:</b>A DRE é baseada nas lojas de origem na data de competência, com base no valor bruto da conta .
                </DREAviso> 
             </DREAvisos>
             <DREFilter loading={loading} setLoading={setLoading}/>

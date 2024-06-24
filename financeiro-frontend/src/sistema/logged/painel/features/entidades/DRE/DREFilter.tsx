@@ -40,21 +40,21 @@ export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="w-1/2 flex gap-10 mt-[80px] items-center">
                     <FormField
-                        defaultValue="pagamento"
+                        defaultValue="pagamento_previsao"
                         control={form.control}
                         name="tipo_data"
                         render={({ field }) => (
                             <FormItem style={{ marginBottom: '30px',transform:"translateY(-5px)"}}>
                             <FormLabel style={{textWrap:"nowrap"}}>Tipo da data</FormLabel>
                             <FormControl>
-                            <Select onValueChange={(value) => { field.onChange(value); }} defaultValue="pagamento">
-                                <SelectTrigger className="w-[100%]">
+                            <Select onValueChange={(value) => { field.onChange(value); }} defaultValue="pagamento_previsao">
+                                <SelectTrigger className="w-[200px]">
                                     <SelectValue placeholder={"Escolher"}/>
                                 </SelectTrigger>
                                 <SelectContent {...field }>
-                                    <SelectItem value={"pagamento"}>Pagamento</SelectItem>
+                                    <SelectItem value={"pagamento_previsao"}>Pagamento previsto</SelectItem>
+                                    <SelectItem value={"pagamento_real"}>Pagamento real</SelectItem>
                                     <SelectItem value={"competencia"}>Competência</SelectItem>
-                                    <SelectItem value={"vencimento"}>Vencimento</SelectItem>
                                 </SelectContent>
                             </Select>
                             </FormControl>
@@ -105,7 +105,7 @@ export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})
                             )}
                         />
                         <FormField
-                            defaultValue={new Date()}
+                            defaultValue={(new Date(new Date().getFullYear(), 11, 31))}
                             control={form.control}
                             name="data_fim"
                             render={({ field }) => (

@@ -74,7 +74,7 @@ export const PagarHoje = ()=>{
     },[]);
 
     const [pagarHoje, setPagarHoje] = useState<{
-                                                vencimento?: string;
+                                                previsao?: string;
                                                 terceiro?: string;
                                                 valor?: number;
                                                 valor_resolucao?: number;
@@ -94,7 +94,7 @@ export const PagarHoje = ()=>{
         <Dialog>
             <DialogTrigger className="w-full">
                 <PagarHojeContainer>
-                    <h2>A pagar hoje</h2>
+                    <h2>Previstas a pagar hoje</h2>
                     <h1>{!loading?(chartData && BRLReais(SubtractColumns(chartData['a_pagar_hoje'],'valor','valor_resolucao'))):"carregando..."}</h1>
                 </PagarHojeContainer>
             </DialogTrigger>
@@ -113,7 +113,7 @@ export const PagarHoje = ()=>{
                         <TableHeader>
                             <TableRow>
                             <TableHead className="w-[100px]">ID</TableHead>
-                            <TableHead className="w-[100px]">Vencimento</TableHead>
+                            <TableHead className="w-[100px]">Previsão</TableHead>
                             <TableHead className="w-[100px]">Terceiro</TableHead>
                             <TableHead className="w-[100px]">Valor necessário</TableHead>
                             <TableHead className="w-[100px]">Valor pago</TableHead>
@@ -124,7 +124,7 @@ export const PagarHoje = ()=>{
                             {chartData && chartData['a_pagar_hoje']?.map((e) => (
                             <TableRow key={e.id}>
                                 <TableCell>{e.id}</TableCell>
-                                <TableCell>{TZtoFriendlyDate(e.vencimento)}</TableCell>
+                                <TableCell>{TZtoFriendlyDate(e.previsao)}</TableCell>
                                 <TableCell>{e.terceiro}</TableCell>
                                 <TableCell>{BRLReais(e.valor)}</TableCell>
                                 <TableCell >{BRLReais(e.valor_resolucao)}</TableCell>
