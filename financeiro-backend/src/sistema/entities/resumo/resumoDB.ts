@@ -35,7 +35,7 @@ function queryController(author:string):string{
                         historico_contas
                     INNER JOIN 
                         tipo_contas ON tipo_contas.nome_conta = historico_contas.conta_tipo
-                    INNER JOIN 
+                    INNER -JOIN 
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     INNER JOIN
                         grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo

@@ -300,14 +300,22 @@ export async function getFilteredFrotendHistoricoConta(
                 //BY DAVI AMERICO
                 for (let key of Object.keys(filter) as (keyof SchemaContasFilterObject)[]) {
                     if (filter[key] && key!=='situacao') {
-                        if(!isStringDate(filter[key])){
+                        if(!isStringDate(filter[key]) && key!=="id_grupo"){
                             if(check_first_if){
                                 filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]}'`
                                 check_first_if = false;
                             }else{
                                 filtersQuery = filtersQuery + ` AND ${key}='${filter[key]}'`
                             }
-                        }else if(isStringDate(filter[key])){
+                        }else if(key==="id_grupo"){
+                            if(check_first_if){
+                                filtersQuery = filtersQuery + ` WHERE historico_contas.id_grupo='${filter[key]}'`
+                                check_first_if = false;
+                            }else{
+                                filtersQuery = filtersQuery + ` AND historico_contas.id_grupo='${filter[key]}'`
+                            }
+                        }
+                        else if(isStringDate(filter[key])){
                             if(!(key.includes('vencimento')) && !(key.includes('competencia')) && !(key.includes('data_resolucao')) && !(key.includes('previsao'))){//se a data nao é intervalar
                                 if(check_first_if){
                                     filtersQuery = filtersQuery + ` WHERE ${key}='${filter[key]?.slice(0,10)}'`

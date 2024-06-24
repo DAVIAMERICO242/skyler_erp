@@ -98,6 +98,7 @@ export interface SchemaContasFilterObject{
     loja?:string,//pagamento,
     conta?:string,
     data?:string,
+    id_grupo:string,
     vencimento_inicio?:string,
     vencimento_fim?:string,
     competencia_inicio?:string,

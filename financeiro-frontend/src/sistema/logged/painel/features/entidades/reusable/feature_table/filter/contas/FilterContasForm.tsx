@@ -37,8 +37,9 @@ import MultipleSelector from "@/components/ui/MultipleSelector";
 import { SchemaBancosData } from "../../../../Bancos/Bancos";
 
 
-export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,bancosData,filterContasFormSchema}:
+export const FilterContasForm = ({grupoContasData,setFilterContasBeforeSubmit,filterContas,setFilterContas,loading,form,terceirosData,lojasData,bancosData,filterContasFormSchema}:
     {
+    grupoContasData:any,
     setFilterContasBeforeSubmit:any,
     filterContas:any,
     setFilterContas:any,
@@ -95,6 +96,31 @@ export const FilterContasForm = ({setFilterContasBeforeSubmit,filterContas,setFi
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} >
                <div className="w-1/2 flex gap-10 flex-col justify-center p-10">
+                    <FormField
+                                  key={form.getValues('id_grupo')}
+                                  control={form.control}
+                                  name="id_grupo"
+                                  render={({ field }) => (
+                                      <FormItem style={{ marginBottom: '30px' }}>
+                                      <FormLabel>{"Grupo rateio"}</FormLabel>
+                                      <FormControl>
+                                          <Select onValueChange={(value) => { field.onChange(value); }}>
+                                            <SelectTrigger className="w-[30%]">
+                                                <SelectValue placeholder={"Escolher"}/>
+                                            </SelectTrigger>
+                                            <SelectContent {...field }>
+                                                {grupoContasData?.map((e)=>{
+                                                    return (
+                                                        <SelectItem value={e.id_grupo?.toString()}> {e.nome_grupo} <i>(cód: {e.id_grupo})</i> </SelectItem>
+                                                    )
+                                                })}
+                                            </SelectContent>
+                                          </Select>
+                                      </FormControl>
+                                      <FormMessage />
+                                      </FormItem>
+                                  )}
+                        />
                     <div className="flex flex-row gap-10">
                     <FormField
                             key={form.getValues('situacao')}

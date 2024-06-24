@@ -31,6 +31,7 @@ import { useRef } from "react"
 import { useCleanAllFilter } from "../FilterContextsNotContasExceptClean"
 import styled from "styled-components"
 import { useBancos } from "../../../../Bancos/Bancos"
+import { UseGrupoContas } from "../../../../Contas/local-contexts/grupo_contas-context"
 
 
 const LimparCampos = styled.div`
@@ -71,6 +72,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
     const terceirosData = useTerceiros().data;
     const lojasData = useLojas().data;
     const bancosData = useBancos().data;
+    const grupoContasData = UseGrupoContas().data;
     
     const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(false);
@@ -100,6 +102,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
         data: z.date().refine((date) => date instanceof Date, {
             message: "A data de vencimento deve ser válida",
         }).optional(),
+        id_grupo: z.coerce.number().optional(),
         vencimento_inicio: z.date().refine((date) => date instanceof Date, {
             message: "A data de vencimento deve ser válida",
         }).optional(),
@@ -196,7 +199,7 @@ export const FilterContas = ({setLoadingPagination}:{setLoadingPagination:any})=
                         <X />
                     </CloseFilterDialog>
                 </DrawerHeader>
-                <FilterContasForm bancosData={bancosData} filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
+                <FilterContasForm grupoContasData={grupoContasData} bancosData={bancosData} filterContas={filterContas} setFilterContasBeforeSubmit={setFilterContasBeforeSubmit} setFilterContas={setFilterContas} loading={loading} form={form} terceirosData={terceirosData} lojasData={lojasData} filterContasFormSchema={filterContasFormSchema}/>
             </DrawerContent>
         </Drawer>
     )
