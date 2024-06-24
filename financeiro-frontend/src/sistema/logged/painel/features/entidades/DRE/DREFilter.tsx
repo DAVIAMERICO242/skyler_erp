@@ -73,6 +73,7 @@ export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})
                                     <PopoverTrigger asChild className="w-[100%]">
                                     <FormControl >
                                         <Button
+                                    
                                         variant={"outline"}
                                         className={cn(
                                             "w-[240px] pl-3 text-left font-normal",
@@ -90,6 +91,7 @@ export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0" align="start" >
                                     <Calendar
+                                        defaultMonth={field.value}
                                         mode="single"
                                         selected={field.value}
                                         onSelect={field.onChange}
@@ -132,6 +134,7 @@ export const DREFilter = ({loading,setLoading}:{loading:boolean,setLoading:any})
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0" align="start" >
                                     <Calendar
+                                        defaultMonth={field.value}
                                         mode="single"
                                         selected={field.value}
                                         onSelect={field.onChange}
