@@ -83,6 +83,8 @@ function ContasGetUIName(columnName:string){
             return 'Competência';
         case 'terceiro':
             return 'Terceiro';
+        case 'id_grupo':
+            return 'Grupo rateio';
         case 'categoria_conta':
             return 'Categoria Fiscal';
         case 'conta_tipo':

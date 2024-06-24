@@ -3,6 +3,7 @@ import { useFilterContas } from "./ContextFilterContas";
 import styled from "styled-components";
 import { getUIColumnName } from "../../../../BackendHelper/formatBackendData/getUIColumnName";
 import { TiDeleteOutline } from "react-icons/ti";
+import { UseGrupoContas } from "../../../../Contas/local-contexts/grupo_contas-context";
 
 /* eslint-disable no-var */
 
@@ -36,7 +37,7 @@ export const ContasAppliedFiltersUI = ()=>{
 
     const filterContas =  useFilterContas().filterContas;
     const setFilterContas = useFilterContas().setFilterContas;
-
+    const grupoContasData = UseGrupoContas().data;
     var check_is_filtered= ((filterContas && !areAllValuesUndefined(filterContas)));
 
     const manager_particular_clean = (key)=>{
@@ -46,7 +47,7 @@ export const ContasAppliedFiltersUI = ()=>{
         })
     }
 
-    if(check_is_filtered){
+    if(check_is_filtered){//e = coluna
         return (
             <ContainerContasAppliedFiltersUI>
                 <div className="text-sm mb-1">Filtros selecionados</div>
@@ -65,7 +66,17 @@ export const ContasAppliedFiltersUI = ()=>{
                                                 }else{
                                                     return element;
                                                 }
-                                            })):filterContas[e])
+                                            })):(e==="id_grupo"?
+                                                (grupoContasData?.filter((e1)=>{
+                                                    return e1.id_grupo===parseInt(filterContas[e]);
+                                                })?.map((e2)=>{
+                                                    return e2.nome_grupo + ` (cód: ${e2.id_grupo})`;
+                                                }
+                                                
+                                                )[0]                                                        
+                                                )
+                                                :filterContas[e] 
+                                            ))
                                             )
                                         }
                                         <TiDeleteOutline onClick={()=>manager_particular_clean(e)} className="text-xl cursor-pointer text-red-600"/>

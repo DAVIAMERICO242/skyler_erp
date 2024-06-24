@@ -8,6 +8,8 @@ export interface SchemaContasFilterObject{
     terceiro?:string,
     loja?:string,//pagamento
     data?:string,
+    id_grupo?:number,
+    nome_grupo?:string,
     competencia_inicio:string,
     competencia_fim:string,
     vencimento_inicio?:string,
