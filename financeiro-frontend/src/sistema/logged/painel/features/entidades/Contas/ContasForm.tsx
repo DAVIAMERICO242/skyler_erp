@@ -267,6 +267,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
 
   const [rateioHistoricPagarReceberPlaceholder,setRateioHistoricPagarReceberPlaceholder] = useState("");
   const [rateioHistoricTipoFiscalPlaceholder,setRateioHistoricTipoFiscalPlaceholder] = useState("");
+  const [rateioHistoricTerceiroPlaceholder, setRateioHistoricTerceiroPlaceholder] = useState("");
 
   const UXRateio = ()=>{
     const grupoHistoricoInfo = contasData?.filter((e)=>e.id_grupo===parseInt(form.getValues('id_grupo')));
@@ -276,8 +277,10 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       form.setValue('vencimento', new Date(grupoHistoricoInfo[0]['vencimento']));
       form.setValue('competencia', new Date(grupoHistoricoInfo[0]['competencia']));
       form.setValue('previsao', new Date(grupoHistoricoInfo[0]['previsao']));
+      form.setValue('terceiro', new Date(grupoHistoricoInfo[0]['terceiro']));
       setRateioHistoricPagarReceberPlaceholder(grupoHistoricoInfo[0]['pagar_receber'])
       setRateioHistoricTipoFiscalPlaceholder(grupoHistoricoInfo[0]['conta_tipo'])
+      setRateioHistoricTerceiroPlaceholder(grupoHistoricoInfo[0]['terceiro'])
     }
 
 
@@ -315,7 +318,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                   <FormControl>
                                       <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[100%]">
-                                            <SelectValue placeholder={contaToBeEdited?.terceiro || "Escolher"}/>
+                                            <SelectValue placeholder={rateioHistoricTerceiroPlaceholder || (contaToBeEdited?.terceiro || "Escolher")}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             {terceirosData?.map((e)=>{
@@ -339,7 +342,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                                   <FormControl>
                                       <Select onValueChange={(value) => { field.onChange(value); }}>
                                         <SelectTrigger className="w-[100%]">
-                                            <SelectValue placeholder={contaToBeEdited?.loja || "Escolher"}/>
+                                            <SelectValue placeholder={(contaToBeEdited?.loja || "Escolher")}/>
                                         </SelectTrigger>
                                         <SelectContent {...field }>
                                             {lojasData?.map((e)=>{
