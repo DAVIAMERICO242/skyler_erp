@@ -65,6 +65,7 @@ const TableHeaderValue = styled.th`
         font-weight:500;
 `
 const TableRowValue = styled.td`
+        text-wrap:nowrap;
         border-bottom:2px solid #f7f3f3;
         padding:10px;
         font-size:13px;

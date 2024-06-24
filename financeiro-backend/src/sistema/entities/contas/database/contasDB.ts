@@ -162,7 +162,7 @@ export async function getFrotendHistoricoConta(
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     INNER JOIN
                         grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
-                    ORDER BY historico_contas.id DESC
+                    ORDER BY historico_contas.id_grupo DESC ,historico_contas.id DESC
                     `
                 // var nonNullFilters = [];
                 if(page){
@@ -221,7 +221,7 @@ export function getNumberOfPages(page_size:number): Promise<number|DBError> {
                         categoria_contas ON categoria_contas.nome_categoria = tipo_contas.categoria_conta
                     INNER JOIN
                         grupo_contas ON grupo_contas.id_grupo = historico_contas.id_grupo
-                    ORDER BY historico_contas.id DESC
+                    ORDER BY historico_contas.id_grupo DESC,historico_contas.id DESC
                     `
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
@@ -484,7 +484,7 @@ export async function getFilteredFrotendHistoricoConta(
                     'a_pagar':a_pagar as number,
                     'a_receber':a_receber as number
                 }
-                let final_part = ` ORDER BY historico_contas.id DESC`
+                let final_part = ` ORDER BY historico_contas.id_grupo DESC,historico_contas.id DESC`
                 if(page){
                     final_part = final_part + ` LIMIT ${page_size} OFFSET ${start_index};`
                 }
