@@ -191,7 +191,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
             <TableBar setLoadingPagination = {setLoadingPagination} loadingPagination={loadingPagination} filteredKey={filteredKey} setFilteredKey={setFilteredKey} author={author}/>
             <Table loadingPagination={loadingPagination}>
                 <TableHeader>
-                    {columns?.map((e)=>{
+                    {columns?.filter(e=>e!=="id_grupo")?.map((e)=>{
                         return(
                             <>
                                 <TableHeaderValue className="table_header_value" key={e}>
@@ -230,16 +230,19 @@ const FeatureTableUI = ({author}:{author:string})=>{
                         console.log(row['valor'])
                         return(
                             <TableRow id={row[identifier]} key={row[identifier]}>
-                                {columns?.map((column)=>{
+                                {columns?.filter(e=>e!=="id_grupo").map((column)=>{
                                     return(
                                         <>
                                             <TableRowValue key={row[identifier]}>
                                                 {
                                                     (column!=='situacao')?(
-
                                                         
                                                     isStringDate(row[column])?
-                                                    TZtoFriendlyDate(row[column]):((column.includes("valor") || column.includes("saldo"))?<Money>{(BRLReais(row[column]))}</Money>:row[column])):(
+                                                    TZtoFriendlyDate(row[column]):((column.includes("valor") || column.includes("saldo"))?<Money>{(BRLReais(row[column]))}</Money>
+                                                    
+                                                    :(column==="nome_grupo"?(row[column] + ` (cód: ${row['id_grupo']})`):row[column])))
+                                                    
+                                                    :(
                                                         ( //SITUACAO E UMA COLUNA DA TABELA CONTAS
                                                             <Resolver row={row} key={row[identifier]} resolverOpen={resolverOpenStates && resolverOpenStates[i]}
                                                             setResolverOpen={(open) => {
