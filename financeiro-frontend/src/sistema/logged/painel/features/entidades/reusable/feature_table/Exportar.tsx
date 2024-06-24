@@ -70,7 +70,14 @@ export const Exportar = ({author}:{author:string})=>{
           d?.data?.map((e)=>{
             var current_obj = {};
             for (let column of Object.keys(e)){
-               current_obj[getUIColumnName(author,column) as string] = e[column]?(isStringDate(e[column])?TZtoFriendlyDate(e[column]):e[column]):(( column==='situacao'?"não resolvido":"Desconhecido"))
+                if(column==="id_grupo"){
+                  continue;
+                }
+               if(column==='nome_grupo'){
+                 current_obj[getUIColumnName(author,column) as string] = `${e[column]} (cód: ${e['id_grupo']})`;
+               }else{
+                current_obj[getUIColumnName(author,column) as string] = e[column]?(isStringDate(e[column])?TZtoFriendlyDate(e[column]):e[column]):(( column==='situacao'?"não resolvido":"Desconhecido"))
+              }
             }
      
             filteredDataUINames.push(current_obj);
