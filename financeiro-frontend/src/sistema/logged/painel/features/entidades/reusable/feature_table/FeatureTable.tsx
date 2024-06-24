@@ -240,7 +240,7 @@ const FeatureTableUI = ({author}:{author:string})=>{
                                                     isStringDate(row[column])?
                                                     TZtoFriendlyDate(row[column]):((column.includes("valor") || column.includes("saldo"))?<Money>{(BRLReais(row[column]))}</Money>
                                                     
-                                                    :(column==="nome_grupo"?(row[column] + ` (cód: ${row['id_grupo']})`):row[column])))
+                                                    :(column==="nome_grupo"?(<div>{row[column]} <i>{` (cód: ${row['id_grupo']})`}</i></div>):row[column])))
                                                     
                                                     :(
                                                         ( //SITUACAO E UMA COLUNA DA TABELA CONTAS
