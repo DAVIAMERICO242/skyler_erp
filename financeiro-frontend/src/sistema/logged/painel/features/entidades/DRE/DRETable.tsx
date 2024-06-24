@@ -42,6 +42,7 @@ export const TableRow = styled.tr`
 `
 
 export const TableHeaderValue = styled.th`
+        text-wrap:nowrap;
         padding:10px;
         font-size:13px;
         font-weight:500;
