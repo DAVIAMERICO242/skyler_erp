@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-var */
 import {
@@ -92,6 +93,10 @@ export const FilterContasForm = ({grupoContasData,setFilterContasBeforeSubmit,fi
 
     const pagar_receber_debug = firstCharUpper(form.getValues("pagar_receber"));
 
+    var debug = grupoContasData?.map((e)=>e.id_grupo===parseInt(form.getValues('id_grupo')))
+    console.log('debug');
+    console.log(debug)
+
     return(//A logica dessa submissão esta em PaginationFeatureTable.tsx no useEffect filtrosObject
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} >
@@ -106,7 +111,7 @@ export const FilterContasForm = ({grupoContasData,setFilterContasBeforeSubmit,fi
                                       <FormControl>
                                           <Select onValueChange={(value) => { field.onChange(value); }}>
                                             <SelectTrigger className="w-[30%]">
-                                                <SelectValue placeholder={"Escolher"}/>
+                                            <SelectValue placeholder={form.getValues('id_grupo')?(grupoContasData?.filter((e)=>e.id_grupo===parseInt(form.getValues('id_grupo')))?.map((e)=>e.nome_grupo + ` (cód: ${e.id_grupo})`)[0]):"Escolher"}/>
                                             </SelectTrigger>
                                             <SelectContent {...field }>
                                                 {grupoContasData?.map((e)=>{
