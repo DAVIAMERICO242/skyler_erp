@@ -30,7 +30,7 @@ export interface BancoFrontendFormInput{
     banco:string,
     agencia:string,
     conta:string,
-    saldoinicial:number
+    // saldoinicial:number
 }
 //EXCEÇÕES LÓGICAS
 export interface CategoriaContas{//FRONTEND NAO CADASTRA ISSO
@@ -154,7 +154,7 @@ export interface DBBanco{
     banco:string,
     agencia:string,
     conta:string,
-    saldo_inicial:number
+    // saldo_inicial:number
 }
 
 export interface DBCategoriaContas{

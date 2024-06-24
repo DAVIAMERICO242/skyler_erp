@@ -46,7 +46,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       message: "A conta sem dígito deve ter 8 caracteres numéricos.",
     }).optional(),
 
-    saldoinicial: z.coerce.number(),
+    // saldoinicial: z.coerce.number(),
   });
 
 
@@ -214,7 +214,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     </FormItem>
                 )}
                 />
-            <FormField
+            {/* <FormField
                 control={form.control}
                 name="saldoinicial"
                 render={({ field }) => (
@@ -226,7 +226,7 @@ export const BancosForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
                     <FormMessage />
                     </FormItem>
                 )}
-                />
+                /> */}
             <LoadingButton
                     loading={loading}
                     className="w-[100%]"

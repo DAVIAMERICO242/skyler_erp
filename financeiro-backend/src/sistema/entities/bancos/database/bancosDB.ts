@@ -8,8 +8,8 @@ export function cadastroBanco(banco: BancoFrontendFormInput): Promise<null|DBErr
     return new Promise((resolve, reject) => {
         SQLConnection().then((connection) => {
             if (connection) {
-                connection.query(`INSERT INTO bancos (nome_banco, banco, agencia, conta, saldo_inicial) VALUES 
-                   ('${banco.nomebanco}','${banco.banco}', '${banco.agencia}', '${banco.conta}','${banco.saldoinicial}')`,
+                connection.query(`INSERT INTO bancos (nome_banco, banco, agencia, conta) VALUES 
+                   ('${banco.nomebanco}','${banco.banco}', '${banco.agencia}', '${banco.conta}')`,
                     (err, result) => {
                         connection.end(); // Simply close the connection
                         if (err) {
@@ -75,8 +75,7 @@ export function updateBanco(conta: changeBancoFrontendFormInput): Promise<null|D
                     nome_banco='${conta.nomebanco}',
                     banco='${conta.banco}',
                     agencia='${conta.agencia}',
-                    conta='${conta.conta}',
-                    saldo_inicial='${conta.saldoinicial}'
+                    conta='${conta.conta}'
                     WHERE conta='${conta.pastconta}'
                     `,
                     (err, result) => {
