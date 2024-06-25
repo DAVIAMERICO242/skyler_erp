@@ -107,13 +107,13 @@ export const SideBar = ({features,featuresToPARAM,focusedFeature,setFocusedFeatu
                     </AvatarFallback>
                 </Avatar>
                 <div className="hello_text">
-                    {"Olá " + localStorage.getItem('username')}
+                    {"Olá, " + localStorage.getItem('username')}
                 </div>
                 <TooltipProvider delayDuration={100}>
                             <Tooltip>
                                 <TooltipTrigger>
-                                <div ref={logoutRef} className="circle logout" onClick={()=>{navigateTo('/logout')}}>
-                                    <CiLogout />
+                                <div ref={logoutRef} className="circle logout mr-[10px]" onClick={()=>{navigateTo('/logout')}}>
+                                    <CiLogout/>
                                 </div>                        
                                 </TooltipTrigger>
                                 <TooltipContent className="tooltip">
