@@ -100,7 +100,7 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
                 })
               }else if(d.foreign_key){
                 toast({
-                  title: "GENERIC FOREIGN KEY ERROR",
+                  title: "NÃO AUTORIZADO",
                   className: "error",
                   description: "Você não pode excluir um terceiro/loja/banco que esteja em contas a pagar ou receber",
                 })

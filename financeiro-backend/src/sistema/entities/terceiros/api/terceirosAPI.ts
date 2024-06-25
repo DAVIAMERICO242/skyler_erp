@@ -64,6 +64,7 @@ terceiros_router.post('/delete',async (req:RequestModel,res:Response)=>{
     }catch(error:any){
         res.status(400).send({
             success:false,
+            foreign_key: error?.foreign_key,
             duplicate: error?.duplicate
         })
     }

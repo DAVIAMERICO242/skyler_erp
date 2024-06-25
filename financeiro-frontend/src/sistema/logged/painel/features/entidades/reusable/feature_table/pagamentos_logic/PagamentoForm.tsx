@@ -135,7 +135,7 @@ export const PagamentoForm = ({row, setResolverOpen}:{row:any, setResolverOpen:a
               })
             }else if(d.foreign_key){
               toast({
-                title: "GENERIC FOREIGN KEY ERROR",
+                title: "NÃO AUTORIZADO",
                 className: "error",
                 description: "Você não pode excluir um terceiro/loja/banco que esteja em contas a pagar ou receber",
               })
