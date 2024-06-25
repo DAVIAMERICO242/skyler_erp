@@ -277,7 +277,7 @@ export const ContasForm = ({edit,setOpen,identifier_value}:{edit:boolean, setOpe
       form.setValue('vencimento', new Date(grupoHistoricoInfo[0]['vencimento']));
       form.setValue('competencia', new Date(grupoHistoricoInfo[0]['competencia']));
       form.setValue('previsao', new Date(grupoHistoricoInfo[0]['previsao']));
-      form.setValue('terceiro', new Date(grupoHistoricoInfo[0]['terceiro']));
+      form.setValue('terceiro', grupoHistoricoInfo[0]['terceiro']);
       setRateioHistoricPagarReceberPlaceholder(grupoHistoricoInfo[0]['pagar_receber'])
       setRateioHistoricTipoFiscalPlaceholder(grupoHistoricoInfo[0]['conta_tipo'])
       setRateioHistoricTerceiroPlaceholder(grupoHistoricoInfo[0]['terceiro'])
