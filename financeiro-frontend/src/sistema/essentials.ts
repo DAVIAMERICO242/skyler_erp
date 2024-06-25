@@ -140,3 +140,24 @@ export function SubtractColumns(ObjectArray:{[key:string]:any}[],column1:string,
     }
     return subtraction;
 }
+
+export function GroupContas(data:any){
+    const result = data.reduce((acc, current) => {
+        const grupoRateio = current["Grupo Rateio"];
+        const valor = current["Valor"];
+        const valorDaTransacao = current["Valor da Transação"] === "Desconhecido"? 0 : current["Valor da Transação"];
+      
+        const existingGroup = acc.find((group) => group["Grupo Rateio"] === grupoRateio);
+        if (existingGroup) {
+          existingGroup["Valor da conta real"] = (existingGroup["Valor da conta real"] || 0) + valor;
+          existingGroup["Transação total"] = (existingGroup["Transação total"] || 0) + valorDaTransacao;
+        } else {
+          const newRow = {...current };
+          newRow["Valor da conta real"] = valor;
+          newRow["Transação total"] = valorDaTransacao;
+          acc.push(newRow);
+        }
+        return acc;
+      }, []);
+      return result;
+}

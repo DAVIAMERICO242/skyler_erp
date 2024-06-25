@@ -6,6 +6,7 @@ import { Exportar } from "./Exportar";
 import { FilterContas } from "./filter/contas/FilterContas";
 import { CleanAll } from "./filter/CleanAllIncludeContas";
 import { ContasAppliedFiltersUI } from "./filter/contas/ContasAppliedFiltersUI";
+import { ExportarAgrupado } from "../../Contas/ExportarAgrupado";
 
 
 const TableBarContainer = styled.div`
@@ -49,6 +50,7 @@ export const TableBar = ({author,loadingPagination,setLoadingPagination}:{author
             <div className="gerenciar">
                 <CriarEditar edit={false} author={author}/>
                 <Exportar author={author}/>
+                {author === "contas" && <ExportarAgrupado/>}
             </div>
         </TableBarContainer>
     )
