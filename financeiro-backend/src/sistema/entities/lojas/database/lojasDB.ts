@@ -113,7 +113,13 @@ export function deleteLoja(loja: string): Promise<null|DBError>{
                                 reject({
                                     duplicate:true
                                 })
-                            }else{
+                            }else if(err.sqlMessage?.toUpperCase().includes("FOREIGN KEY")){
+                                reject({
+                                    foreign_key:true,
+                                    duplicate:false
+                                })
+                            }
+                            else{
                                 reject({
                                     duplicate:false
                                 })

@@ -102,7 +102,7 @@ export const Deletar = ({author,identifier_value}:{author:string,identifier_valu
                 toast({
                   title: "GENERIC FOREIGN KEY ERROR",
                   className: "error",
-                  description: "Esse erro provavelmente foi gerado porque você tentou excluir uma conta bancária relacionada a uma loja a um historico de contas",
+                  description: "Você não pode excluir um terceiro/loja/banco que esteja em contas a pagar ou receber",
                 })
               }
               else{
