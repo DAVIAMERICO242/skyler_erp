@@ -34,7 +34,7 @@ import { cn } from "@/lib/utils";
 import { SchemaTerceirosData } from "../../../../Terceiros/Terceiros";
 import { SchemaLojasData } from "../../../../Lojas/Lojas";
 import {firstCharUpper } from "@/sistema/essentials";
-import MultipleSelector from "@/components/ui/MultipleSelector";
+import MultipleSelector from "../../../../../../../../../components/ui/MultipleSelector";
 import { SchemaBancosData } from "../../../../Bancos/Bancos";
 
 
