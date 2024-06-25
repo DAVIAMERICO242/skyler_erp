@@ -21,7 +21,7 @@ export const ExportarAgrupado = ()=>{
     console.log(dataFilter);
     
     var filter = useFilterContas().filterContas;
-    var excel_name = "historico_pagar_agrupado.xlsx"
+    var excel_name = "historico_contas_resumo.xlsx"
 
     const submit = ()=>{
       setLoading(true);
@@ -80,7 +80,7 @@ export const ExportarAgrupado = ()=>{
   
     return(
       <LoadingButton onClick={()=>{submit()}} loading={loading} type="neutral" className="w-3/5">
-          Exportação agrupada
+          Exportar resumo
       </LoadingButton>
     )
   }
