@@ -50,8 +50,6 @@ export const ExportarAgrupado = ()=>{
                 'Lançamento':e['Lançamento'],
                 'Vencimento':e['Vencimento'],
                 'Competência':e['Competência'],
-                'Previsão':e['Previsão'],
-                'Data Transação':e['Data da Transação'],
                 'Terceiro':e['Terceiro'],
                 'Conta da vida real':e['Grupo Rateio'],
                 'Categoria Fiscal':e['Categoria Fiscal'],
