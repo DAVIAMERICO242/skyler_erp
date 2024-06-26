@@ -6,6 +6,7 @@ export function checkMatchingPass(username: string, password: string): Promise<n
             if (connection) {
                 const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
                 connection.query(query, [username, password], (err, result) => {
+                    connection.end(); // Simply close the connection
                     if (err) {
                         reject(null);
                     } else {
